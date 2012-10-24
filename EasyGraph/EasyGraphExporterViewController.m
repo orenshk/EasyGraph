@@ -1,6 +1,6 @@
 //
 //  GMLatexConstructor.m
-//  GraphMaker
+//  EasyGraph
 //
 //  Created by Oren Shklarsky on 2012-10-19.
 //
@@ -55,6 +55,7 @@
 
 - (void)viewDidUnload {
     [self setPreviewButton:nil];
+    [self setGenerateButton:nil];
     [super viewDidUnload];
     [self setScaleFactorSlider:nil];
     [self setScaleFactorTextField:nil];

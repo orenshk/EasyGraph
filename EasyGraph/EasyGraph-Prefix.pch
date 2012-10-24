@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'GraphMaker' target in the 'GraphMaker' project
+// Prefix header for all source files of the 'EasyGraph' target in the 'EasyGraph' project
 //
 
 #import <Availability.h>

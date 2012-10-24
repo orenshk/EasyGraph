@@ -1,6 +1,6 @@
 //
-//  GraphMakerDetailViewController.h
-//  GraphMaker
+//  EasyGraphDetailViewController.h
+//  EasyGraph
 //
 //  Created by Oren Shklarsky on 12-07-19.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
@@ -40,7 +40,7 @@
 @property (strong, nonatomic) UIPopoverController *colourPickerPopoverController;
 
 /** The currently active canvas */
-@property (strong, nonatomic) EasyGraphCanvas *graphMakerCanvas;
+@property (strong, nonatomic) EasyGraphCanvas *EasyGraphCanvas;
 
 /** Size of a grid square */
 @property const int gridSize;
@@ -84,25 +84,25 @@
 
 /** 
  Reload from archive the VertexView and Edge setmaintained by this
- GraphMakerDetailViewController.
+ EasyGraphDetailViewController.
  */
 - (void) reloadData;
 
 /**
  save to archive the VertexView and Edge setmaintained by this
- GraphMakerDetailViewController.
+ EasyGraphDetailViewController.
  */
 - (void) saveData;
 
 /**
  delete from archive the VertexViews and Edges setmaintained by this
- GraphMakerDetailViewController.
+ EasyGraphDetailViewController.
  */
 - (void) deleteData;
 
 /**
  Create and return a VertexView. The new VertexView
- is added as a subview of |self.graphMakerCanvas|.
+ is added as a subview of |self.EasyGraphCanvas|.
  @param fingerPos The new VertexView will be centered at the grid point closest
         to fingerPos
  @returns The new VertexView.
@@ -125,7 +125,7 @@
 - (void) updateEdgesFor:(EasyGraphVertexView *)vert;
 
 /**
- Remove |vert| from |self.graphMakerCanvas|.
+ Remove |vert| from |self.EasyGraphCanvas|.
  @param vert the vertex being deleted
  */
 - (void) removeVertex:(EasyGraphVertexView *)vert;
@@ -178,7 +178,7 @@
 - (void) contract:(EasyGraphEdgeView *)edge;
 
 /**
- Remove all vertices and edges from this GraphMakerDetailViewController.
+ Remove all vertices and edges from this EasyGraphDetailViewController.
  */
 - (IBAction)clearAll:(id)sender;
 

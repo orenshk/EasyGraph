@@ -1,6 +1,6 @@
 //
 //  GMLatexConstructor.h
-//  GraphMaker
+//  EasyGraph
 //
 //  Created by Oren Shklarsky on 2012-10-19.
 //
@@ -22,6 +22,7 @@
 @property (strong, nonatomic) IBOutlet UIToolbar *buttonsToolBar;
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *previewButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *generateButton;
 
 // scale factor
 @property (strong, nonatomic) IBOutlet UISlider *scaleFactorSlider;

@@ -1,6 +1,6 @@
 //
 //  main.m
-//  GraphMaker
+//  EasyGraph
 //
 //  Created by Oren Shklarsky on 12-07-19.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.

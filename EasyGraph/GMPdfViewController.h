@@ -1,6 +1,6 @@
 //
 //  GMPdfViewController.h
-//  GraphMaker
+//  EasyGraph
 //
 //  Created by Oren Shklarsky on 2012-10-16.
 //

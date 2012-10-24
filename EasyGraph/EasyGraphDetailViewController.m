@@ -1,6 +1,6 @@
 //
-//  GraphMakerDetailViewController.m
-//  GraphMaker
+//  EasyGraphDetailViewController.m
+//  EasyGraph
 //
 //  Created by Oren Shklarsky on 12-07-19.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
@@ -16,7 +16,7 @@
 @implementation EasyGraphDetailViewController
 @synthesize masterPopoverController = _masterPopoverController;
 @synthesize undoButton, redoButton, subdivideButton, contractButton, nonEdgeButton;
-@synthesize removeElementsButton, graphMakerCanvas;
+@synthesize removeElementsButton, EasyGraphCanvas;
 @synthesize gridSize, vertexSet, movingVertexView, edgeStartPoint;
 @synthesize inRemoveMode, undoManager, saveDataPath, inSubdivideMode;
 @synthesize inContractMode, vertexFrameSize, vertexColour, edgeColour;
@@ -151,19 +151,19 @@
 }
 
 - (void) configureGraphCanvasView {
-    self.graphMakerCanvas = [[EasyGraphCanvas alloc] initWithFrame:CGRectMake(0, 0, 768, 916)];
-    [self.graphMakerCanvas setGridSize:self.gridSize];
-    [self.view addSubview:self.graphMakerCanvas];
-    [self.graphMakerCanvas setMultipleTouchEnabled:YES];
+    self.EasyGraphCanvas = [[EasyGraphCanvas alloc] initWithFrame:CGRectMake(0, 0, 768, 916)];
+    [self.EasyGraphCanvas setGridSize:self.gridSize];
+    [self.view addSubview:self.EasyGraphCanvas];
+    [self.EasyGraphCanvas setMultipleTouchEnabled:YES];
     UIPanGestureRecognizer *panDetector =
     [[UIPanGestureRecognizer alloc]
      initWithTarget:self action:@selector(handlePanGesture:)];
-    [self.graphMakerCanvas addGestureRecognizer:panDetector];
+    [self.EasyGraphCanvas addGestureRecognizer:panDetector];
     UITapGestureRecognizer *singleTap =
     [[UITapGestureRecognizer alloc]
      initWithTarget:self action:@selector(handleSingleTap:)];
     [singleTap requireGestureRecognizerToFail:panDetector];
-    [self.graphMakerCanvas addGestureRecognizer:singleTap];
+    [self.EasyGraphCanvas addGestureRecognizer:singleTap];
 
 }
 
@@ -183,11 +183,11 @@
     [self setMovingVertexView:nil];
     [self setEdgeStartPoint:nil];
     [self setUndoManager:nil];
-    for (UIView *view in [self.graphMakerCanvas subviews]) {
+    for (UIView *view in [self.EasyGraphCanvas subviews]) {
         [view removeFromSuperview];
     }
-    [self.graphMakerCanvas removeFromSuperview];
-    [self setGraphMakerCanvas:nil];
+    [self.EasyGraphCanvas removeFromSuperview];
+    [self setEasyGraphCanvas:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -201,12 +201,12 @@
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
-        self.graphMakerCanvas.frame = CGRectMake(0, 0, 916, 660);
+        self.EasyGraphCanvas.frame = CGRectMake(0, 0, 916, 660);
     } else {
-        self.graphMakerCanvas.frame = CGRectMake(0, 0, 768, 916);
+        self.EasyGraphCanvas.frame = CGRectMake(0, 0, 768, 916);
         [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:[self.navigationItem leftBarButtonItem], self.exportButton, nil]];
      }
-    [self.graphMakerCanvas setNeedsDisplay];
+    [self.EasyGraphCanvas setNeedsDisplay];
 }
 							
 #pragma mark - Split view
@@ -236,7 +236,7 @@
     NSMutableSet *edgeSet = [[NSMutableSet alloc] init];
     for (EasyGraphVertexView *vert in vertices) {
         [self.vertexSet addObject:vert];
-        [self.graphMakerCanvas addSubview:vert];
+        [self.EasyGraphCanvas addSubview:vert];
         [edgeSet addObjectsFromArray:[vert.inNeighbs allObjects]];
         [edgeSet addObjectsFromArray:[vert.outNeighbs allObjects]];
         [vert.inNeighbs removeAllObjects];
@@ -244,11 +244,11 @@
     }
     
     for (EasyGraphEdgeView *edge in edgeSet) {
-        [self.graphMakerCanvas setCurvePoints:[NSMutableArray arrayWithArray:[edge curvePoints]]];
+        [self.EasyGraphCanvas setCurvePoints:[NSMutableArray arrayWithArray:[edge curvePoints]]];
         [self setEdgeColour:edge.colour];
         [self makeNewEdgeFromVertex:edge.startVertex toVertex:edge.endVertex isNonEdge:[edge isNonEdge]];
     }
-    [self.graphMakerCanvas.curvePoints removeAllObjects];
+    [self.EasyGraphCanvas.curvePoints removeAllObjects];
     [self setEdgeColour:[UIColor blackColor]];
     [self setIsDirected:[[dataArray objectAtIndex:1] boolValue]];
     NSString *subtitle = [self isDirected] ? @"(Directed)" : @"(Undirected)";
@@ -274,29 +274,29 @@
 *******************************************************************************/
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    CGPoint locationPoint = [[[touches allObjects] objectAtIndex:0] locationInView:self.graphMakerCanvas];
-    UIView *touched = [self.graphMakerCanvas hitTest:locationPoint withEvent:event];
+    CGPoint locationPoint = [[[touches allObjects] objectAtIndex:0] locationInView:self.EasyGraphCanvas];
+    UIView *touched = [self.EasyGraphCanvas hitTest:locationPoint withEvent:event];
     if ([[touches anyObject] tapCount] == 2) {
         if ([touched isKindOfClass:[EasyGraphVertexView class]]) {
             self.movingVertexView = (EasyGraphVertexView *)touched;
             self.edgeStartPoint = nil;
-            self.graphMakerCanvas.fingerStartPoint = CGPointZero;
-            self.graphMakerCanvas.fingerCurrPos = CGPointZero;
-            self.graphMakerCanvas.drawingEdge = NO;
+            self.EasyGraphCanvas.fingerStartPoint = CGPointZero;
+            self.EasyGraphCanvas.fingerCurrPos = CGPointZero;
+            self.EasyGraphCanvas.drawingEdge = NO;
             [[self.undoManager prepareWithInvocationTarget:self] 
             undoVertexMove:self.movingVertexView atOriginalPoint:movingVertexView.center];
         }
     } else {
         self.edgeStartPoint = [touched isKindOfClass:[EasyGraphVertexView class]] ? (EasyGraphVertexView *)touched : nil;
         self.movingVertexView = nil;
-        self.graphMakerCanvas.fingerStartPoint = locationPoint;
-        self.graphMakerCanvas.drawingEdge = self.edgeStartPoint != nil;
+        self.EasyGraphCanvas.fingerStartPoint = locationPoint;
+        self.EasyGraphCanvas.drawingEdge = self.edgeStartPoint != nil;
     }
 }
 
 - (IBAction)handleSingleTap:(id)sender {
-    CGPoint locationPoint = [sender locationOfTouch:0 inView:self.graphMakerCanvas];
-    UIView *touched = [self.graphMakerCanvas hitTest:locationPoint withEvent:nil];
+    CGPoint locationPoint = [sender locationOfTouch:0 inView:self.EasyGraphCanvas];
+    UIView *touched = [self.EasyGraphCanvas hitTest:locationPoint withEvent:nil];
     if (self.inRemoveMode) {
         if ([touched isKindOfClass:[EasyGraphVertexView class]]) {
             [self removeVertex:(EasyGraphVertexView *)touched];
@@ -330,57 +330,57 @@
             [self updateEdgesFor:self.movingVertexView];
             self.movingVertexView = nil;
         } else {
-            CGPoint translation = [sender translationInView:self.graphMakerCanvas];
+            CGPoint translation = [sender translationInView:self.EasyGraphCanvas];
             CGPoint vertexViewPosition = self.movingVertexView.center;
             vertexViewPosition.x += translation.x;
             vertexViewPosition.y += translation.y;
             self.movingVertexView.center = vertexViewPosition;
             [self updateEdgesFor:self.movingVertexView];
         }        
-        [sender setTranslation:CGPointZero inView:self.graphMakerCanvas];
+        [sender setTranslation:CGPointZero inView:self.EasyGraphCanvas];
     } else if (self.edgeStartPoint != nil) {
         
         // draw edge
-        CGPoint locationPoint = [sender locationInView:self.graphMakerCanvas];
-        self.graphMakerCanvas.fingerCurrPos = locationPoint;
+        CGPoint locationPoint = [sender locationInView:self.EasyGraphCanvas];
+        self.EasyGraphCanvas.fingerCurrPos = locationPoint;
         if ([sender numberOfTouches] == 2) {
             if (prevNumberOfTouches == 1) {
                 prevNumberOfTouches = 2;
             }
         } else if (prevNumberOfTouches == 2) {
-            [self.graphMakerCanvas.curvePoints addObject:[NSValue valueWithCGPoint:[sender locationOfTouch:0 inView:self.graphMakerCanvas]]];
+            [self.EasyGraphCanvas.curvePoints addObject:[NSValue valueWithCGPoint:[sender locationOfTouch:0 inView:self.EasyGraphCanvas]]];
             prevNumberOfTouches = 1;
         } else {
-            [self.graphMakerCanvas setNeedsDisplay];
+            [self.EasyGraphCanvas setNeedsDisplay];
         }
-        UIView *touched = [self.graphMakerCanvas hitTest:locationPoint withEvent:nil];
+        UIView *touched = [self.EasyGraphCanvas hitTest:locationPoint withEvent:nil];
         
             
         // If passing through another vertex make new edge to that vertex
         // and start over
         if (touched != self.edgeStartPoint && [touched isKindOfClass:[EasyGraphVertexView class]]) {
             [self makeNewEdgeFromVertex:self.edgeStartPoint toVertex:(EasyGraphVertexView *)touched
-                                isNonEdge:[self.graphMakerCanvas inNonEdgeMode]];
+                                isNonEdge:[self.EasyGraphCanvas inNonEdgeMode]];
             self.edgeStartPoint = (EasyGraphVertexView *)touched;
-            self.graphMakerCanvas.fingerStartPoint = self.edgeStartPoint.center;
-            [self.graphMakerCanvas.curvePoints removeAllObjects];
+            self.EasyGraphCanvas.fingerStartPoint = self.edgeStartPoint.center;
+            [self.EasyGraphCanvas.curvePoints removeAllObjects];
         }
         
         // add edge to VertexViews
         if (sender.state == UIGestureRecognizerStateEnded) {
-            touched = [self.graphMakerCanvas hitTest:[self getClosestGridPointToPoint:locationPoint] withEvent:nil];
+            touched = [self.EasyGraphCanvas hitTest:[self getClosestGridPointToPoint:locationPoint] withEvent:nil];
             EasyGraphVertexView *edgeEndPoint;
             if (![touched isKindOfClass:[EasyGraphVertexView class]]) { //What about edge class?
                 
                 edgeEndPoint = [self makeNewVertex:locationPoint];
                 [self makeNewEdgeFromVertex:self.edgeStartPoint toVertex:edgeEndPoint
-                                isNonEdge:[self.graphMakerCanvas inNonEdgeMode]];
+                                isNonEdge:[self.EasyGraphCanvas inNonEdgeMode]];
             }
             self.edgeStartPoint = nil;
-            [self.graphMakerCanvas setDrawingEdge:NO];
-            [self.graphMakerCanvas setFingerCurrPos:CGPointZero];
-            [self.graphMakerCanvas setFingerStartPoint:CGPointZero];
-            [self.graphMakerCanvas.curvePoints removeAllObjects];
+            [self.EasyGraphCanvas setDrawingEdge:NO];
+            [self.EasyGraphCanvas setFingerCurrPos:CGPointZero];
+            [self.EasyGraphCanvas setFingerStartPoint:CGPointZero];
+            [self.EasyGraphCanvas.curvePoints removeAllObjects];
         }
     }
     [self.view setNeedsDisplay];
@@ -395,7 +395,7 @@
     EasyGraphVertexView *vert = [[EasyGraphVertexView alloc]
                         initWithFrame:CGRectMake(grid.x - self.vertexFrameSize/2.0, grid.y - self.vertexFrameSize/2.0, self.vertexFrameSize, self.vertexFrameSize)];
     [vert setColour:self.vertexColour];
-    [self.graphMakerCanvas addSubview:vert];
+    [self.EasyGraphCanvas addSubview:vert];
     
     [self.vertexSet addObject:vert];
     [vert setVertexNum:[self.vertexSet count]];
@@ -415,19 +415,19 @@
                                   toPoint:[NSValue valueWithCGPoint:end.center]];
         newEdgeView = [[EasyGraphEdgeView alloc] initWithFrame:rect
                                           andStartPnt:start andEndPnt:end];
-        [newEdgeView setCurvePoints:[NSMutableArray arrayWithArray:[self.graphMakerCanvas curvePoints]]];
+        [newEdgeView setCurvePoints:[NSMutableArray arrayWithArray:[self.EasyGraphCanvas curvePoints]]];
         [newEdgeView setIsNonEdge:nonEdge];
         [newEdgeView setColour:self.edgeColour];
         [newEdgeView setIsDirected:self.isDirected];
         
-        [self.graphMakerCanvas addSubview:newEdgeView];
+        [self.EasyGraphCanvas addSubview:newEdgeView];
         
         [start.outNeighbs addObject:newEdgeView];
         [end.inNeighbs addObject:newEdgeView];
         
-        for (UIView *view in self.graphMakerCanvas.subviews) {
+        for (UIView *view in self.EasyGraphCanvas.subviews) {
             if ([view isKindOfClass:[EasyGraphVertexView class]]) {
-                [self.graphMakerCanvas bringSubviewToFront:view];
+                [self.EasyGraphCanvas bringSubviewToFront:view];
             }
         }
         [[self.undoManager prepareWithInvocationTarget:self]
@@ -445,10 +445,10 @@
     for (EasyGraphEdgeView *edge in [neighbs allObjects]) {
         start = edge.startVertex.center;
         end = edge.endVertex.center;
-        [self.graphMakerCanvas setCurvePoints:[NSMutableArray arrayWithArray:[edge curvePoints]]];
+        [self.EasyGraphCanvas setCurvePoints:[NSMutableArray arrayWithArray:[edge curvePoints]]];
         newRect = [self makeEdgeRectForEdgeFromPoint:[NSValue valueWithCGPoint:start]
                                      toPoint:[NSValue valueWithCGPoint:end]];
-        [self.graphMakerCanvas.curvePoints removeAllObjects];
+        [self.EasyGraphCanvas.curvePoints removeAllObjects];
         [edge setFrame:newRect];
         [edge setNeedsDisplay];
     }
@@ -482,9 +482,9 @@
     
     // Find vertices at start and end points
     for (UIView *view in self.vertexSet) {
-        if ([view pointInside:[self.graphMakerCanvas convertPoint:start toView:view] withEvent:nil]) {
+        if ([view pointInside:[self.EasyGraphCanvas convertPoint:start toView:view] withEvent:nil]) {
             startVert = (EasyGraphVertexView *)view;
-        } else if ([view pointInside:[self.graphMakerCanvas convertPoint:end toView:view] withEvent:nil]) {
+        } else if ([view pointInside:[self.EasyGraphCanvas convertPoint:end toView:view] withEvent:nil]) {
             endVert = (EasyGraphVertexView *)view;
         }
     }
@@ -509,18 +509,18 @@
 }
 
 - (void) undoEdgeDelete:(EasyGraphEdgeView *)edge {
-    [self.graphMakerCanvas setCurvePoints:[NSMutableArray arrayWithArray:[edge curvePoints]]];
-    [self.graphMakerCanvas setEdgeColour:[edge colour]];
+    [self.EasyGraphCanvas setCurvePoints:[NSMutableArray arrayWithArray:[edge curvePoints]]];
+    [self.EasyGraphCanvas setEdgeColour:[edge colour]];
     EasyGraphEdgeView *tempEdge = [self makeNewEdgeFromVertex:edge.startVertex toVertex:edge.endVertex isNonEdge:edge.isNonEdge];
     [tempEdge setColour:[edge colour]];
-    [self.graphMakerCanvas.curvePoints removeAllObjects];
-    [self.graphMakerCanvas setEdgeColour:[self edgeColour]];
+    [self.EasyGraphCanvas.curvePoints removeAllObjects];
+    [self.EasyGraphCanvas setEdgeColour:[self edgeColour]];
 }
 
 - (void) undoVertexDelete:(EasyGraphVertexView *)vert {
     
     [self.vertexSet addObject:vert];
-    [self.graphMakerCanvas addSubview:vert];
+    [self.EasyGraphCanvas addSubview:vert];
     
     [vert.inNeighbs removeAllObjects];
     [vert.outNeighbs removeAllObjects];
@@ -584,7 +584,7 @@
             [self toggleSubdivideMode:sender];
         } else if (self.inContractMode) {
             [self toggleContractMode:sender];
-        } else if ([self.graphMakerCanvas inNonEdgeMode]) {
+        } else if ([self.EasyGraphCanvas inNonEdgeMode]) {
             [self toggleNonEdgeMode:sender];
         }
     }
@@ -603,7 +603,7 @@
             [self toggleRemoveElementsMode:sender];
         } else if (self.inContractMode) {
             [self toggleContractMode:sender];
-        } else if ([self.graphMakerCanvas inNonEdgeMode]) {
+        } else if ([self.EasyGraphCanvas inNonEdgeMode]) {
             [self toggleNonEdgeMode:sender];
         }
     }
@@ -622,19 +622,19 @@
             [self toggleRemoveElementsMode:sender];
         } else if (self.inSubdivideMode) {
             [self toggleSubdivideMode:sender];
-        } else if ([self.graphMakerCanvas inNonEdgeMode]) {
+        } else if ([self.EasyGraphCanvas inNonEdgeMode]) {
             [self toggleNonEdgeMode:sender];
         }
     }
 }
 
 - (IBAction)toggleNonEdgeMode:(id)sender {
-    if ([self.graphMakerCanvas inNonEdgeMode]) {
-        [self.graphMakerCanvas setInNonEdgeMode:NO];
+    if ([self.EasyGraphCanvas inNonEdgeMode]) {
+        [self.EasyGraphCanvas setInNonEdgeMode:NO];
         [self.nonEdgeButton setStyle:UIBarButtonItemStyleBordered];
         [self.nonEdgeButton setTitle:@"Non-Edge"];
     } else {
-        [self.graphMakerCanvas setInNonEdgeMode:YES];
+        [self.EasyGraphCanvas setInNonEdgeMode:YES];
         [self.nonEdgeButton setStyle:UIBarButtonItemStyleDone];
         [self.nonEdgeButton setTitle:@"Edge"];
         if (self.inRemoveMode) {
@@ -703,7 +703,7 @@
         [self.vertexColourButton setTintColor:color];
     } else {
         [self setEdgeColour:color];
-        [self.graphMakerCanvas setEdgeColour:color];
+        [self.EasyGraphCanvas setEdgeColour:color];
         [self.edgeColourButton setTintColor:color];
     }
     [self.colourPickerPopoverController dismissPopoverAnimated:YES];
@@ -733,7 +733,7 @@
 *******************************************************************************/
 
 - (IBAction)exportDialoug:(id)sender {
-    EasyGraphExporterViewController *latexController = [[EasyGraphExporterViewController alloc] initWithNibName:@"GMLatexConstructor" bundle:nil];
+    EasyGraphExporterViewController *latexController = [[EasyGraphExporterViewController alloc] initWithNibName:@"EasyGraphExporterViewController" bundle:nil];
     [latexController setVertexSet:[NSSet setWithSet:[self vertexSet]]];
     [latexController setScaleFactor:4.0];
     [self.navigationController pushViewController:latexController animated:YES];
@@ -805,13 +805,13 @@
     double maxY = 0;
     CGPoint point;
     
-    NSMutableArray *p = [NSMutableArray arrayWithArray:self.graphMakerCanvas.curvePoints];
+    NSMutableArray *p = [NSMutableArray arrayWithArray:self.EasyGraphCanvas.curvePoints];
     
     [p  insertObject:start atIndex:0];
     [p insertObject:start atIndex:0];
     [p addObject:end];
     [p addObject:end];
-    NSArray *splinePoints = [self.graphMakerCanvas catmullRomSpline:p segments:100];
+    NSArray *splinePoints = [self.EasyGraphCanvas catmullRomSpline:p segments:100];
     for (NSValue *val in splinePoints) {
         point = [val CGPointValue];
         minX = point.x < minX ? point.x : minX;

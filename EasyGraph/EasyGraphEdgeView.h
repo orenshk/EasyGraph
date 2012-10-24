@@ -1,6 +1,6 @@
 //
 //  EdgeView.h
-//  GraphMaker
+//  EasyGraph
 //
 //  Created by Oren Shklarsky on 12-07-22.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.

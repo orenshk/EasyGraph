@@ -1,6 +1,6 @@
 //
-//  GraphMakerMasterViewController.m
-//  GraphMaker
+//  EasyGraphMasterViewController.m
+//  EasyGraph
 //
 //  Created by Oren Shklarsky on 12-07-19.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
@@ -256,7 +256,7 @@
     
     EasyGraphDetailViewController *newDetailViewController =
                 [[EasyGraphDetailViewController alloc] initWithNibName:
-                 @"GraphMakerDetailViewController" title:newGraph];
+                 @"EasyGraphDetailViewController" title:newGraph];
     
     [newDetailViewController.navigationItem setRightBarButtonItem:self.renameButton];
     [newDetailViewController setIsDirected:isDirected];

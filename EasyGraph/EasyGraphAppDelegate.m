@@ -1,6 +1,6 @@
 //
-//  GraphMakerAppDelegate.m
-//  GraphMaker
+//  EasyGraphAppDelegate.m
+//  EasyGraph
 //
 //  Created by Oren Shklarsky on 12-07-19.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
@@ -22,7 +22,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
 
-    EasyGraphMasterViewController *masterViewController = [[EasyGraphMasterViewController alloc] initWithNibName:@"GraphMakerMasterViewController" bundle:nil];
+    EasyGraphMasterViewController *masterViewController = [[EasyGraphMasterViewController alloc] initWithNibName:@"EasyGraphMasterViewController" bundle:nil];
     UINavigationController *masterNavigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
 
     NSFileManager *filemgr = [NSFileManager defaultManager];
@@ -39,7 +39,7 @@
     for (NSString *name in masterViewController.fileList) {
         [masterViewController.graphCanvases addObject:
          [[EasyGraphDetailViewController alloc]
-          initWithNibName:@"GraphMakerDetailViewController" title:name]];
+          initWithNibName:@"EasyGraphDetailViewController" title:name]];
     }
     
     EasyGraphDetailViewController *detailViewController =
