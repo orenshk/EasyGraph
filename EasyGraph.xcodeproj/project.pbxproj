@@ -166,7 +166,7 @@
 				A1F99B2F15B8D32600A3AF94 /* Supporting Files */,
 			);
 			name = EasyGraph;
-			path = GraphMaker;
+			path = EasyGraph;
 			sourceTree = "<group>";
 		};
 		A1F99B2F15B8D32600A3AF94 /* Supporting Files */ = {
@@ -216,7 +216,7 @@
 			dependencies = (
 			);
 			name = EasyGraph;
-			productName = GraphMaker;
+			productName = EasyGraph;
 			productReference = A1F99B2415B8D32600A3AF94 /* EasyGraph.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -226,7 +226,7 @@
 		A1F99B1B15B8D32600A3AF94 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				CLASSPREFIX = GraphMaker;
+				CLASSPREFIX = EasyGraph;
 				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = A1F99B1E15B8D32600A3AF94 /* Build configuration list for PBXProject "EasyGraph" */;
@@ -364,12 +364,12 @@
 		A1F99B4915B8D32700A3AF94 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = GraphMaker/GraphMaker.entitlements;
+				CODE_SIGN_ENTITLEMENTS = EasyGraph/EasyGraph.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "GraphMaker/EasyGraph-Prefix.pch";
-				INFOPLIST_FILE = "GraphMaker/EasyGraph-Info.plist";
+				GCC_PREFIX_HEADER = "EasyGraph/EasyGraph-Prefix.pch";
+				INFOPLIST_FILE = "EasyGraph/EasyGraph-Info.plist";
 				OTHER_CODE_SIGN_FLAGS = "-gta";
 				PRODUCT_NAME = EasyGraph;
 				PROVISIONING_PROFILE = "";
@@ -382,12 +382,12 @@
 		A1F99B4A15B8D32700A3AF94 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = GraphMaker/GraphMaker.entitlements;
+				CODE_SIGN_ENTITLEMENTS = EasyGraph/EasyGraph.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "GraphMaker/EasyGraph-Prefix.pch";
-				INFOPLIST_FILE = "GraphMaker/EasyGraph-Info.plist";
+				GCC_PREFIX_HEADER = "EasyGraph/EasyGraph-Prefix.pch";
+				INFOPLIST_FILE = "EasyGraph/EasyGraph-Info.plist";
 				OTHER_CODE_SIGN_FLAGS = "-gta";
 				PRODUCT_NAME = EasyGraph;
 				PROVISIONING_PROFILE = "";
