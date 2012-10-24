@@ -32,9 +32,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self.view setBackgroundColor:[UIColor whiteColor]];
-    [self.latexField setFont: [UIFont systemFontOfSize:15]];
+    [self.codeField setFont: [UIFont systemFontOfSize:15]];
 
-    [self roundBorderForLayer:self.latexField.layer];
+    [self roundBorderForLayer:self.codeField.layer];
     [self roundBorderForLayer:self.pdfView.layer];
     [self roundBorderForLayer:self.settingsView.layer];
     [self roundBorderForLayer:self.middleBar.layer];
@@ -73,7 +73,7 @@
     [self setScaleFactorToolbar:nil];
     [self setButtonsToolBar:nil];
     [self setSettingsView:nil];
-    [self setLatexField:nil];
+    [self setCodeField:nil];
     [self setColors:nil];
 }
 
@@ -84,10 +84,10 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (NSString *) getPathforTexFile {
+- (NSString *) getPathForFileOfType:(NSString *) type {
     NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docsDir = [dirPaths objectAtIndex:0];
-    NSString *fileName = [NSString stringWithFormat:@"%@.tex", self.title];
+    NSString *fileName = [NSString stringWithFormat:@"%@.%@", self.title, type];
     
     return [[NSString alloc] initWithString:[docsDir stringByAppendingPathComponent:fileName]];
 
@@ -97,19 +97,28 @@
     switch ([sender selectedSegmentIndex]) {
         case 0:
             [self processForTiKzFile];
-            [self setDoingPSTricks:NO];
+            [self makePDF];
             break;
         case 1:
             [self processForPSTricksFile];
             [self setDoingPSTricks:YES];
-            break;
-        default:
-            [self.latexField setText:@"In the works..."];
+            [self makePDF];
             [self setDoingPSTricks:NO];
             break;
+        case 2:
+            [self processForSageFile];
+            break;
+        case 3:
+            [self.codeField setText:@"In the works..."];
+            break;
+        case 4:
+            [self.codeField setText:@"In the works..."];
+            break;
+        case 5:
+            [self.codeField setText:@"In the works..."];
+        default:
+            break;
     }
-    
-    [self makePDF];
 }
 
 /*******************************************************************************
@@ -153,8 +162,8 @@
     NSArray *strings = [NSArray arrayWithObjects:colorString, vertexString, straightEdgeString, curvedEdgeString, @"\t\\end{tikzpicture}", nil];
     [latexCode appendString:[strings componentsJoinedByString:@""]];
     
-    [latexCode writeToFile:[self getPathforTexFile] atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
-    [self.latexField setText:latexCode];
+    [latexCode writeToFile:[self getPathForFileOfType:@"tex"] atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
+    [self.codeField setText:latexCode];
     [self.colors removeAllObjects];
     NSLog(@"%@", latexCode);
 }
@@ -238,9 +247,9 @@
     NSArray *strings = [NSArray arrayWithObjects:colorString, edgeString, vertexString, @"\n\t\\end{pspicture}\n", nil];
     [latexCode appendString:[strings componentsJoinedByString:@""]];
     NSLog(@"%@", latexCode);
-    [latexCode writeToFile:[self getPathforTexFile] atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
+    [latexCode writeToFile:[self getPathForFileOfType:@"tex"] atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
     
-    [self.latexField setText:latexCode];
+    [self.codeField setText:latexCode];
     [self.colors removeAllObjects];
 }
 
@@ -306,59 +315,31 @@
 }
 
 /*******************************************************************************
-                            UI Elements
+                                Sage code
  *******************************************************************************/
 
-- (IBAction)openInDialouge:(id)sender {
-    if (self.documentInteractionController == nil) {
-        
+- (void) processForSageFile {
+    NSMutableString *sageCode = [NSMutableString stringWithString:@"G = "];
+    if (self.isDirected) {
+        [sageCode appendFormat:@"DiGraph(%d)\n", [self.vertexSet count]];
     } else {
-        self.documentInteractionController.delegate = self;
-        [self.documentInteractionController presentOpenInMenuFromBarButtonItem:self.openPDFInButton animated:YES];
+        [sageCode appendFormat:@"Graph(%d)\n", [self.vertexSet count]];
     }
-    
-}
+    [sageCode appendString:@"G.add_edges(["];
 
-- (IBAction)makePreview:(id)sender {
-    [self exportGraph:self.exportLanguageSelector];
-}
-
-- (IBAction)scaleSliderMoved:(UISlider *)sender {
-    double newVal = (int)([sender value] * 10) / 10.0;
-    newVal = 15 - newVal;
-    [self setScaleFactor:newVal];
-    [self.scaleFactorTextField setText:[NSString stringWithFormat:@"%.1f", newVal]];
-}
-
-- (IBAction)scaleFieldChanged {
-    CGFloat newScale = fmin([[[self scaleFactorTextField] text] floatValue], 15);
-    [self setScaleFactor:newScale];
-    [self.scaleFactorSlider setValue:newScale];
-    [self exportGraph:self.exportLanguageSelector];
-}
-
-- (IBAction)vertexSizeSliderMoved:(UISlider *)sender {
-    double newVal = (int)([sender value] * 10) / 10.0;
-    [self setVertexSizeMultiplier:newVal];
-    [self.vertexSizeTextField setText:[NSString stringWithFormat:@"%.1f", newVal]];
-}
-
-- (IBAction)vertexSizeFieldChanged:(id)sender {
-    CGFloat newScale = fmin([[[self vertexSizeTextField] text] floatValue], 10.0);
-    [self setVertexSizeMultiplier:newScale];
-    [self.vertexSizeSlider setValue:newScale];
-}
-
-- (IBAction)edgeWitdhSliderMoved:(UISlider *)sender {
-    double newVal = (int)([sender value] * 10) / 10.0;
-    [self setEdgeWidthMultiplier:newVal];
-    [self.edgeWidthTextField setText:[NSString stringWithFormat:@"%.1f", newVal]];
-}
-
-- (IBAction)edgeWidthFieldChanged:(UITextField *)sender {
-    CGFloat newScale = fmin([[[self edgeWidthTextField] text] floatValue], 10.0);
-    [self setEdgeWidthMultiplier:newScale];
-    [self.edgeWidthSlider setValue:newScale];
+    for (EasyGraphVertexView *vert in self.vertexSet) {
+        for (EasyGraphEdgeView *edge in vert.inNeighbs) {
+            if (![edge isNonEdge]) {
+                [sageCode appendFormat:@"(%d, %d), ", edge.startVertex.vertexNum - 1,
+                                                      edge.endVertex.vertexNum - 1];
+            }
+        }
+    }
+    [sageCode deleteCharactersInRange:NSMakeRange([sageCode length] - 2, 2)];
+    [sageCode appendString:@"])"];
+    [sageCode writeToFile:[self getPathForFileOfType:@"py"] atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
+    [self.codeField setText:sageCode];
+    NSLog(@"%@", sageCode);
 }
 
 /*******************************************************************************
@@ -454,6 +435,62 @@
         CGContextStrokePath(context);
         CGContextFillEllipseInRect(context, rectangle);
     }
+}
+
+/*******************************************************************************
+                            UI Elements
+ *******************************************************************************/
+
+- (IBAction)openInDialouge:(id)sender {
+    if (self.documentInteractionController == nil) {
+        
+    } else {
+        self.documentInteractionController.delegate = self;
+        [self.documentInteractionController presentOpenInMenuFromBarButtonItem:self.openPDFInButton animated:YES];
+    }
+    
+}
+
+- (IBAction)makePreview:(id)sender {
+    [self exportGraph:self.exportLanguageSelector];
+}
+
+- (IBAction)scaleSliderMoved:(UISlider *)sender {
+    double newVal = (int)([sender value] * 10) / 10.0;
+    newVal = 15 - newVal;
+    [self setScaleFactor:newVal];
+    [self.scaleFactorTextField setText:[NSString stringWithFormat:@"%.1f", newVal]];
+}
+
+- (IBAction)scaleFieldChanged {
+    CGFloat newScale = fmin([[[self scaleFactorTextField] text] floatValue], 15);
+    [self setScaleFactor:newScale];
+    [self.scaleFactorSlider setValue:newScale];
+    [self exportGraph:self.exportLanguageSelector];
+}
+
+- (IBAction)vertexSizeSliderMoved:(UISlider *)sender {
+    double newVal = (int)([sender value] * 10) / 10.0;
+    [self setVertexSizeMultiplier:newVal];
+    [self.vertexSizeTextField setText:[NSString stringWithFormat:@"%.1f", newVal]];
+}
+
+- (IBAction)vertexSizeFieldChanged:(id)sender {
+    CGFloat newScale = fmin([[[self vertexSizeTextField] text] floatValue], 10.0);
+    [self setVertexSizeMultiplier:newScale];
+    [self.vertexSizeSlider setValue:newScale];
+}
+
+- (IBAction)edgeWitdhSliderMoved:(UISlider *)sender {
+    double newVal = (int)([sender value] * 10) / 10.0;
+    [self setEdgeWidthMultiplier:newVal];
+    [self.edgeWidthTextField setText:[NSString stringWithFormat:@"%.1f", newVal]];
+}
+
+- (IBAction)edgeWidthFieldChanged:(UITextField *)sender {
+    CGFloat newScale = fmin([[[self edgeWidthTextField] text] floatValue], 10.0);
+    [self setEdgeWidthMultiplier:newScale];
+    [self.edgeWidthSlider setValue:newScale];
 }
 
 -(void) addGradient:(UIButton *) _button {

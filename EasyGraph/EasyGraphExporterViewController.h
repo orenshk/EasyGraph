@@ -13,7 +13,7 @@
 @interface EasyGraphExporterViewController : UIViewController
                                                 <UIDocumentInteractionControllerDelegate>
 
-@property (strong, nonatomic) IBOutlet UITextView *latexField;
+@property (strong, nonatomic) IBOutlet UITextView *codeField;
 @property (strong, nonatomic) IBOutlet UIView *settingsView;
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *exportLanguageSelector;
@@ -59,7 +59,7 @@
 
 - (IBAction)exportGraph:(UISegmentedControl *)sender;
 
-- (NSString *) getPathforTexFile;
+- (NSString *) getPathForFileOfType:(NSString *)type;
 
 - (void) processForTiKzFile;
 - (NSMutableString *) processCurvedEdgeForTiKz:(EasyGraphEdgeView *)edge;
@@ -69,6 +69,8 @@
 - (void) processForPSTricksFile;
 - (NSString *) makePSTricksEdgeCommandStringForEdge:(EasyGraphEdgeView *)edge;
 - (NSString *) makePSTricksVertexCommandStringForVertex:(EasyGraphVertexView *)vert;
+
+- (void) processForSageFile;
 
 - (NSString *) makeColorStringWithColor:(UIColor* )color;
 
