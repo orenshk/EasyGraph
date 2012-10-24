@@ -31,6 +31,8 @@
         self.endVertex = end;
         self.isNonEdge = NO;
         self.curvePoints = [[NSMutableArray alloc] init];
+        self.arrowLength = 30.0;
+        self.arrowWidth = 15.0;
     }
     return self;
 }
@@ -112,14 +114,12 @@
     }
 }
 
-- (void) drawArrow {
+- (void) drawArrowForSplinePoints:(NSArray *)points ofLength:(double)length andWidth:(double)width {
     double slopy, cosy, siny;
-    double length = 30.0;
-    double width = 15.0;
     
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGPoint start = [[self.splinePoints objectAtIndex:[self.splinePoints count] - 4] CGPointValue];
-    CGPoint end = [[self.splinePoints objectAtIndex:[self.splinePoints count] - 3] CGPointValue];
+    CGPoint start = [[points objectAtIndex:[points count] - 4] CGPointValue];
+    CGPoint end = [[points objectAtIndex:[points count] - 3] CGPointValue];
     slopy = atan2((start.y - end.y), (start.x - end.x));
     cosy = cos(slopy);
     siny = sin(slopy);
@@ -158,7 +158,7 @@
     end = CGContextGetPathCurrentPoint(context);
     CGContextStrokePath(context);
     
-    if (isDirected) [self drawArrow];
+    if (isDirected) [self drawArrowForSplinePoints:self.splinePoints ofLength:self.arrowLength andWidth:self.arrowWidth];
 
 }
 @end

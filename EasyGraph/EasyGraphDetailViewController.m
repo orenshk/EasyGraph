@@ -242,7 +242,7 @@
         [vert.inNeighbs removeAllObjects];
         [vert.outNeighbs removeAllObjects];
     }
-    
+    [self setIsDirected:[[dataArray objectAtIndex:1] boolValue]];
     for (EasyGraphEdgeView *edge in edgeSet) {
         [self.EasyGraphCanvas setCurvePoints:[NSMutableArray arrayWithArray:[edge curvePoints]]];
         [self setEdgeColour:edge.colour];
@@ -250,7 +250,6 @@
     }
     [self.EasyGraphCanvas.curvePoints removeAllObjects];
     [self setEdgeColour:[UIColor blackColor]];
-    [self setIsDirected:[[dataArray objectAtIndex:1] boolValue]];
     NSString *subtitle = [self isDirected] ? @"(Directed)" : @"(Undirected)";
     [self setUpTitleViewWithTitle:[self title] andSubtitle:subtitle];
 }
@@ -736,6 +735,8 @@
     EasyGraphExporterViewController *latexController = [[EasyGraphExporterViewController alloc] initWithNibName:@"EasyGraphExporterViewController" bundle:nil];
     [latexController setVertexSet:[NSSet setWithSet:[self vertexSet]]];
     [latexController setScaleFactor:4.0];
+    [latexController setIsDirected:isDirected];
+    [latexController setTitle:[self title]];
     [self.navigationController pushViewController:latexController animated:YES];
 }
 

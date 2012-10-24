@@ -31,6 +31,9 @@
 /** Colour of this EdgeView */
 @property UIColor *colour;
 
+@property double arrowLength;
+@property double arrowWidth;
+
 /**
  Initialize and return an EdgeView object betwen |start| and |end|
  @param start the new EdgeView's tail
@@ -55,7 +58,7 @@
  */
 - (void) drawEdgeThroughPoints:(NSArray *)points;
 
-- (void) drawArrow;
+- (void) drawArrowForSplinePoints:(NSArray *)points ofLength:(double)length andWidth:(double)width;
 
 - (NSArray *) getSplinePointsForStartPoint:(CGPoint) start endPoint:(CGPoint) end controlPoints:(NSArray *)points;
 @end

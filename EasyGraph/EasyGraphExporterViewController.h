@@ -11,18 +11,27 @@
 #import "EasyGraphEdgeView.h"
 
 @interface EasyGraphExporterViewController : UIViewController
+                                                <UIDocumentInteractionControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UITextView *latexField;
 @property (strong, nonatomic) IBOutlet UIView *settingsView;
 
-@property (strong, nonatomic) IBOutlet UISegmentedControl *latexPackageSwitch;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *exportLanguageSelector;
 @property (strong, nonatomic) IBOutlet UIWebView *pdfView;
 @property (strong, nonatomic) IBOutlet UIToolbar *vertexEdgeSizeToolBar;
 @property (strong, nonatomic) IBOutlet UIToolbar *scaleFactorToolbar;
 @property (strong, nonatomic) IBOutlet UIToolbar *buttonsToolBar;
 
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *saveButton;
+
+
+
+@property (strong, nonatomic) IBOutlet UIToolbar *middleBar;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *exportPDFButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *openPDFInButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *previewButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *generateButton;
+
+@property (strong, nonatomic) UIDocumentInteractionController *documentInteractionController;
 
 // scale factor
 @property (strong, nonatomic) IBOutlet UISlider *scaleFactorSlider;
@@ -42,9 +51,13 @@
 @property double vertexSizeMultiplier;
 @property double edgeWidthMultiplier;
 @property double edgeWidth;
-@property NSMutableArray *colors;
+@property (strong, nonatomic) NSMutableArray *colors;
 @property (strong, nonatomic) NSSet *vertexSet;
+@property BOOL isDirected;
 @property BOOL doingPSTricks;
+
+
+- (IBAction)exportGraph:(UISegmentedControl *)sender;
 
 - (NSString *) getPathforTexFile;
 
@@ -59,14 +72,14 @@
 
 - (NSString *) makeColorStringWithColor:(UIColor* )color;
 
-
-
 - (IBAction)scaleSliderMoved:(UISlider *)sender;
 - (IBAction)scaleFieldChanged;
-- (IBAction)previewPressed;
 - (IBAction)vertexSizeSliderMoved:(UISlider *)sender;
 - (IBAction)vertexSizeFieldChanged:(id)sender;
 - (IBAction)edgeWitdhSliderMoved:(UISlider *)sender;
 - (IBAction)edgeWidthFieldChanged:(UITextField *)sender;
+- (IBAction)openInDialouge:(id)sender;
+- (IBAction)makePreview:(id)sender;
+
 
 @end
