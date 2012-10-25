@@ -26,4 +26,8 @@
 /** The size of the circle representing the vertex */
 @property int vertexSize;
 
+@property (strong, nonatomic) IBOutlet UILabel *label;
+
+- (void) setupVertexColour:(UIColor *)colour;
+
 @end

@@ -393,11 +393,13 @@
     CGPoint grid = [self getClosestGridPointToPoint:fingerPos];
     EasyGraphVertexView *vert = [[EasyGraphVertexView alloc]
                         initWithFrame:CGRectMake(grid.x - self.vertexFrameSize/2.0, grid.y - self.vertexFrameSize/2.0, self.vertexFrameSize, self.vertexFrameSize)];
-    [vert setColour:self.vertexColour];
+    
+    [vert setupVertexColour:self.vertexColour];
     [self.EasyGraphCanvas addSubview:vert];
     
     [self.vertexSet addObject:vert];
     [vert setVertexNum:[self.vertexSet count]];
+    [vert.label setText:[NSString stringWithFormat:@"%d", [vert vertexNum]]];
     
     [[self.undoManager prepareWithInvocationTarget:self] removeVertex:vert];
     [self.undoButton setEnabled:YES];

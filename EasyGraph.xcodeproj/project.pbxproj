@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A119667A162D66F900462E83 /* 72px-petersen_graph_3-coloring copy.png in Resources */ = {isa = PBXBuildFile; fileRef = A1196679162D66F900462E83 /* 72px-petersen_graph_3-coloring copy.png */; };
 		A1196681162E550A00462E83 /* GMPdfViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1196680162E550A00462E83 /* GMPdfViewController.m */; };
 		A11E60111631E52300F0877C /* EasyGraphExporterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A11E600F1631E52300F0877C /* EasyGraphExporterViewController.m */; };
 		A11E60121631E52300F0877C /* EasyGraphExporterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A11E60101631E52300F0877C /* EasyGraphExporterViewController.xib */; };
+		A12499131638B9FB0021FB3C /* EasyGraphPetersenIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A12499121638B9FB0021FB3C /* EasyGraphPetersenIcon.png */; };
 		A1B4A1CE15BCED2C00B80867 /* EasyGraphEdgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B4A1CD15BCED2C00B80867 /* EasyGraphEdgeView.m */; };
 		A1B5A64315B9EBE000EEC312 /* EasyGraphVertexView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5A64215B9EBE000EEC312 /* EasyGraphVertexView.m */; };
 		A1B5A64E15BAB5E100EEC312 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1B5A64D15BAB5E100EEC312 /* QuartzCore.framework */; };
@@ -34,12 +34,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A1196679162D66F900462E83 /* 72px-petersen_graph_3-coloring copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "72px-petersen_graph_3-coloring copy.png"; sourceTree = "<group>"; };
 		A119667F162E550A00462E83 /* GMPdfViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMPdfViewController.h; sourceTree = "<group>"; };
 		A1196680162E550A00462E83 /* GMPdfViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMPdfViewController.m; sourceTree = "<group>"; };
 		A11E600E1631E52200F0877C /* EasyGraphExporterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphExporterViewController.h; sourceTree = "<group>"; };
 		A11E600F1631E52300F0877C /* EasyGraphExporterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphExporterViewController.m; sourceTree = "<group>"; };
 		A11E60101631E52300F0877C /* EasyGraphExporterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EasyGraphExporterViewController.xib; sourceTree = "<group>"; };
+		A12499121638B9FB0021FB3C /* EasyGraphPetersenIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EasyGraphPetersenIcon.png; sourceTree = "<group>"; };
 		A1B4A1CC15BCED2C00B80867 /* EasyGraphEdgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphEdgeView.h; sourceTree = "<group>"; };
 		A1B4A1CD15BCED2C00B80867 /* EasyGraphEdgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphEdgeView.m; sourceTree = "<group>"; };
 		A1B5A64115B9EBE000EEC312 /* EasyGraphVertexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphVertexView.h; sourceTree = "<group>"; };
@@ -116,7 +116,7 @@
 		A1F99B1915B8D32600A3AF94 = {
 			isa = PBXGroup;
 			children = (
-				A1196679162D66F900462E83 /* 72px-petersen_graph_3-coloring copy.png */,
+				A12499121638B9FB0021FB3C /* EasyGraphPetersenIcon.png */,
 				A1FED9D8162BFC1A002559BA /* ColorPicker */,
 				A1B5A64D15BAB5E100EEC312 /* QuartzCore.framework */,
 				A1F99B2E15B8D32600A3AF94 /* EasyGraph */,
@@ -165,7 +165,6 @@
 				A1F99B4315B8D32700A3AF94 /* EasyGraphDetailViewController.xib */,
 				A1F99B2F15B8D32600A3AF94 /* Supporting Files */,
 			);
-			name = EasyGraph;
 			path = EasyGraph;
 			sourceTree = "<group>";
 		};
@@ -254,8 +253,8 @@
 				A1F99B3315B8D32600A3AF94 /* InfoPlist.strings in Resources */,
 				A1F99B4215B8D32700A3AF94 /* EasyGraphMasterViewController.xib in Resources */,
 				A1F99B4515B8D32700A3AF94 /* EasyGraphDetailViewController.xib in Resources */,
-				A119667A162D66F900462E83 /* 72px-petersen_graph_3-coloring copy.png in Resources */,
 				A11E60121631E52300F0877C /* EasyGraphExporterViewController.xib in Resources */,
+				A12499131638B9FB0021FB3C /* EasyGraphPetersenIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

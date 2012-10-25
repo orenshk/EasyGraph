@@ -9,7 +9,7 @@
 #import "EasyGraphVertexView.h"
 
 @implementation EasyGraphVertexView
-@synthesize inNeighbs, outNeighbs, vertexNum, vertexSize;
+@synthesize inNeighbs, outNeighbs, vertexNum, vertexSize, label;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -20,7 +20,11 @@
         self.inNeighbs = [[NSMutableSet alloc] init];
         self.outNeighbs = [[NSMutableSet alloc] init];
         self.vertexSize = 34;
-        self.colour = [UIColor blackColor];
+        [self setupVertexColour:[UIColor blackColor]];
+        self.label = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 40, 40)];
+        [label setTextAlignment:NSTextAlignmentCenter];
+        [label setFont:[UIFont systemFontOfSize:20.0]];
+        [label setBackgroundColor:[UIColor clearColor]];
     }
     return self;
 }
@@ -33,6 +37,7 @@
         self.vertexSize = [aDecoder decodeInt32ForKey:@"vertexSize"];
         self.vertexNum = [aDecoder decodeInt32ForKey:@"vertexNum"];
         self.colour = [aDecoder decodeObjectForKey:@"vertexColour"];
+        self.label = [aDecoder decodeObjectForKey:@"label"];
     }
     return self;
 }
@@ -44,6 +49,7 @@
     [aCoder encodeInt32:self.vertexSize forKey:@"vertexSize"];
     [aCoder encodeInt32:self.vertexNum forKey:@"vertexNum"];
     [aCoder encodeObject:self.colour forKey:@"vertexColour"];
+    [aCoder encodeObject:self.label forKey:@"label"];
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -61,6 +67,23 @@
 - (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.nextResponder touchesCancelled:touches withEvent:event];
 }
+
+- (void) setupVertexColour:(UIColor *)col {
+    [self setColour:col];
+    CGFloat red, green, blue, alpha;
+    red = green = blue = alpha = 0;
+    if ([col isEqual:[UIColor blackColor]]) {
+        [label setTextColor:[UIColor whiteColor]];
+    } else if ([col isEqual:[UIColor whiteColor]]) {
+        [label setTextColor:[UIColor blackColor]];
+    } else {
+        [col getRed:&red green:&green blue:&blue alpha:&alpha];
+        [label setTextColor:[UIColor colorWithRed:1.0 - red green:1.0 - green blue:1.0 - blue alpha:alpha]];
+    }
+    
+    [self addSubview:self.label];
+}
+
 
 - (void) drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();
