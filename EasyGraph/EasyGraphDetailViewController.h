@@ -19,10 +19,12 @@
 @interface EasyGraphDetailViewController : UIViewController
                                                 <UISplitViewControllerDelegate,
                                                  UITextFieldDelegate,
-                                                 UIPopoverControllerDelegate>
+                                                 UIPopoverControllerDelegate,
+                                                 UIGestureRecognizerDelegate>
 {
     int prevNumberOfTouches;
 }
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @property (nonatomic) IBOutlet UIPopoverController *menuPopoverController;
 @property (nonatomic, strong) UIAlertView *relabelDialouge;
@@ -81,6 +83,7 @@
 @property BOOL inSubdivideMode;
 @property BOOL inContractMode;
 @property BOOL isDirected;
+
 
 /** Location of archive file holding VertexView information */
 @property NSString *saveDataPath;

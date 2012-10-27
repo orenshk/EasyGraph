@@ -153,8 +153,8 @@
 }
 
 - (void) configureGraphCanvasView {
-    int mult = 1;
-    self.easyGraphCanvas = [[EasyGraphCanvas alloc] initWithFrame:CGRectMake(0, 0, 768*mult, 916*mult)];
+    int mult = 200;
+    self.easyGraphCanvas = [[EasyGraphCanvas alloc] initWithFrame:CGRectMake(0, 0, 768+mult, 916+mult)];
     [self.easyGraphCanvas setGridSize:self.gridSize];
     [self.easyGraphCanvas setMultipleTouchEnabled:YES];
 
@@ -162,16 +162,42 @@
     UIPanGestureRecognizer *panDetector =
     [[UIPanGestureRecognizer alloc]
      initWithTarget:self action:@selector(handlePanGesture:)];
+    [panDetector setMaximumNumberOfTouches:2];
     [self.easyGraphCanvas addGestureRecognizer:panDetector];
+    [panDetector setDelegate:self];
     
     UITapGestureRecognizer *singleTap =
     [[UITapGestureRecognizer alloc]
      initWithTarget:self action:@selector(handleSingleTap:)];
     [self.easyGraphCanvas addGestureRecognizer:singleTap];
-    
-    [self.view addSubview:self.easyGraphCanvas];
-    
+    [singleTap setDelegate:self];
 
+    
+//    [self.view addSubview:self.easyGraphCanvas];
+    [self.scrollView.panGestureRecognizer setMinimumNumberOfTouches:3];
+    [self.scrollView.panGestureRecognizer setMaximumNumberOfTouches:3];
+    [self.scrollView setContentSize:CGSizeMake(768+mult, 916+mult)];
+    [self.scrollView addSubview:self.easyGraphCanvas];
+    
+    
+    [singleTap requireGestureRecognizerToFail:[self.scrollView panGestureRecognizer]];
+    
+    UILongPressGestureRecognizer *longPressOneTap = [[UILongPressGestureRecognizer alloc]    initWithTarget:self action:@selector(handleLongPress:)];
+    [longPressOneTap setMinimumPressDuration:0.0];
+//    [singleTap requireGestureRecognizerToFail:longPressOneTap];
+    [longPressOneTap setNumberOfTapsRequired:1];
+    [self.easyGraphCanvas addGestureRecognizer:longPressOneTap];
+    
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]    initWithTarget:self action:@selector(handleLongPress:)];
+    [longPress setMinimumPressDuration:0.0];
+//    [singleTap requireGestureRecognizerToFail:longPress];
+    [longPress setNumberOfTapsRequired:0];
+    [self.easyGraphCanvas addGestureRecognizer:longPress];
+
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
 }
 
 - (void)viewDidUnload
@@ -182,6 +208,7 @@
     [self setLabelsMenuButton:nil];
     [self setEditButton:nil];
     [self setModesButton:nil];
+    [self setScrollView:nil];
     [super viewDidUnload];
     [self setRemoveElementsButton:nil];
     [self setUndoButton:nil];
@@ -303,6 +330,30 @@
         self.movingVertexView = nil;
         self.easyGraphCanvas.fingerStartPoint = locationPoint;
         self.easyGraphCanvas.drawingEdge = self.edgeStartPoint != nil;
+    }
+}
+
+- (IBAction)handleLongPress:(UILongPressGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        CGPoint locationPoint = [sender locationInView:self.easyGraphCanvas];
+        UIView *touched = [self.easyGraphCanvas hitTest:locationPoint withEvent:nil];
+        if ([sender numberOfTapsRequired] == 1) {
+            if ([touched isKindOfClass:[EasyGraphVertexView class]]) {
+                self.movingVertexView = (EasyGraphVertexView *)touched;
+                self.edgeStartPoint = nil;
+                self.easyGraphCanvas.fingerStartPoint = CGPointZero;
+                self.easyGraphCanvas.fingerCurrPos = CGPointZero;
+                self.easyGraphCanvas.drawingEdge = NO;
+                [[self.undoManager prepareWithInvocationTarget:self]
+                 undoVertexMove:self.movingVertexView atOriginalPoint:movingVertexView.center];
+            }
+        } else {
+            self.edgeStartPoint = [touched isKindOfClass:[EasyGraphVertexView class]] ? (EasyGraphVertexView *)touched : nil;
+            self.movingVertexView = nil;
+            self.easyGraphCanvas.fingerStartPoint = locationPoint;
+            self.easyGraphCanvas.drawingEdge = self.edgeStartPoint != nil;
+        }
+
     }
 }
 

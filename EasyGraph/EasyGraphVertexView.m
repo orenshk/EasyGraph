@@ -77,18 +77,24 @@
     CGFloat red, green, blue, alpha;
     NSString *body, *color, *html;
     red = green = blue = alpha = 0;
-    if ([col isEqual:[UIColor blackColor]] || [col isEqual:[UIColor blueColor]]) {
+    NSString *letter;
+    if ([col isEqual:[UIColor blackColor]]) {
         color = @"(255,255,255)";
-    } else /*if ([col isEqual:[UIColor whiteColor]])*/ {
+        letter = @"b";
+    } else if ([col isEqual:[UIColor whiteColor]]) {
         color = @"(0,0,0)";
-    } /*else {
-        [col getRed:&red green:&green blue:&blue alpha:&alpha];
-        red = (1.0 - red)*255;
-        green = (1.0 - green)*255;
-        blue = (1.0 - blue)*255;
-        color = [NSString stringWithFormat:@"(%d,%d,%d)", (int)red, (int)green, (int)blue];
-    }*/
-    body = [NSString stringWithFormat:@"<i>v</i><sub>%d</sub></body></html>", self.vertexNum];
+        letter = @"w";
+    } else if ([col isEqual:[UIColor blueColor]]) {
+        color = @"(255,255,255)";
+        letter = @"x";
+    } else if ([col isEqual:[UIColor greenColor]]) {
+        color = @"(0,0,0)";
+        letter = @"y";
+    } else {
+        color = @"(0,0,0)";
+        letter = @"z";
+    }
+    body = [NSString stringWithFormat:@"<i>%@</i><sub>%d</sub></body></html>", letter, self.vertexNum];
     html = [NSString stringWithFormat:@"<html> \n"
                                    "<head> \n"
                                    "<style type=\"text/css\"> \n"
@@ -115,6 +121,18 @@
     CGContextAddEllipseInRect(context, rectangle);
     CGContextStrokePath(context);
     CGContextFillEllipseInRect(context, rectangle);
+    
+    self.layer.opaque = YES;
+    self.layer.masksToBounds = NO;
+    self.layer.shadowOffset = CGSizeMake(-4, 0);
+    self.layer.shadowRadius = 2.5;
+    self.layer.shadowOpacity = 0.15;
+//    self.layer.shadowPath =
+//    [UIBezierPath bezierPathWithRect:CGRectMake(                                                                             self.bounds.origin.x,                                                                                  self.bounds.origin.y,                                                                                  self.bounds.size.width + 8,                                                                                  self.bounds.size.height + 2)].CGPath;
+    
+    rectangle = CGRectMake((self.frame.size.width - self.vertexSize) / 2.0 - 5,
+                           (self.frame.size.height - self.vertexSize)/2.0 - 5, self.vertexSize + 10, self.vertexSize + 10);
+    self.layer.shadowPath = [UIBezierPath bezierPathWithOvalInRect:rectangle].CGPath;
     
 }
 
