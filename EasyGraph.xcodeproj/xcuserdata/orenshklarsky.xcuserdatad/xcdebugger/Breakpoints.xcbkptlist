@@ -7,40 +7,51 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "EasyGraph/EasyGraphExporterViewController.m"
-         timestampString = "372806803.437062"
+         filePath = "EasyGraph/EasyGraphScrollView.m"
+         timestampString = "373000285.365883"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "119"
-         endingLineNumber = "119"
-         landmarkName = "-exportGraph:"
+         startingLineNumber = "27"
+         endingLineNumber = "27"
+         landmarkName = "-touchesBegan:withEvent:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "EasyGraph/EasyGraphExporterViewController.m"
-         timestampString = "372806082.126349"
+         filePath = "EasyGraph/EasyGraphScrollView.m"
+         timestampString = "373002589.308486"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "97"
-         endingLineNumber = "97"
-         landmarkName = "-exportGraph:"
+         startingLineNumber = "45"
+         endingLineNumber = "45"
+         landmarkName = "-drawRect:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "EasyGraph/EasyGraphVertexView.m"
-         timestampString = "372815061.760047"
+         filePath = "EasyGraph/EasyGraphCanvas.m"
+         timestampString = "373021008.945359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "72"
-         endingLineNumber = "72"
-         landmarkName = "-setupVertexColour:"
-         landmarkType = "5">
+         startingLineNumber = "214"
+         endingLineNumber = "214">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "EasyGraph/EasyGraphCanvas.m"
+         timestampString = "373021008.945359"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "70"
+         endingLineNumber = "70"
+         landmarkName = "@implementation EasyGraphCanvas"
+         landmarkType = "3">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

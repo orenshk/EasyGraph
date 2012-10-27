@@ -1,14 +1,14 @@
 //
 //  EdgeView.m
-//  EasyGraph
+//  GraphMaker
 //
 //  Created by Oren Shklarsky on 12-07-22.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "EasyGraphEdgeView.h"
+#import "GMEdgeView.h"
 
-@implementation EasyGraphEdgeView
+@implementation GMEdgeView
 @synthesize startVertex, endVertex, isNonEdge, curvePoints, splinePoints;
 @synthesize isDirected;
 
@@ -31,8 +31,6 @@
         self.endVertex = end;
         self.isNonEdge = NO;
         self.curvePoints = [[NSMutableArray alloc] init];
-        self.arrowLength = 30.0;
-        self.arrowWidth = 15.0;
     }
     return self;
 }
@@ -114,13 +112,14 @@
     }
 }
 
-- (void) drawArrowForSplinePoints:(NSArray *)points ofLength:(double)length andWidth:(double)width {
+- (void) drawArrow {
     double slopy, cosy, siny;
+    double length = 30.0;
+    double width = 20.0;
     
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetStrokeColorWithColor(context, self.colour.CGColor);
-    CGPoint start = [[points objectAtIndex:[points count] - 4] CGPointValue];
-    CGPoint end = [[points objectAtIndex:[points count] - 3] CGPointValue];
+    CGPoint start = [[self.splinePoints objectAtIndex:[self.splinePoints count] - 4] CGPointValue];
+    CGPoint end = [[self.splinePoints objectAtIndex:[self.splinePoints count] - 3] CGPointValue];
     slopy = atan2((start.y - end.y), (start.x - end.x));
     cosy = cos(slopy);
     siny = sin(slopy);
@@ -159,7 +158,22 @@
     end = CGContextGetPathCurrentPoint(context);
     CGContextStrokePath(context);
     
-    if (isDirected) [self drawArrowForSplinePoints:self.splinePoints ofLength:self.arrowLength andWidth:self.arrowWidth];
+    if (isDirected) [self drawArrow];
 
+}
+
+- (double) getSlopeOfTangentToCatmullRomThroughPoints:(NSArray* )points atTime:(double) t {
+    NSEnumerator *pnt = [points objectEnumerator];
+    CGPoint p1 = [[pnt nextObject] CGPointValue];
+    CGPoint p2 = [[pnt nextObject] CGPointValue];
+    CGPoint p3 = [[pnt nextObject] CGPointValue];
+    CGPoint p4 = [[pnt nextObject] CGPointValue];
+    double dy = [self slopeHelperForT:t P1:p1.y P2:p2.y P3:p3.y P4:p4.y];
+    double dx = [self slopeHelperForT:t P1:p1.x P2:p2.x P3:p3.x P4:p4.x];
+    return dy/dx;
+}
+
+- (double) slopeHelperForT:(double)t P1:(double)p1 P2:(double)p2 P3:(double)p3 P4:(double)p4 {
+    return 0.5*(3*(-p1+3*p2-3*p3+p4)*t*t + 2*(2*p1 -5*p2+4*p3-p4)*t + (-p1+p3));
 }
 @end

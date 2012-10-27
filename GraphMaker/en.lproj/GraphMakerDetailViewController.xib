@@ -45,9 +45,9 @@
 						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
-						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+						<int key="IBUIBarStyle">2</int>
 						<array class="NSMutableArray" key="IBUIItems">
 							<object class="IBUIBarButtonItem" id="207346070">
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -55,15 +55,26 @@
 								<reference key="IBUIToolbar" ref="112441633"/>
 								<int key="IBUISystemItemIdentifier">16</int>
 							</object>
-							<object class="IBUIBarButtonItem" id="1065520771">
-								<string key="IBUITitle">Mode: None </string>
+							<object class="IBUIBarButtonItem" id="761318744">
+								<string key="IBUITitle">Remove</string>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="112441633"/>
 							</object>
-							<object class="IBUIBarButtonItem" id="358875470">
-								<int key="IBUITag">1</int>
-								<string key="IBUITitle">Labels</string>
+							<object class="IBUIBarButtonItem" id="688970544">
+								<string key="IBUITitle">Subdivide</string>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<int key="IBUIStyle">1</int>
+								<reference key="IBUIToolbar" ref="112441633"/>
+							</object>
+							<object class="IBUIBarButtonItem" id="208823132">
+								<string key="IBUITitle">Contract</string>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<int key="IBUIStyle">1</int>
+								<reference key="IBUIToolbar" ref="112441633"/>
+							</object>
+							<object class="IBUIBarButtonItem" id="400873768">
+								<string key="IBUITitle">Non-Edge</string>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="112441633"/>
@@ -91,7 +102,7 @@
 				<string key="NSFrame">{{0, 20}, {768, 1004}}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="112441633"/>
+				<reference key="NSNextKeyView"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MQA</bytes>
@@ -117,6 +128,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">removeElementsButton</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="761318744"/>
+					</object>
+					<int key="connectionID">132</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">undoButton</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="746368870"/>
@@ -133,19 +152,27 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">ModesButton</string>
+						<string key="label">subdivideButton</string>
 						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="1065520771"/>
+						<reference key="destination" ref="688970544"/>
 					</object>
-					<int key="connectionID">188</int>
+					<int key="connectionID">146</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">labelsMenuButton</string>
+						<string key="label">contractButton</string>
 						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="358875470"/>
+						<reference key="destination" ref="208823132"/>
 					</object>
-					<int key="connectionID">207</int>
+					<int key="connectionID">149</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">nonEdgeButton</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="400873768"/>
+					</object>
+					<int key="connectionID">156</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -154,6 +181,14 @@
 						<reference key="destination" ref="841351856"/>
 					</object>
 					<int key="connectionID">125</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">toggleRemoveElementsMode:</string>
+						<reference key="source" ref="761318744"/>
+						<reference key="destination" ref="841351856"/>
+					</object>
+					<int key="connectionID">151</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -173,19 +208,27 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">showMenuPopover:</string>
-						<reference key="source" ref="358875470"/>
+						<string key="label">toggleSubdivideMode:</string>
+						<reference key="source" ref="688970544"/>
 						<reference key="destination" ref="841351856"/>
 					</object>
-					<int key="connectionID">189</int>
+					<int key="connectionID">150</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">showMenuPopover:</string>
-						<reference key="source" ref="1065520771"/>
+						<string key="label">toggleContractMode:</string>
+						<reference key="source" ref="208823132"/>
 						<reference key="destination" ref="841351856"/>
 					</object>
-					<int key="connectionID">190</int>
+					<int key="connectionID">152</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">toggleNonEdgeMode:</string>
+						<reference key="source" ref="400873768"/>
+						<reference key="destination" ref="841351856"/>
+					</object>
+					<int key="connectionID">157</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -220,17 +263,24 @@
 						<reference key="object" ref="112441633"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="207346070"/>
+							<reference ref="761318744"/>
 							<reference ref="746368870"/>
 							<reference ref="859768132"/>
 							<reference ref="242445467"/>
-							<reference ref="358875470"/>
-							<reference ref="1065520771"/>
+							<reference ref="688970544"/>
+							<reference ref="208823132"/>
+							<reference ref="400873768"/>
 						</array>
 						<reference key="parent" ref="647120888"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">124</int>
 						<reference key="object" ref="207346070"/>
+						<reference key="parent" ref="112441633"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">127</int>
+						<reference key="object" ref="761318744"/>
 						<reference key="parent" ref="112441633"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -249,55 +299,62 @@
 						<reference key="parent" ref="112441633"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">182</int>
-						<reference key="object" ref="358875470"/>
+						<int key="objectID">143</int>
+						<reference key="object" ref="688970544"/>
 						<reference key="parent" ref="112441633"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">186</int>
-						<reference key="object" ref="1065520771"/>
+						<int key="objectID">147</int>
+						<reference key="object" ref="208823132"/>
+						<reference key="parent" ref="112441633"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">155</int>
+						<reference key="object" ref="400873768"/>
 						<reference key="parent" ref="112441633"/>
 					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
-				<string key="-1.CustomClassName">EasyGraphDetailViewController</string>
+				<string key="-1.CustomClassName">GraphMakerDetailViewController</string>
 				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="-2.CustomClassName">UIResponder</string>
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="123.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="124.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="127.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="133.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="139.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="140.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="182.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="186.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="143.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="147.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="155.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">210</int>
+			<int key="maxID">181</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
-					<string key="className">EasyGraphDetailViewController</string>
+					<string key="className">GraphMakerDetailViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="clearAll:">id</string>
 						<string key="exportDialoug:">id</string>
 						<string key="handlePanGesture:">UIPanGestureRecognizer</string>
-						<string key="handleSingleTap:">UITapGestureRecognizer</string>
+						<string key="handleSingleTap:">id</string>
+						<string key="makeLatex:">id</string>
+						<string key="makePDF:">id</string>
 						<string key="performRedo:">id</string>
 						<string key="performUndo:">id</string>
-						<string key="showMenuPopover:">UIBarButtonItem</string>
-						<string key="toggleContractMode:">UIBarButtonItem</string>
-						<string key="toggleLabels:">UIBarButtonItem</string>
-						<string key="toggleNonEdgeMode:">UIBarButtonItem</string>
-						<string key="toggleRemoveElementsMode:">UIBarButtonItem</string>
-						<string key="toggleSubdivideMode:">UIBarButtonItem</string>
+						<string key="toggleContractMode:">id</string>
+						<string key="toggleNonEdgeMode:">id</string>
+						<string key="toggleRemoveElementsMode:">id</string>
+						<string key="toggleSubdivideMode:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="clearAll:">
@@ -314,7 +371,15 @@
 						</object>
 						<object class="IBActionInfo" key="handleSingleTap:">
 							<string key="name">handleSingleTap:</string>
-							<string key="candidateClassName">UITapGestureRecognizer</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="makeLatex:">
+							<string key="name">makeLatex:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="makePDF:">
+							<string key="name">makePDF:</string>
+							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="performRedo:">
 							<string key="name">performRedo:</string>
@@ -324,48 +389,33 @@
 							<string key="name">performUndo:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="showMenuPopover:">
-							<string key="name">showMenuPopover:</string>
-							<string key="candidateClassName">UIBarButtonItem</string>
-						</object>
 						<object class="IBActionInfo" key="toggleContractMode:">
 							<string key="name">toggleContractMode:</string>
-							<string key="candidateClassName">UIBarButtonItem</string>
-						</object>
-						<object class="IBActionInfo" key="toggleLabels:">
-							<string key="name">toggleLabels:</string>
-							<string key="candidateClassName">UIBarButtonItem</string>
+							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="toggleNonEdgeMode:">
 							<string key="name">toggleNonEdgeMode:</string>
-							<string key="candidateClassName">UIBarButtonItem</string>
+							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="toggleRemoveElementsMode:">
 							<string key="name">toggleRemoveElementsMode:</string>
-							<string key="candidateClassName">UIBarButtonItem</string>
+							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="toggleSubdivideMode:">
 							<string key="name">toggleSubdivideMode:</string>
-							<string key="candidateClassName">UIBarButtonItem</string>
+							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="contractButton">UIBarButtonItem</string>
 						<string key="edgeColourButton">UIBarButtonItem</string>
-						<string key="editButton">UIBarButtonItem</string>
 						<string key="exportButton">UIBarButtonItem</string>
-						<string key="labelsMenuButton">UIBarButtonItem</string>
-						<string key="latexPSTButton">UIButton</string>
-						<string key="menuPopoverController">UIPopoverController</string>
-						<string key="modesButton">UIBarButtonItem</string>
+						<string key="latexButton">UIBarButtonItem</string>
 						<string key="nonEdgeButton">UIBarButtonItem</string>
-						<string key="pdfButton">UIButton</string>
+						<string key="pdfButton">UIBarButtonItem</string>
 						<string key="redoButton">UIBarButtonItem</string>
-						<string key="relabelVertexButton">UIBarButtonItem</string>
 						<string key="removeElementsButton">UIBarButtonItem</string>
-						<string key="scrollView">UIScrollView</string>
 						<string key="subdivideButton">UIBarButtonItem</string>
-						<string key="toggleLabelsButton">UIBarButtonItem</string>
 						<string key="undoButton">UIBarButtonItem</string>
 						<string key="vertexColourButton">UIBarButtonItem</string>
 					</dictionary>
@@ -378,28 +428,12 @@
 							<string key="name">edgeColourButton</string>
 							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="editButton">
-							<string key="name">editButton</string>
-							<string key="candidateClassName">UIBarButtonItem</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="exportButton">
 							<string key="name">exportButton</string>
 							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="labelsMenuButton">
-							<string key="name">labelsMenuButton</string>
-							<string key="candidateClassName">UIBarButtonItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="latexPSTButton">
-							<string key="name">latexPSTButton</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="menuPopoverController">
-							<string key="name">menuPopoverController</string>
-							<string key="candidateClassName">UIPopoverController</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="modesButton">
-							<string key="name">modesButton</string>
+						<object class="IBToOneOutletInfo" key="latexButton">
+							<string key="name">latexButton</string>
 							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="nonEdgeButton">
@@ -408,30 +442,18 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="pdfButton">
 							<string key="name">pdfButton</string>
-							<string key="candidateClassName">UIButton</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="redoButton">
 							<string key="name">redoButton</string>
-							<string key="candidateClassName">UIBarButtonItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="relabelVertexButton">
-							<string key="name">relabelVertexButton</string>
 							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="removeElementsButton">
 							<string key="name">removeElementsButton</string>
 							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="scrollView">
-							<string key="name">scrollView</string>
-							<string key="candidateClassName">UIScrollView</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="subdivideButton">
 							<string key="name">subdivideButton</string>
-							<string key="candidateClassName">UIBarButtonItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="toggleLabelsButton">
-							<string key="name">toggleLabelsButton</string>
 							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="undoButton">
@@ -445,7 +467,7 @@
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/EasyGraphDetailViewController.h</string>
+						<string key="minorKey">./Classes/GraphMakerDetailViewController.h</string>
 					</object>
 				</object>
 			</array>

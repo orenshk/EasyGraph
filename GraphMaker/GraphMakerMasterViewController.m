@@ -1,6 +1,6 @@
 //
-//  EasyGraphMasterViewController.m
-//  EasyGraph
+//  GraphMakerMasterViewController.m
+//  GraphMaker
 //
 //  Created by Oren Shklarsky on 12-07-19.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
@@ -8,9 +8,9 @@
 
 
 
-#import "EasyGraphMasterViewController.h"
+#import "GraphMakerMasterViewController.h"
 
-#import "EasyGraphDetailViewController.h"
+#import "GraphMakerDetailViewController.h"
 
 
 @implementation EasyGraphInsertOptions
@@ -51,7 +51,6 @@
     }
     
     cell.textLabel.text = [self.options objectAtIndex:[indexPath row]];
-    cell.textLabel.textAlignment = NSTextAlignmentCenter;
     return cell;
 }
 
@@ -70,12 +69,12 @@
 
 @end
 
-@interface EasyGraphMasterViewController () {
+@interface GraphMakerMasterViewController () {
     NSMutableArray *_objects;
 }
 @end
 
-@implementation EasyGraphMasterViewController
+@implementation GraphMakerMasterViewController
 
 @synthesize detailViewController = _detailViewController;
 @synthesize fetchedResultsController = __fetchedResultsController;
@@ -149,12 +148,12 @@
 
 - (void) removeAllAlert {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Remove All!"
-                                                    message:@"This will remove all graphs.\n Are you sure you wish to proceed?" delegate:self cancelButtonTitle:@"Clear List" otherButtonTitles:@"Cancel",nil];
+                                                    message:@"This will remove all graphs.\n Are you sure you wish to proceed?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Clear List",nil];
     [alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
+    if (buttonIndex == 1) {
         int count = [self.fileList count];
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         while (count > 0) {
@@ -255,12 +254,13 @@
         subtitle = @"(Undirected)";
     }
     
-    EasyGraphDetailViewController *newDetailViewController =
-                [[EasyGraphDetailViewController alloc] initWithNibName:
-                 @"EasyGraphDetailViewController" title:newGraph];
+    GraphMakerDetailViewController *newDetailViewController =
+                [[GraphMakerDetailViewController alloc] initWithNibName:
+                 @"GraphMakerDetailViewController" title:newGraph];
     
     [newDetailViewController.navigationItem setRightBarButtonItem:self.renameButton];
     [newDetailViewController setIsDirected:isDirected];
+    [newDetailViewController saveData];
     [newDetailViewController setUpTitleViewWithTitle:newGraph andSubtitle:subtitle];
     [self.graphCanvases addObject:newDetailViewController];
     [self.tableView selectRowAtIndexPath:indexPath animated:YES
@@ -353,7 +353,7 @@
 */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EasyGraphDetailViewController *newDetailViewController = [self.graphCanvases objectAtIndex:indexPath.row];
+    GraphMakerDetailViewController *newDetailViewController = [self.graphCanvases objectAtIndex:indexPath.row];
     UIBarButtonItem *leftButton = self.detailViewController.navigationItem.leftBarButtonItem;
     UINavigationController *detailNavigationController = [[UINavigationController alloc] initWithRootViewController:newDetailViewController];
     [newDetailViewController.navigationItem setLeftBarButtonItem:leftButton];

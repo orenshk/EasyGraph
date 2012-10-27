@@ -1,31 +1,25 @@
 //
-//  EasyGraphDetailViewController.h
-//  EasyGraph
+//  GraphMakerDetailViewController.h
+//  GraphMaker
 //
 //  Created by Oren Shklarsky on 12-07-19.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "EasyGraphCanvas.h"
-#import "EasyGraphVertexView.h"
-#import "EasyGraphEdgeView.h"
+#import "GMCanvas.h"
+#import "GMVertexView.h"
+#import "GMEdgeView.h"
 #import "EasyGraphMasterViewController.h"
 #import "GMPdfViewController.h"
-#import "EasyGraphExporterViewController.h"
-#import "MenuTableViewController.h"
-#import "EasyGraphScrollView.h"
+#import "GMLatexConstructor.h"
 
-@interface EasyGraphDetailViewController : UIViewController
+@interface GraphMakerDetailViewController : UIViewController
                                                 <UISplitViewControllerDelegate,
-                                                 UITextFieldDelegate,
-                                                 UIPopoverControllerDelegate>
+                                                 UITextFieldDelegate>
 {
     int prevNumberOfTouches;
 }
-
-@property (nonatomic) IBOutlet UIPopoverController *menuPopoverController;
-@property (nonatomic, strong) UIAlertView *relabelDialouge;
 
 /** Toolbar buttons */
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *removeElementsButton;
@@ -37,11 +31,6 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *vertexColourButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *edgeColourButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *exportButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *labelsMenuButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *editButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *modesButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *toggleLabelsButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *relabelVertexButton;
 
 @property (strong, nonatomic) IBOutlet UIButton *pdfButton;
 @property (strong, nonatomic) IBOutlet UIButton *latexPSTButton;
@@ -50,23 +39,23 @@
 
 @property (strong, nonatomic) UIPopoverController *colourPickerPopoverController;
 
-/** The size of a VertexView frame */
-@property int vertexFrameSize;
-
-/** The VertexView being moved, if any */
-@property (nonatomic, retain) EasyGraphVertexView *movingVertexView;
-
-/** If drawing an edge, it's start VertexView */
-@property (nonatomic, retain) EasyGraphVertexView *edgeStartPoint;
-
 /** The currently active canvas */
-@property (strong, nonatomic) EasyGraphCanvas *easyGraphCanvas;
+@property (strong, nonatomic) GMCanvas *graphMakerCanvas;
 
 /** Size of a grid square */
 @property const int gridSize;
 
 /** The set of VertexView objects */
 @property (nonatomic, strong) NSMutableSet *vertexSet;
+
+/** The VertexView being moved, if any */
+@property (nonatomic, retain) GMVertexView *movingVertexView;
+
+/** If drawing an edge, it's start VertexView */
+@property (nonatomic, retain) GMVertexView *edgeStartPoint;
+
+/** The size of a VertexView frame */
+@property int vertexFrameSize;
 
 /** The colour of new VertexViews being drawn */
 @property UIColor *vertexColour;
@@ -95,30 +84,30 @@
 
 /** 
  Reload from archive the VertexView and Edge setmaintained by this
- EasyGraphDetailViewController.
+ GraphMakerDetailViewController.
  */
 - (void) reloadData;
 
 /**
  save to archive the VertexView and Edge setmaintained by this
- EasyGraphDetailViewController.
+ GraphMakerDetailViewController.
  */
 - (void) saveData;
 
 /**
  delete from archive the VertexViews and Edges setmaintained by this
- EasyGraphDetailViewController.
+ GraphMakerDetailViewController.
  */
 - (void) deleteData;
 
 /**
  Create and return a VertexView. The new VertexView
- is added as a subview of |self.EasyGraphCanvas|.
+ is added as a subview of |self.graphMakerCanvas|.
  @param fingerPos The new VertexView will be centered at the grid point closest
         to fingerPos
  @returns The new VertexView.
  */
-- (EasyGraphVertexView *) makeNewVertex:(CGPoint) fingerPos;
+- (GMVertexView *) makeNewVertex:(CGPoint) fingerPos;
 
 /**
  Create and return a EdgeView whose tail is in |start| and endpoint is in |end|.
@@ -126,20 +115,20 @@
  @param end the endpoint of the edge.
  @param isNonEdge whether or not the new edge should be drawn as a non-edge.
  */
-- (EasyGraphEdgeView *) makeNewEdgeFromVertex:(EasyGraphVertexView *)start toVertex:(EasyGraphVertexView *)end isNonEdge:(BOOL)nonEdge;
+- (GMEdgeView *) makeNewEdgeFromVertex:(GMVertexView *)start toVertex:(GMVertexView *)end isNonEdge:(BOOL)nonEdge;
 
 
 /**
  Redraw all edges incident to |vert|
  @param vert the vertex being updated.
  */
-- (void) updateEdgesFor:(EasyGraphVertexView *)vert;
+- (void) updateEdgesFor:(GMVertexView *)vert;
 
 /**
- Remove |vert| from |self.EasyGraphCanvas|.
+ Remove |vert| from |self.graphMakerCanvas|.
  @param vert the vertex being deleted
  */
-- (void) removeVertex:(EasyGraphVertexView *)vert;
+- (void) removeVertex:(GMVertexView *)vert;
 
 /** 
  Remove the edge connecting the VertexViews with center |start| and |end|.
@@ -153,14 +142,14 @@
  This is the reciprocal of removeVertex:
  @param vert the VertexView to be restored.
  */
-- (void) undoVertexDelete:(EasyGraphVertexView *)vert;
+- (void) undoVertexDelete:(GMVertexView *)vert;
 
 /**
  Undo an edge deletion.
  This is the reciprocal of removeEdgeFromVertexAt:toVertexAt:
  @param edge the EdgeView to be restored.
  */
-- (void) undoEdgeDelete:(EasyGraphEdgeView *)edge;
+- (void) undoEdgeDelete:(GMEdgeView *)edge;
 
 /**
  Undo a vertex move.
@@ -168,7 +157,7 @@
  @param vert the VertexView whose position we wish to restore.
  @param point the original position of vert.
  */
-- (void) undoVertexMove:(EasyGraphVertexView *)vert atOriginalPoint:(CGPoint)point;
+- (void) undoVertexMove:(GMVertexView *)vert atOriginalPoint:(CGPoint)point;
 
 /**
  Create a new vertex whose center is the grid point closest to |point|,
@@ -178,7 +167,7 @@
  @param point the After subdivision, the new VertexView will be placed at the
         grid point closest to |point|.
  */
-- (void) subdivide:(EasyGraphEdgeView *)edge atPoint:(CGPoint)point;
+- (void) subdivide:(GMEdgeView *)edge atPoint:(CGPoint)point;
 
 /**
  Make edges from each neighbour of edge.endVertex to edge.startVertex
@@ -186,10 +175,10 @@
  i.e. edge.endVertex is collapsed into edge.startVertex.
  @param edge the EdgeView to be contracted.
  */
-- (void) contract:(EasyGraphEdgeView *)edge;
+- (void) contract:(GMEdgeView *)edge;
 
 /**
- Remove all vertices and edges from this EasyGraphDetailViewController.
+ Remove all vertices and edges from this GraphMakerDetailViewController.
  */
 - (IBAction)clearAll:(id)sender;
 
@@ -199,28 +188,28 @@
  vertices cannot be moved. This mode is mutually exclusive with all other
  modes.
  */
-- (IBAction)toggleRemoveElementsMode:(UIBarButtonItem *)sender;
+- (IBAction)toggleRemoveElementsMode:(id)sender;
 
 /**
  Toggle subdivide mode. In this mode, a tap on an edge will subdivide it.
  Edges may be created in this mode, and vertices may be respositioned.
  This mode is mutually exclusive with all other modes.
 */
-- (IBAction)toggleSubdivideMode:(UIBarButtonItem *)sender;
+- (IBAction)toggleSubdivideMode:(id)sender;
 
 /**
  Toggle contract mode. In this mode, a tap on an edge will contract it.
  Edges may be created in this mode, and vertices may be repositioned.
  This mode is mutually exclusive with all other modes.
  */
-- (IBAction)toggleContractMode:(UIBarButtonItem *)sender;
+- (IBAction)toggleContractMode:(id)sender;
 
 /**
  Toggle non-edge mode. In this mode any EdgeView created is has its
  |isNonEdge| property set to |YES|, and the edge will be drawn as a non-edge
  with the default being a dashed line.
  */
-- (IBAction)toggleNonEdgeMode:(UIBarButtonItem *)sender;
+- (IBAction)toggleNonEdgeMode:(id)sender;
 
 - (IBAction)performUndo:(id)sender;
 - (IBAction)performRedo:(id)sender;
@@ -232,7 +221,7 @@
  @param otherVert the other endpoint of a potential edge.
  @returns YES if vert is a neighbour of edge. NO otherwise.
  */
-- (BOOL) isNeighbour:(EasyGraphVertexView *)start of:(EasyGraphVertexView *)start;
+- (BOOL) isNeighbour:(GMVertexView *)start of:(GMVertexView *)start;
 
 /**
  Return an array of distances from each point in |pnts| to
@@ -267,6 +256,5 @@
 - (void) setSelectedColor:(id)sender;
 
 - (IBAction)exportDialoug:(id)sender;
-- (IBAction)showMenuPopover:(UIBarButtonItem *)sender;
 
 @end

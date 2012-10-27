@@ -1,21 +1,20 @@
 //
 //  GMLatexConstructor.m
-//  EasyGraph
+//  GraphMaker
 //
 //  Created by Oren Shklarsky on 2012-10-19.
 //
 //
 
-#import "EasyGraphExporterViewController.h"
+#import "GMLatexConstructor.h"
 
-@interface EasyGraphExporterViewController ()
+@interface GMLatexConstructor ()
 
 @end
 
-@implementation EasyGraphExporterViewController
+@implementation GMLatexConstructor
 @synthesize scaleFactor, vertexSize, edgeWidth, colors, vertexSet;
 @synthesize vertexSizeMultiplier, edgeWidthMultiplier, doingPSTricks;
-@synthesize isDirected;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,38 +31,35 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self.view setBackgroundColor:[UIColor whiteColor]];
-    [self.codeField setFont: [UIFont systemFontOfSize:15]];
-
-    [self roundBorderForLayer:self.codeField.layer];
-    [self roundBorderForLayer:self.pdfView.layer];
-    [self roundBorderForLayer:self.settingsView.layer];
-    [self roundBorderForLayer:self.middleBar.layer];
+    [self.latexField setFont: [UIFont systemFontOfSize:15]];
+    CALayer *imageLayer = self.latexField.layer;
+    [imageLayer setCornerRadius:10];
+    [imageLayer setBorderWidth:1];
+    imageLayer.borderColor=[[UIColor blackColor] CGColor];
+    
+    imageLayer = self.pdfView.layer;
+    [imageLayer setCornerRadius:10];
+    [imageLayer setBorderWidth:1];
+    imageLayer.borderColor=[[UIColor blackColor] CGColor];
+    
+    imageLayer = self.settingsView.layer;
+    [imageLayer setCornerRadius:10];
+    [imageLayer setBorderWidth:1];
+    imageLayer.borderColor=[[UIColor blackColor] CGColor];
+    
     
     [self setScaleFactor:5.0];
     [self setEdgeWidth:7.0 / self.scaleFactor];
     [self setVertexSizeMultiplier:1.0];
     [self setEdgeWidthMultiplier:1.0];
-    
-    [self setDoingPSTricks:NO];
-    [self exportGraph:self.exportLanguageSelector];
-}
-
-- (void) roundBorderForLayer:(CALayer *)imageLayer {
-    [imageLayer setCornerRadius:10];
-    [imageLayer setBorderWidth:1];
-    imageLayer.borderColor=[[UIColor blackColor] CGColor];
 }
 
 - (void)viewDidUnload {
-    [self setSaveButton:nil];
-    [self setExportPDFButton:nil];
-    [self setOpenPDFInButton:nil];
-    [self setMiddleBar:nil];
     [self setPreviewButton:nil];
     [super viewDidUnload];
     [self setScaleFactorSlider:nil];
     [self setScaleFactorTextField:nil];
-    [self setExportLanguageSelector:nil];
+    [self setLatexPackageSwitch:nil];
     [self setVertexSizeSlider:nil];
     [self setVertexSizeTextField:nil];
     [self setEdgeWidthSlider:nil];
@@ -73,7 +69,7 @@
     [self setScaleFactorToolbar:nil];
     [self setButtonsToolBar:nil];
     [self setSettingsView:nil];
-    [self setCodeField:nil];
+    [self setLatexField:nil];
     [self setColors:nil];
 }
 
@@ -84,41 +80,13 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (NSString *) getPathForFileOfType:(NSString *) type {
+- (NSString *) getPathforTexFile {
     NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docsDir = [dirPaths objectAtIndex:0];
-    NSString *fileName = [NSString stringWithFormat:@"%@.%@", self.title, type];
+    NSString *fileName = [NSString stringWithFormat:@"%@.tex", self.title];
     
     return [[NSString alloc] initWithString:[docsDir stringByAppendingPathComponent:fileName]];
 
-}
-
-- (IBAction)exportGraph:(UISegmentedControl *)sender {
-    switch ([sender selectedSegmentIndex]) {
-        case 0:
-            [self processForTiKzFile];
-            [self makePDF];
-            break;
-        case 1:
-            [self processForPSTricksFile];
-            [self setDoingPSTricks:YES];
-            [self makePDF];
-            [self setDoingPSTricks:NO];
-            break;
-        case 2:
-            [self processForSageFile];
-            break;
-        case 3:
-            [self.codeField setText:@"In the works..."];
-            break;
-        case 4:
-            [self.codeField setText:@"In the works..."];
-            break;
-        case 5:
-            [self.codeField setText:@"In the works..."];
-        default:
-            break;
-    }
 }
 
 /*******************************************************************************
@@ -130,13 +98,15 @@
                                   "\t\t\\tikzstyle{every node} = [circle, fill=black]\n"];
     NSMutableString *colorString = [NSMutableString stringWithString:@"\n\t\t%COLORS\n"];
     NSMutableString *vertexString = [NSMutableString stringWithString:@"\n\n\t\t%VERTICES\n"];
-    NSMutableString *straightEdgeString = [[NSMutableString alloc] init];
+    NSMutableString *straightEdgeString = [NSMutableString stringWithString:
+                                           @"\n\n\t\t%STRAIGHT EDGES\n\t\t"\
+                                            "\\foreach \\from/\\to/\\col/\\type in {"];
     NSMutableString *curvedEdgeString = [NSMutableString stringWithString:@"\n\n\t\t%CURVED EDGES\n"];
-    for (EasyGraphVertexView *vert in self.vertexSet) {
+    for (GMVertexView *vert in self.vertexSet) {
         [colorString appendString:[self makeColorStringWithColor:[vert colour]]];
         [vertexString appendString:[self processVertexForTiKz:vert]];
         
-        for (EasyGraphEdgeView *edge in vert.inNeighbs) {
+        for (GMEdgeView *edge in vert.inNeighbs) {
             [colorString appendString:[self makeColorStringWithColor:[edge colour]]];
             if ([edge.curvePoints count] == 0) {
                 [straightEdgeString appendString:[self processStraightEdgeForTiKz:edge]];
@@ -145,59 +115,42 @@
             }
         }
     }
-    if ([straightEdgeString length] != 0) {
-        [straightEdgeString deleteCharactersInRange:NSMakeRange([straightEdgeString length] - 2, 2)];
-        
-        NSMutableString *forEachCode = [NSMutableString stringWithString:
-                             @"\n\n\t\t%STRAIGHT EDGES\n\t\t"\
-                             "\\foreach \\from/\\to/\\col/\\type in {"];
-        [forEachCode appendString:straightEdgeString];
-        
-        [forEachCode appendFormat:@"}\n\t\t\t\\draw [-%@, line width=%.3fpt, "\
-                                                "color=\\col, style=\\type](\\from) -- (\\to);",
-                                                self.isDirected? @">, >=latex" : @"",
-                                                self.edgeWidth];
-        straightEdgeString = forEachCode;
-    }
-    NSArray *strings = [NSArray arrayWithObjects:colorString, vertexString, straightEdgeString, curvedEdgeString, @"\t\\end{tikzpicture}", nil];
+    [straightEdgeString deleteCharactersInRange:NSMakeRange([straightEdgeString length] - 2, 2)];
+    [straightEdgeString appendFormat:@"}\n\t\t\t\\draw [-, line width=%.3fpt, "\
+                                            "color=\\col, style=\\type](\\from) -- (\\to);",
+                                            self.edgeWidth];
+    NSArray *strings = [NSArray arrayWithObjects:colorString, vertexString, straightEdgeString, curvedEdgeString, @"\t\\end{tikzpicture}",nil];
     [latexCode appendString:[strings componentsJoinedByString:@""]];
     
-    [latexCode writeToFile:[self getPathForFileOfType:@"tex"] atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
-    [self.codeField setText:latexCode];
+    [latexCode writeToFile:[self getPathforTexFile] atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
+    [self.latexField setText:latexCode];
     [self.colors removeAllObjects];
     NSLog(@"%@", latexCode);
 }
 
-- (NSMutableString *) processCurvedEdgeForTiKz:(EasyGraphEdgeView *)edge {
+- (NSMutableString *) processCurvedEdgeForTiKz:(GMEdgeView *)edge {
     NSString *colorName, *edgeType;
-    NSString *directed = self.isDirected ? @"->, >=latex, " : @"";
     NSMutableString *curvedEdgeString = [[NSMutableString alloc] init];
     CGPoint point;
     colorName = [NSString stringWithFormat:@"color_%d",
                  [self.colors indexOfObject:[edge colour]]];
     edgeType = edge.isNonEdge ? @"dashed" : @"solid";
 
-    [curvedEdgeString appendFormat:@"\t\t\\draw [%@, %@, line width=%.3f, %@]"\
-                             " plot [tension=2] coordinates {",
-                                                    directed,
-                                                    colorName,
-                                                    self.edgeWidth,
-                                                    edgeType];
+    [curvedEdgeString appendFormat:@"\t\t\\draw [%@, line width=%.3f, %@]"\
+                             " plot [smooth, tension=2] coordinates {",
+                                     colorName, self.edgeWidth, edgeType];
     
-    NSValue *pointVal;
-    for (int i = 0; i < [edge.splinePoints count] - 8; i++) {
-        pointVal = [edge.splinePoints objectAtIndex:i];
+    for (NSValue *pointVal in edge.splinePoints) {
         point = [edge convertPoint:[pointVal CGPointValue] toView:edge.superview];
         [curvedEdgeString appendFormat:@"(%.3fpt,-%.3fpt)",
          point.x / self.scaleFactor,
          point.y / self.scaleFactor];
     }
-    
     [curvedEdgeString appendString:@"};\n"];
     return curvedEdgeString;
 }
 
-- (NSString *) processStraightEdgeForTiKz:(EasyGraphEdgeView *)edge {
+- (NSString *) processStraightEdgeForTiKz:(GMEdgeView *)edge {
     NSString *colorName, *edgeType;
     colorName = [NSString stringWithFormat:@"color_%d",
                  [self.colors indexOfObject:[edge colour]]];
@@ -205,7 +158,7 @@
     return [NSString stringWithFormat:@"%d/%d/%@/%@, ", edge.startVertex.vertexNum, edge.endVertex.vertexNum, colorName, edgeType];
 }
 
-- (NSString *) processVertexForTiKz:(EasyGraphVertexView *)vert {
+- (NSString *) processVertexForTiKz:(GMVertexView *)vert {
     NSString *colorName, *borderColor, *vertexString;
     self.vertexSize = vert.vertexSize / self.scaleFactor;
     colorName = [NSString stringWithFormat:@"color_%d",
@@ -234,11 +187,11 @@
     NSMutableString *edgeString = [NSMutableString stringWithString:@"\n\t\t%EDGES\n"];
     
 
-    for (EasyGraphVertexView *vert in self.vertexSet) {
+    for (GMVertexView *vert in self.vertexSet) {
         [colorString appendString:[self makeColorStringWithColor:vert.colour]];
         [vertexString appendString:[self makePSTricksVertexCommandStringForVertex:vert]];
         
-        for (EasyGraphEdgeView *edge in vert.inNeighbs) {
+        for (GMEdgeView *edge in vert.inNeighbs) {
             [colorString appendString:[self makeColorStringWithColor:edge.colour]];
             [edgeString appendString:[self makePSTricksEdgeCommandStringForEdge:edge]];
         }
@@ -247,13 +200,13 @@
     NSArray *strings = [NSArray arrayWithObjects:colorString, edgeString, vertexString, @"\n\t\\end{pspicture}\n", nil];
     [latexCode appendString:[strings componentsJoinedByString:@""]];
     NSLog(@"%@", latexCode);
-    [latexCode writeToFile:[self getPathForFileOfType:@"tex"] atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
+    [latexCode writeToFile:[self getPathforTexFile] atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
     
-    [self.codeField setText:latexCode];
+    [self.latexField setText:latexCode];
     [self.colors removeAllObjects];
 }
 
-- (NSString *) makePSTricksVertexCommandStringForVertex:(EasyGraphVertexView *)vert {
+- (NSString *) makePSTricksVertexCommandStringForVertex:(GMVertexView *)vert {
     self.vertexSize = vert.vertexSize / self.scaleFactor;
     NSString *colorName = [NSString stringWithFormat:@"color_%d",
                                                 [self.colors indexOfObject:vert.colour]];
@@ -268,13 +221,11 @@
     return commandString;
 }
 
-- (NSMutableString *) makePSTricksEdgeCommandStringForEdge:(EasyGraphEdgeView *)edge {
+- (NSMutableString *) makePSTricksEdgeCommandStringForEdge:(GMEdgeView *)edge {
     NSString *colorName = [NSString stringWithFormat:@"color_%d", [self.colors indexOfObject:edge.colour]];
     NSMutableString *commandString = [[NSMutableString alloc] init];
-    NSString *directed = self.isDirected ? [NSString stringWithFormat:@"arrows=->, arrowsize=%.3fpt, arrowinset=0.15, ", 1.5*self.vertexSize] : @"";
     if ([edge.curvePoints count] ==0) {
-        [commandString appendFormat:@"\t\t\\psline[%@linewidth=%.3fpt,linecolor=%@]{->}(%.3fpt, -%.3fpt)(%.3fpt, -%.3fpt)\n",
-         directed,
+        [commandString appendFormat:@"\t\t\\psline[linewidth=%.3fpt,linecolor=%@]{-}(%.3fpt, -%.3fpt)(%.3fpt, -%.3fpt)\n",
          edgeWidth,
          colorName,
          edge.startVertex.center.x/scaleFactor,
@@ -282,8 +233,8 @@
          edge.endVertex.center.x/scaleFactor,
          edge.endVertex.center.y/scaleFactor];
     } else {
-        [commandString appendFormat:@"\t\t\\psecurve[%@linewidth=%.3fpt,linecolor=%@]{->}",
-         directed, edgeWidth, colorName];
+        [commandString appendFormat:@"\t\t\\psecurve[linewidth=%.3fpt,linecolor=%@]{-}",
+         edgeWidth, colorName];
         CGPoint point;
         for (NSValue *pointVal in edge.splinePoints) {
             point = [edge convertPoint:[pointVal CGPointValue] toView:edge.superview];
@@ -315,149 +266,8 @@
 }
 
 /*******************************************************************************
-                                Sage code
- *******************************************************************************/
-
-- (void) processForSageFile {
-    NSMutableString *sageCode = [NSMutableString stringWithString:@"G = "];
-    if (self.isDirected) {
-        [sageCode appendFormat:@"DiGraph(%d)\n", [self.vertexSet count]];
-    } else {
-        [sageCode appendFormat:@"Graph(%d)\n", [self.vertexSet count]];
-    }
-    NSMutableString *edges = [[NSMutableString alloc] init];
-    for (EasyGraphVertexView *vert in self.vertexSet) {
-        for (EasyGraphEdgeView *edge in vert.inNeighbs) {
-            if (![edge isNonEdge]) {
-                [edges appendFormat:@"(%d, %d), ", edge.startVertex.vertexNum - 1,
-                                                      edge.endVertex.vertexNum - 1];
-            }
-        }
-    }
-    if ([edges length] != 0) {
-        [sageCode appendString:@"G.add_edges(["];
-        [edges deleteCharactersInRange:NSMakeRange([edges length] - 2, 2)];
-        [sageCode appendString:edges];
-        [sageCode appendString:@"])"];
-
-    }
-    [sageCode writeToFile:[self getPathForFileOfType:@"py"] atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
-    [self.codeField setText:sageCode];
-    NSLog(@"%@", sageCode);
-}
-
-/*******************************************************************************
-                                PDF production
- *******************************************************************************/
-
-- (IBAction)makePDF {
-    NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *docsDir = [dirPaths objectAtIndex:0];
-    NSString *fileName = [NSString stringWithFormat:@"%@.pdf", self.title];
-    NSString *path = [[NSString alloc] initWithString:[docsDir stringByAppendingPathComponent:fileName]];
-    
-    double width = 612;
-    double height = 792;
-    UIGraphicsBeginPDFContextToFile(path, CGRectMake(0, 0, width, height), nil);
-    UIGraphicsBeginPDFPageWithInfo(CGRectMake(0, 0, width, height), nil);
-    double xOffset = self.scaleFactor <= 5 ? self.scaleFactor * 50 : self.scaleFactor + 250;
-    double yOffset = self.scaleFactor * 5;
-    CGPoint offsets = CGPointMake(xOffset, yOffset);
-    
-    [self drawEdgesToPDFWithOffsets:offsets];
-    [self drawVerticesToPDFWithOffsets:offsets];
-    
-    UIGraphicsEndPDFContext();
-    
-    NSURL *url = [NSURL fileURLWithPath:path];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [self.pdfView setScalesPageToFit:YES];
-    [self.pdfView loadRequest:request];
-    self.documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:path]];
-}
-
-- (void) drawEdgesToPDFWithOffsets:(CGPoint) offsets {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    NSMutableArray *curvePoints = [[NSMutableArray alloc] init];
-    CGPoint start, end;
-    
-    NSArray *splinePoints;
-    for (EasyGraphVertexView *vert in self.vertexSet) {
-        for (EasyGraphEdgeView *edge in vert.inNeighbs) {
-            CGContextSetLineWidth(context, self.edgeWidth * self.edgeWidthMultiplier);
-            CGContextSetStrokeColorWithColor(context, edge.colour.CGColor);
-            if (edge.isNonEdge) {
-                CGFloat dashArray[] = {6};
-                CGContextSetLineDash(context, 3, dashArray, 1);
-            }
-            start = edge.startVertex.center;
-            end = edge.endVertex.center;
-            start = CGPointMake(offsets.x + start.x/self.scaleFactor, offsets.y + start.y/self.scaleFactor);
-            end = CGPointMake(offsets.x + end.x/self.scaleFactor, offsets.y + end.y/self.scaleFactor);
-            NSMutableArray *fixedCurvePoints = [[NSMutableArray alloc] init];
-            for (NSValue *val in [edge curvePoints]) {
-                CGPoint p = [val CGPointValue];
-                p = CGPointMake(offsets.x + p.x/self.scaleFactor, offsets.y + p.y/self.scaleFactor);
-                [fixedCurvePoints addObject:[NSValue valueWithCGPoint:p]];
-            }
-            splinePoints = [edge getSplinePointsForStartPoint:start endPoint:end controlPoints:[NSMutableArray arrayWithArray:fixedCurvePoints]];
-            [edge drawEdgeThroughPoints:splinePoints];
-            CGContextStrokePath(context);
-            if (isDirected) {
-                double length = self.vertexSize * 2;
-                double width = self.vertexSize * 1.1;
-                [edge drawArrowForSplinePoints:splinePoints ofLength:length andWidth:width];
-            }
-            CGContextSetLineDash(context, 0, nil, 0);
-            [curvePoints removeAllObjects];
-        }
-    }
-}
-
-- (void) drawVerticesToPDFWithOffsets:(CGPoint) offsets {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGPoint center;
-    double vSize = self.vertexSizeMultiplier * self.vertexSize;
-    if (self.doingPSTricks) {
-        vSize *= 4.5;
-    } else {
-        vSize *= 3;
-    }
-    for (EasyGraphVertexView *vert in self.vertexSet) {
-        if ([vert.colour isEqual:[UIColor whiteColor]]) {
-            CGContextSetStrokeColorWithColor(context, [UIColor blackColor].CGColor);
-            CGContextSetLineWidth(context, 1.0);
-        } else {
-            CGContextSetStrokeColorWithColor(context, vert.colour.CGColor);
-            CGContextSetLineWidth(context, 0.5);
-        }
-        CGContextSetFillColorWithColor(context, vert.colour.CGColor);
-        center = CGPointMake(offsets.x + vert.center.x / self.scaleFactor, offsets.y + vert.center.y / self.scaleFactor);
-        CGRect rectangle = CGRectMake(center.x - vSize/4.0, center.y - vSize/4.0, vSize/2, vSize/2);
-        
-        CGContextAddEllipseInRect(context, rectangle);
-        CGContextStrokePath(context);
-        CGContextFillEllipseInRect(context, rectangle);
-    }
-}
-
-/*******************************************************************************
                             UI Elements
  *******************************************************************************/
-
-- (IBAction)openInDialouge:(id)sender {
-    if (self.documentInteractionController == nil) {
-        
-    } else {
-        self.documentInteractionController.delegate = self;
-        [self.documentInteractionController presentOpenInMenuFromBarButtonItem:self.openPDFInButton animated:YES];
-    }
-    
-}
-
-- (IBAction)makePreview:(id)sender {
-    [self exportGraph:self.exportLanguageSelector];
-}
 
 - (IBAction)scaleSliderMoved:(UISlider *)sender {
     double newVal = (int)([sender value] * 10) / 10.0;
@@ -470,7 +280,18 @@
     CGFloat newScale = fmin([[[self scaleFactorTextField] text] floatValue], 15);
     [self setScaleFactor:newScale];
     [self.scaleFactorSlider setValue:newScale];
-    [self exportGraph:self.exportLanguageSelector];
+    [self previewPressed];
+}
+
+- (IBAction)previewPressed {
+    if ([self.latexPackageSwitch selectedSegmentIndex] == 0) {
+        [self processForTiKzFile];
+        [self setDoingPSTricks:NO];
+    } else {
+        [self processForPSTricksFile];
+        [self setDoingPSTricks:YES];
+    }
+    [self makePDF];
 }
 
 - (IBAction)vertexSizeSliderMoved:(UISlider *)sender {
@@ -497,7 +318,97 @@
     [self.edgeWidthSlider setValue:newScale];
 }
 
+/*******************************************************************************
+                                PDF production
+ *******************************************************************************/
+
+- (IBAction)makePDF {
+    NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docsDir = [dirPaths objectAtIndex:0];
+    NSString *fileName = @"latexDemo.pdf";
+    NSString *path = [[NSString alloc] initWithString:[docsDir stringByAppendingPathComponent:fileName]];
+    
+    double width = 612;
+    double height = 792;
+    UIGraphicsBeginPDFContextToFile(path, CGRectMake(0, 0, width, height), nil);
+    UIGraphicsBeginPDFPageWithInfo(CGRectMake(0, 0, width, height), nil);
+    double xOffset = self.scaleFactor <= 5 ? self.scaleFactor * 50 : self.scaleFactor + 250;
+    double yOffset = self.scaleFactor * 5;
+    CGPoint offsets = CGPointMake(xOffset, yOffset);
+    
+    [self drawEdgesToPDFWithOffsets:offsets];
+    [self drawVerticesToPDFWithOffsets:offsets];
+    
+    UIGraphicsEndPDFContext();
+    
+    NSURL *url = [NSURL fileURLWithPath:path];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [self.pdfView setScalesPageToFit:YES];
+    [self.pdfView loadRequest:request];
+}
+
+- (void) drawEdgesToPDFWithOffsets:(CGPoint) offsets {
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    NSMutableArray *curvePoints = [[NSMutableArray alloc] init];
+    CGPoint start, end;
+    
+    NSArray *splinePoints;
+    for (GMVertexView *vert in self.vertexSet) {
+        for (GMEdgeView *edge in vert.inNeighbs) {
+            CGContextSetLineWidth(context, self.edgeWidth * self.edgeWidthMultiplier);
+            CGContextSetStrokeColorWithColor(context, edge.colour.CGColor);
+            if (edge.isNonEdge) {
+                CGFloat dashArray[] = {6};
+                CGContextSetLineDash(context, 3, dashArray, 1);
+            }
+            start = edge.startVertex.center;
+            end = edge.endVertex.center;
+            start = CGPointMake(offsets.x + start.x/self.scaleFactor, offsets.y + start.y/self.scaleFactor);
+            end = CGPointMake(offsets.x + end.x/self.scaleFactor, offsets.y + end.y/self.scaleFactor);
+            NSMutableArray *fixedCurvePoints = [[NSMutableArray alloc] init];
+            for (NSValue *val in [edge curvePoints]) {
+                CGPoint p = [val CGPointValue];
+                p = CGPointMake(offsets.x + p.x/self.scaleFactor, offsets.y + p.y/self.scaleFactor);
+                [fixedCurvePoints addObject:[NSValue valueWithCGPoint:p]];
+            }
+            splinePoints = [edge getSplinePointsForStartPoint:start endPoint:end controlPoints:[NSMutableArray arrayWithArray:fixedCurvePoints]];
+            [edge drawEdgeThroughPoints:splinePoints];
+            CGContextStrokePath(context);
+            CGContextSetLineDash(context, 0, nil, 0);
+            [curvePoints removeAllObjects];
+        }
+    }
+}
+
+- (void) drawVerticesToPDFWithOffsets:(CGPoint) offsets {
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGPoint center;
+    double vSize = self.vertexSizeMultiplier * self.vertexSize;
+    if (self.doingPSTricks) {
+        vSize *= 4.5;
+    } else {
+        vSize *= 3;
+    }
+    for (GMVertexView *vert in self.vertexSet) {
+        if ([vert.colour isEqual:[UIColor whiteColor]]) {
+            CGContextSetStrokeColorWithColor(context, [UIColor blackColor].CGColor);
+            CGContextSetLineWidth(context, 1.0);
+        } else {
+            CGContextSetStrokeColorWithColor(context, vert.colour.CGColor);
+            CGContextSetLineWidth(context, 0.5);
+        }
+        CGContextSetFillColorWithColor(context, vert.colour.CGColor);
+        center = CGPointMake(offsets.x + vert.center.x / self.scaleFactor, offsets.y + vert.center.y / self.scaleFactor);
+        CGRect rectangle = CGRectMake(center.x - vSize/4.0, center.y - vSize/4.0, vSize/2, vSize/2);
+        
+        CGContextAddEllipseInRect(context, rectangle);
+        CGContextStrokePath(context);
+        CGContextFillEllipseInRect(context, rectangle);
+    }
+}
+
 -(void) addGradient:(UIButton *) _button {
+    
     // Add Border
     CALayer *layer = _button.layer;
     layer.cornerRadius = 8.0f;

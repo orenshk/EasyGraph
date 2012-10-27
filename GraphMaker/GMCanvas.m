@@ -1,14 +1,14 @@
 //
-//  EasyGraphCanvas.m
-//  EasyGraph
+//  GraphMakerCanvas.m
+//  GraphMaker
 //
 //  Created by Oren Shklarsky on 12-07-19.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "EasyGraphCanvas.h"
+#import "GMCanvas.h"
 
-@implementation EasyGraphCanvas
+@implementation GMCanvas
 @synthesize gridSize;
 @synthesize fingerCurrPos;
 @synthesize fingerStartPoint;
@@ -140,19 +140,6 @@
         }
         CGContextStrokePath(context);
     }
-}
-
-- (NSArray *) calcDist:(NSArray *)pnts fromPoint:(CGPoint)point {
-    NSMutableArray *dists = [[NSMutableArray alloc] initWithCapacity:[pnts count]];
-    double dist;
-    CGPoint currPoint;
-    for (int i = 0; i < [pnts count]; i++) {
-        currPoint = [[pnts objectAtIndex:i] CGPointValue];
-        dist = pow(point.x - currPoint.x, 2) + pow(point.y - currPoint.y, 2);
-        dist = sqrt(dist);
-        [dists addObject:[NSNumber numberWithDouble:dist]];
-    }
-    return dists;
 }
 
 @end

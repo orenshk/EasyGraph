@@ -1,6 +1,6 @@
 //
-//  EasyGraphMasterViewController.h
-//  EasyGraph
+//  GraphMakerMasterViewController.h
+//  GraphMaker
 //
 //  Created by Oren Shklarsky on 12-07-19.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
@@ -24,7 +24,7 @@
 
 
 @interface EasyGraphMasterViewController : UITableViewController <UITextFieldDelegate,
-                                                            EasyGraphInsertOptionsDelegate>
+                                                                EasyGraphInsertOptionsDelegate>
 
 @property (strong, nonatomic) IBOutlet UIPopoverController *graphChoiceController;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *addButton;

@@ -1,6 +1,6 @@
 //
 //  VertexView.h
-//  EasyGraph
+//  GraphMaker
 //
 //  Created by Oren Shklarsky on 12-07-20.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
-#import <CoreText/CTStringAttributes.h>
 
-@interface EasyGraphVertexView : UIView
+
+@interface GMVertexView : UIView
 
 /** The in neighbours of this VertexView */
 @property (nonatomic, retain) NSMutableSet *inNeighbs;
@@ -25,9 +25,5 @@
 
 /** The size of the circle representing the vertex */
 @property int vertexSize;
-
-@property (strong, nonatomic) IBOutlet UIWebView *label;
-
-- (void) setupVertexLabelAndColour:(UIColor *)colour;
 
 @end

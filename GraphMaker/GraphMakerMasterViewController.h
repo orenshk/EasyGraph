@@ -1,6 +1,6 @@
 //
-//  EasyGraphMasterViewController.h
-//  EasyGraph
+//  GraphMakerMasterViewController.h
+//  GraphMaker
 //
 //  Created by Oren Shklarsky on 12-07-19.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
@@ -20,11 +20,11 @@
 @end
 
 
-@class EasyGraphDetailViewController;
+@class GraphMakerDetailViewController;
 
 
-@interface EasyGraphMasterViewController : UITableViewController <UITextFieldDelegate,
-                                                            EasyGraphInsertOptionsDelegate>
+@interface GraphMakerMasterViewController : UITableViewController <UITextFieldDelegate,
+                                                                EasyGraphInsertOptionsDelegate>
 
 @property (strong, nonatomic) IBOutlet UIPopoverController *graphChoiceController;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *addButton;
@@ -32,7 +32,7 @@
 @property (nonatomic, retain) NSMutableArray *fileList;
 @property (nonatomic, retain) NSMutableArray *graphCanvases;
 
-@property (strong, nonatomic) EasyGraphDetailViewController *detailViewController;
+@property (strong, nonatomic) GraphMakerDetailViewController *detailViewController;
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;

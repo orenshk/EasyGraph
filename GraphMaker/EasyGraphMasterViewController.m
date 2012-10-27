@@ -1,6 +1,6 @@
 //
-//  EasyGraphMasterViewController.m
-//  EasyGraph
+//  GraphMakerMasterViewController.m
+//  GraphMaker
 //
 //  Created by Oren Shklarsky on 12-07-19.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
@@ -51,7 +51,6 @@
     }
     
     cell.textLabel.text = [self.options objectAtIndex:[indexPath row]];
-    cell.textLabel.textAlignment = NSTextAlignmentCenter;
     return cell;
 }
 
@@ -149,12 +148,12 @@
 
 - (void) removeAllAlert {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Remove All!"
-                                                    message:@"This will remove all graphs.\n Are you sure you wish to proceed?" delegate:self cancelButtonTitle:@"Clear List" otherButtonTitles:@"Cancel",nil];
+                                                    message:@"This will remove all graphs.\n Are you sure you wish to proceed?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Clear List",nil];
     [alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
+    if (buttonIndex == 1) {
         int count = [self.fileList count];
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         while (count > 0) {
@@ -257,10 +256,11 @@
     
     EasyGraphDetailViewController *newDetailViewController =
                 [[EasyGraphDetailViewController alloc] initWithNibName:
-                 @"EasyGraphDetailViewController" title:newGraph];
+                 @"GraphMakerDetailViewController" title:newGraph];
     
     [newDetailViewController.navigationItem setRightBarButtonItem:self.renameButton];
     [newDetailViewController setIsDirected:isDirected];
+    [newDetailViewController saveData];
     [newDetailViewController setUpTitleViewWithTitle:newGraph andSubtitle:subtitle];
     [self.graphCanvases addObject:newDetailViewController];
     [self.tableView selectRowAtIndexPath:indexPath animated:YES
