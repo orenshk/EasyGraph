@@ -142,17 +142,4 @@
     }
 }
 
-- (NSArray *) calcDist:(NSArray *)pnts fromPoint:(CGPoint)point {
-    NSMutableArray *dists = [[NSMutableArray alloc] initWithCapacity:[pnts count]];
-    double dist;
-    CGPoint currPoint;
-    for (int i = 0; i < [pnts count]; i++) {
-        currPoint = [[pnts objectAtIndex:i] CGPointValue];
-        dist = pow(point.x - currPoint.x, 2) + pow(point.y - currPoint.y, 2);
-        dist = sqrt(dist);
-        [dists addObject:[NSNumber numberWithDouble:dist]];
-    }
-    return dists;
-}
-
 @end

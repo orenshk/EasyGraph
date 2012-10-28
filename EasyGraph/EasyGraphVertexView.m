@@ -9,6 +9,12 @@
 #import "EasyGraphVertexView.h"
 
 @implementation EasyGraphVertexView
+
++(Class)layerClass
+{
+	return [CATiledLayer class];
+}
+
 @synthesize inNeighbs, outNeighbs, vertexNum, vertexSize, label;
 
 - (id)initWithFrame:(CGRect)frame
@@ -20,7 +26,7 @@
         self.inNeighbs = [[NSMutableSet alloc] init];
         self.outNeighbs = [[NSMutableSet alloc] init];
         self.vertexSize = 34;
-        self.label = [[UIWebView alloc] initWithFrame:CGRectMake(17, 13, 40, 40)];
+        self.label = [[UIWebView alloc] initWithFrame:CGRectMake(16, 16, 40, 40)];
         [self.label setBackgroundColor:[UIColor clearColor]];
         [self.label setOpaque:NO];
         [self.label setUserInteractionEnabled:NO];
@@ -102,7 +108,7 @@
                                    "</style> \n"
                                    "</head> \n"
                                    "<body>%@</body> \n"
-                                   "</html>", [NSNumber numberWithInt:21],color,  body];
+                                   "</html>", [NSNumber numberWithInt:18],color,  body];
     [self.label loadHTMLString:html baseURL:nil];
 }
 
@@ -126,14 +132,9 @@
     self.layer.masksToBounds = NO;
     self.layer.shadowOffset = CGSizeMake(-4, 0);
     self.layer.shadowRadius = 2.5;
-    self.layer.shadowOpacity = 0.15;
-//    self.layer.shadowPath =
-//    [UIBezierPath bezierPathWithRect:CGRectMake(                                                                             self.bounds.origin.x,                                                                                  self.bounds.origin.y,                                                                                  self.bounds.size.width + 8,                                                                                  self.bounds.size.height + 2)].CGPath;
-    
-    rectangle = CGRectMake((self.frame.size.width - self.vertexSize) / 2.0 - 5,
-                           (self.frame.size.height - self.vertexSize)/2.0 - 5, self.vertexSize + 10, self.vertexSize + 10);
-    self.layer.shadowPath = [UIBezierPath bezierPathWithOvalInRect:rectangle].CGPath;
-    
+    self.layer.shadowOpacity = 0.25;
+
+    self.layer.shadowPath = [UIBezierPath bezierPathWithArcCenter:[self convertPoint:self.center fromView:self.superview] radius:self.vertexSize/2.0 + 3 startAngle:0 endAngle:M_PI*2 clockwise:YES].CGPath;
 }
 
 @end

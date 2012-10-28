@@ -26,7 +26,6 @@
 		A1F99B4215B8D32700A3AF94 /* EasyGraphMasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F99B4015B8D32700A3AF94 /* EasyGraphMasterViewController.xib */; };
 		A1F99B4515B8D32700A3AF94 /* EasyGraphDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F99B4315B8D32700A3AF94 /* EasyGraphDetailViewController.xib */; };
 		A1F99B7D15B8E94600A3AF94 /* EasyGraphCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F99B7C15B8E94600A3AF94 /* EasyGraphCanvas.m */; };
-		A1FD776E163B74490051992E /* EasyGraphScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FD776D163B74490051992E /* EasyGraphScrollView.m */; };
 		A1FED9E6162BFC1A002559BA /* HRBrightnessCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FED9DA162BFC1A002559BA /* HRBrightnessCursor.m */; };
 		A1FED9E7162BFC1A002559BA /* HRCgUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FED9DC162BFC1A002559BA /* HRCgUtil.m */; };
 		A1FED9E8162BFC1A002559BA /* HRColorCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FED9DE162BFC1A002559BA /* HRColorCursor.m */; };
@@ -68,8 +67,6 @@
 		A1F99B4415B8D32700A3AF94 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/EasyGraphDetailViewController.xib; sourceTree = "<group>"; };
 		A1F99B7B15B8E94600A3AF94 /* EasyGraphCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphCanvas.h; sourceTree = "<group>"; };
 		A1F99B7C15B8E94600A3AF94 /* EasyGraphCanvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphCanvas.m; sourceTree = "<group>"; };
-		A1FD776C163B74490051992E /* EasyGraphScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphScrollView.h; sourceTree = "<group>"; };
-		A1FD776D163B74490051992E /* EasyGraphScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphScrollView.m; sourceTree = "<group>"; };
 		A1FED9D9162BFC1A002559BA /* HRBrightnessCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRBrightnessCursor.h; sourceTree = "<group>"; };
 		A1FED9DA162BFC1A002559BA /* HRBrightnessCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRBrightnessCursor.m; sourceTree = "<group>"; };
 		A1FED9DB162BFC1A002559BA /* HRCgUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRCgUtil.h; sourceTree = "<group>"; };
@@ -160,8 +157,6 @@
 				A1249923163A49D00021FB3C /* MenuTableViewController.m */,
 				A1F99B3D15B8D32600A3AF94 /* EasyGraphDetailViewController.h */,
 				A1F99B3E15B8D32600A3AF94 /* EasyGraphDetailViewController.m */,
-				A1FD776C163B74490051992E /* EasyGraphScrollView.h */,
-				A1FD776D163B74490051992E /* EasyGraphScrollView.m */,
 				A11E60141631E53B00F0877C /* EasyGraphExporter */,
 				A11E60151631E55C00F0877C /* GMPdfViewController */,
 				A1F99B7B15B8E94600A3AF94 /* EasyGraphCanvas.h */,
@@ -291,7 +286,6 @@
 				A1196681162E550A00462E83 /* GMPdfViewController.m in Sources */,
 				A11E60111631E52300F0877C /* EasyGraphExporterViewController.m in Sources */,
 				A1249924163A49D10021FB3C /* MenuTableViewController.m in Sources */,
-				A1FD776E163B74490051992E /* EasyGraphScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

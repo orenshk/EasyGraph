@@ -14,13 +14,13 @@
 #import "GMPdfViewController.h"
 #import "EasyGraphExporterViewController.h"
 #import "MenuTableViewController.h"
-#import "EasyGraphScrollView.h"
 
 @interface EasyGraphDetailViewController : UIViewController
                                                 <UISplitViewControllerDelegate,
                                                  UITextFieldDelegate,
                                                  UIPopoverControllerDelegate,
-                                                 UIGestureRecognizerDelegate>
+                                                 UIGestureRecognizerDelegate,
+                                                 UIScrollViewDelegate>
 {
     int prevNumberOfTouches;
 }
@@ -51,6 +51,9 @@
 @property (strong, nonatomic) UIPopoverController *exportPopOverController;
 
 @property (strong, nonatomic) UIPopoverController *colourPickerPopoverController;
+
+@property double xOffset;
+@property double yOffset;
 
 /** The size of a VertexView frame */
 @property int vertexFrameSize;

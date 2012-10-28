@@ -153,10 +153,15 @@
 }
 
 - (void) configureGraphCanvasView {
-    int mult = 200;
-    self.easyGraphCanvas = [[EasyGraphCanvas alloc] initWithFrame:CGRectMake(0, 0, 768+mult, 916+mult)];
+    self.xOffset = 200.0;
+    self.yOffset = 200.0;
+    int mult = 1;
+    int width = mult *768;
+    int height = mult * 916;
+    self.easyGraphCanvas = [[EasyGraphCanvas alloc] initWithFrame:CGRectMake(0, 0, width, height)];
     [self.easyGraphCanvas setGridSize:self.gridSize];
     [self.easyGraphCanvas setMultipleTouchEnabled:YES];
+    [self.view addSubview:self.easyGraphCanvas];
 
     
     UIPanGestureRecognizer *panDetector =
@@ -172,28 +177,27 @@
     [self.easyGraphCanvas addGestureRecognizer:singleTap];
     [singleTap setDelegate:self];
 
+//    [self.scrollView.panGestureRecognizer setMinimumNumberOfTouches:3];
+//    [self.scrollView.panGestureRecognizer setMaximumNumberOfTouches:3];
+//    [self.scrollView setContentSize:CGSizeMake(width, height)];
+//    [self.scrollView addSubview:self.easyGraphCanvas];
+//    [self.scrollView setDelegate:self];
     
-//    [self.view addSubview:self.easyGraphCanvas];
-    [self.scrollView.panGestureRecognizer setMinimumNumberOfTouches:3];
-    [self.scrollView.panGestureRecognizer setMaximumNumberOfTouches:3];
-    [self.scrollView setContentSize:CGSizeMake(768+mult, 916+mult)];
-    [self.scrollView addSubview:self.easyGraphCanvas];
-    
-    
-    [singleTap requireGestureRecognizerToFail:[self.scrollView panGestureRecognizer]];
-    
-    UILongPressGestureRecognizer *longPressOneTap = [[UILongPressGestureRecognizer alloc]    initWithTarget:self action:@selector(handleLongPress:)];
-    [longPressOneTap setMinimumPressDuration:0.0];
-//    [singleTap requireGestureRecognizerToFail:longPressOneTap];
-    [longPressOneTap setNumberOfTapsRequired:1];
-    [self.easyGraphCanvas addGestureRecognizer:longPressOneTap];
-    
-    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]    initWithTarget:self action:@selector(handleLongPress:)];
-    [longPress setMinimumPressDuration:0.0];
-//    [singleTap requireGestureRecognizerToFail:longPress];
-    [longPress setNumberOfTapsRequired:0];
-    [self.easyGraphCanvas addGestureRecognizer:longPress];
+//    UILongPressGestureRecognizer *longPressOneTap = [[UILongPressGestureRecognizer alloc]    initWithTarget:self action:@selector(handleLongPress:)];
+//    [longPressOneTap setMinimumPressDuration:0.0];
+//    [longPressOneTap setNumberOfTapsRequired:1];
+//    [self.easyGraphCanvas addGestureRecognizer:longPressOneTap];
+//    
+//    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]    initWithTarget:self action:@selector(handleLongPress:)];
+//    [longPress setMinimumPressDuration:0.0];
+//    [longPress setNumberOfTapsRequired:0];
+//    [longPress setNumberOfTouchesRequired:1];
+//    [longPress setDelegate:self];
+//    [self.easyGraphCanvas addGestureRecognizer:longPress];
 
+    
+//    [singleTap requireGestureRecognizerToFail:[self.scrollView panGestureRecognizer]];
+//    [longPressOneTap requireGestureRecognizerToFail:[self.scrollView panGestureRecognizer]];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
@@ -313,47 +317,24 @@
 *******************************************************************************/
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    CGPoint locationPoint = [[[touches allObjects] objectAtIndex:0] locationInView:self.easyGraphCanvas];
-    UIView *touched = [self.easyGraphCanvas hitTest:locationPoint withEvent:event];
-    if ([[touches anyObject] tapCount] == 2) {
+    UITouch *touch = [touches anyObject];
+    CGPoint locationPoint = [touch locationInView:self.easyGraphCanvas];
+    UIView *touched = [self.easyGraphCanvas hitTest:locationPoint withEvent:nil];
+    if ([touch tapCount] == 2) {
         if ([touched isKindOfClass:[EasyGraphVertexView class]]) {
             self.movingVertexView = (EasyGraphVertexView *)touched;
             self.edgeStartPoint = nil;
             self.easyGraphCanvas.fingerStartPoint = CGPointZero;
             self.easyGraphCanvas.fingerCurrPos = CGPointZero;
             self.easyGraphCanvas.drawingEdge = NO;
-            [[self.undoManager prepareWithInvocationTarget:self] 
-            undoVertexMove:self.movingVertexView atOriginalPoint:movingVertexView.center];
+            [[self.undoManager prepareWithInvocationTarget:self]
+             undoVertexMove:self.movingVertexView atOriginalPoint:movingVertexView.center];
         }
     } else {
         self.edgeStartPoint = [touched isKindOfClass:[EasyGraphVertexView class]] ? (EasyGraphVertexView *)touched : nil;
         self.movingVertexView = nil;
         self.easyGraphCanvas.fingerStartPoint = locationPoint;
         self.easyGraphCanvas.drawingEdge = self.edgeStartPoint != nil;
-    }
-}
-
-- (IBAction)handleLongPress:(UILongPressGestureRecognizer *)sender {
-    if (sender.state == UIGestureRecognizerStateBegan) {
-        CGPoint locationPoint = [sender locationInView:self.easyGraphCanvas];
-        UIView *touched = [self.easyGraphCanvas hitTest:locationPoint withEvent:nil];
-        if ([sender numberOfTapsRequired] == 1) {
-            if ([touched isKindOfClass:[EasyGraphVertexView class]]) {
-                self.movingVertexView = (EasyGraphVertexView *)touched;
-                self.edgeStartPoint = nil;
-                self.easyGraphCanvas.fingerStartPoint = CGPointZero;
-                self.easyGraphCanvas.fingerCurrPos = CGPointZero;
-                self.easyGraphCanvas.drawingEdge = NO;
-                [[self.undoManager prepareWithInvocationTarget:self]
-                 undoVertexMove:self.movingVertexView atOriginalPoint:movingVertexView.center];
-            }
-        } else {
-            self.edgeStartPoint = [touched isKindOfClass:[EasyGraphVertexView class]] ? (EasyGraphVertexView *)touched : nil;
-            self.movingVertexView = nil;
-            self.easyGraphCanvas.fingerStartPoint = locationPoint;
-            self.easyGraphCanvas.drawingEdge = self.edgeStartPoint != nil;
-        }
-
     }
 }
 
@@ -377,26 +358,30 @@
         if ([touched isKindOfClass:[EasyGraphEdgeView class]])
             [self contract:(EasyGraphEdgeView *)touched];
         
-    } else if (![touched isKindOfClass:[EasyGraphVertexView class]]) {
+    } else if (![touched isKindOfClass:[EasyGraphVertexView class]] && self.edgeStartPoint == nil) {
             [self makeNewVertex:locationPoint];
     }
 }
 
 - (IBAction)handlePanGesture:(UIPanGestureRecognizer *)sender {
     if (self.movingVertexView != nil) {
-        self.movingVertexView.layer.borderColor = [UIColor blackColor].CGColor;
-        self.movingVertexView.layer.borderWidth = 1.0f;
-        self.movingVertexView.layer.cornerRadius = 40;
-        [self.movingVertexView setClipsToBounds:YES];
-        self.movingVertexView.backgroundColor = [UIColor colorWithRed:70/255.0 green:130/255.0 blue:180/255.0 alpha:0.8];
+        EasyGraphVertexView *vert = self.movingVertexView;
+
 
         if (sender.state == UIGestureRecognizerStateEnded) {
             CGPoint endPt = [self getClosestGridPointToPoint:self.movingVertexView.center];
             
             self.movingVertexView.frame = CGRectMake(endPt.x - self.vertexFrameSize/2.0, endPt.y - self.vertexFrameSize/2.0, self.vertexFrameSize, self.vertexFrameSize);
+            vert.layer.opaque = YES;
+            vert.layer.masksToBounds = NO;
+            vert.layer.shadowOffset = CGSizeMake(-4, 0);
+            vert.layer.shadowRadius = 2.5;
+            vert.layer.shadowOpacity = 0.3;
+            vert.layer.shadowColor = [UIColor blackColor].CGColor;
+            
+            vert.layer.shadowPath = [UIBezierPath bezierPathWithArcCenter:[vert convertPoint:vert.center fromView:vert.superview] radius:vert.vertexSize/2.0 + 3 startAngle:0 endAngle:M_PI*2 clockwise:YES].CGPath;
             [self updateEdgesFor:self.movingVertexView];
-            self.movingVertexView.layer.borderColor = [UIColor clearColor].CGColor;
-            self.movingVertexView.backgroundColor = [UIColor clearColor];
+
             self.movingVertexView = nil;
         } else {
             CGPoint translation = [sender translationInView:self.easyGraphCanvas];
@@ -404,6 +389,14 @@
             vertexViewPosition.x += translation.x;
             vertexViewPosition.y += translation.y;
             self.movingVertexView.center = vertexViewPosition;
+            vert.layer.opaque = YES;
+            vert.layer.masksToBounds = NO;
+            vert.layer.shadowOffset = CGSizeMake(0, 0);
+            vert.layer.shadowRadius = 2.5;
+            vert.layer.shadowOpacity = 0.5;
+            vert.layer.shadowColor = [UIColor blueColor].CGColor;
+            
+            vert.layer.shadowPath = [UIBezierPath bezierPathWithArcCenter:[vert convertPoint:vert.center fromView:vert.superview] radius:vert.vertexSize/2.0 + 10 startAngle:0 endAngle:M_PI*2 clockwise:YES].CGPath;
             [self updateEdgesFor:self.movingVertexView];
         }        
         [sender setTranslation:CGPointZero inView:self.easyGraphCanvas];
