@@ -11,10 +11,12 @@
 		A11E60111631E52300F0877C /* EasyGraphExporterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A11E600F1631E52300F0877C /* EasyGraphExporterViewController.m */; };
 		A11E60121631E52300F0877C /* EasyGraphExporterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A11E60101631E52300F0877C /* EasyGraphExporterViewController.xib */; };
 		A12499131638B9FB0021FB3C /* EasyGraphPetersenIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A12499121638B9FB0021FB3C /* EasyGraphPetersenIcon.png */; };
-		A1249924163A49D10021FB3C /* MenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1249923163A49D00021FB3C /* MenuTableViewController.m */; };
 		A1B4A1CE15BCED2C00B80867 /* EasyGraphEdgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B4A1CD15BCED2C00B80867 /* EasyGraphEdgeView.m */; };
 		A1B5A64315B9EBE000EEC312 /* EasyGraphVertexView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5A64215B9EBE000EEC312 /* EasyGraphVertexView.m */; };
 		A1B5A64E15BAB5E100EEC312 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1B5A64D15BAB5E100EEC312 /* QuartzCore.framework */; };
+		A1B60BDE163F48A5007D943E /* EasyGraphPopoverBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B60BDD163F48A5007D943E /* EasyGraphPopoverBackgroundView.m */; };
+		A1B60BE4163F51CC007D943E /* bg-popover-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = A1B60BE3163F51CC007D943E /* bg-popover-grey.png */; };
+		A1B60BEC163F7163007D943E /* bg-popover-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = A1B60BEB163F7163007D943E /* bg-popover-arrow.png */; };
 		A1F99B2915B8D32600A3AF94 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F99B2815B8D32600A3AF94 /* UIKit.framework */; };
 		A1F99B2B15B8D32600A3AF94 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F99B2A15B8D32600A3AF94 /* Foundation.framework */; };
 		A1F99B2D15B8D32600A3AF94 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F99B2C15B8D32600A3AF94 /* CoreGraphics.framework */; };
@@ -41,14 +43,16 @@
 		A11E600F1631E52300F0877C /* EasyGraphExporterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphExporterViewController.m; sourceTree = "<group>"; };
 		A11E60101631E52300F0877C /* EasyGraphExporterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EasyGraphExporterViewController.xib; sourceTree = "<group>"; };
 		A12499121638B9FB0021FB3C /* EasyGraphPetersenIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EasyGraphPetersenIcon.png; sourceTree = SOURCE_ROOT; };
-		A1249922163A49D00021FB3C /* MenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewController.h; sourceTree = "<group>"; };
-		A1249923163A49D00021FB3C /* MenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewController.m; sourceTree = "<group>"; };
 		A1B4A1CC15BCED2C00B80867 /* EasyGraphEdgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphEdgeView.h; sourceTree = "<group>"; };
 		A1B4A1CD15BCED2C00B80867 /* EasyGraphEdgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphEdgeView.m; sourceTree = "<group>"; };
 		A1B5A64115B9EBE000EEC312 /* EasyGraphVertexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphVertexView.h; sourceTree = "<group>"; };
 		A1B5A64215B9EBE000EEC312 /* EasyGraphVertexView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphVertexView.m; sourceTree = "<group>"; };
 		A1B5A64D15BAB5E100EEC312 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A1B5A65015BAB60000EEC312 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		A1B60BDC163F48A5007D943E /* EasyGraphPopoverBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphPopoverBackgroundView.h; sourceTree = "<group>"; };
+		A1B60BDD163F48A5007D943E /* EasyGraphPopoverBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphPopoverBackgroundView.m; sourceTree = "<group>"; };
+		A1B60BE3163F51CC007D943E /* bg-popover-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bg-popover-grey.png"; path = "../../../../../Downloads/bg-popover-grey.png"; sourceTree = "<group>"; };
+		A1B60BEB163F7163007D943E /* bg-popover-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bg-popover-arrow.png"; path = "../../../../../Downloads/bg-popover-arrow.png"; sourceTree = "<group>"; };
 		A1F99B2415B8D32600A3AF94 /* EasyGraph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyGraph.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1F99B2815B8D32600A3AF94 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A1F99B2A15B8D32600A3AF94 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -153,10 +157,10 @@
 				A1F99B3815B8D32600A3AF94 /* EasyGraphAppDelegate.m */,
 				A1F99B3A15B8D32600A3AF94 /* EasyGraphMasterViewController.h */,
 				A1F99B3B15B8D32600A3AF94 /* EasyGraphMasterViewController.m */,
-				A1249922163A49D00021FB3C /* MenuTableViewController.h */,
-				A1249923163A49D00021FB3C /* MenuTableViewController.m */,
 				A1F99B3D15B8D32600A3AF94 /* EasyGraphDetailViewController.h */,
 				A1F99B3E15B8D32600A3AF94 /* EasyGraphDetailViewController.m */,
+				A1B60BDC163F48A5007D943E /* EasyGraphPopoverBackgroundView.h */,
+				A1B60BDD163F48A5007D943E /* EasyGraphPopoverBackgroundView.m */,
 				A11E60141631E53B00F0877C /* EasyGraphExporter */,
 				A11E60151631E55C00F0877C /* GMPdfViewController */,
 				A1F99B7B15B8E94600A3AF94 /* EasyGraphCanvas.h */,
@@ -175,6 +179,8 @@
 		A1F99B2F15B8D32600A3AF94 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A1B60BEB163F7163007D943E /* bg-popover-arrow.png */,
+				A1B60BE3163F51CC007D943E /* bg-popover-grey.png */,
 				A1F99B3015B8D32600A3AF94 /* EasyGraph-Info.plist */,
 				A12499121638B9FB0021FB3C /* EasyGraphPetersenIcon.png */,
 				A1F99B3115B8D32600A3AF94 /* InfoPlist.strings */,
@@ -260,6 +266,8 @@
 				A1F99B4515B8D32700A3AF94 /* EasyGraphDetailViewController.xib in Resources */,
 				A11E60121631E52300F0877C /* EasyGraphExporterViewController.xib in Resources */,
 				A12499131638B9FB0021FB3C /* EasyGraphPetersenIcon.png in Resources */,
+				A1B60BE4163F51CC007D943E /* bg-popover-grey.png in Resources */,
+				A1B60BEC163F7163007D943E /* bg-popover-arrow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,7 +293,7 @@
 				A1FED9EB162BFC1A002559BA /* HRColorUtil.m in Sources */,
 				A1196681162E550A00462E83 /* GMPdfViewController.m in Sources */,
 				A11E60111631E52300F0877C /* EasyGraphExporterViewController.m in Sources */,
-				A1249924163A49D10021FB3C /* MenuTableViewController.m in Sources */,
+				A1B60BDE163F48A5007D943E /* EasyGraphPopoverBackgroundView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,6 +28,8 @@
 
 @property (strong, nonatomic) IBOutlet UIWebView *label;
 
+@property (strong, nonatomic) NSString *letter;
+
 - (void) setupVertexLabelAndColour:(UIColor *)colour;
 
 @end

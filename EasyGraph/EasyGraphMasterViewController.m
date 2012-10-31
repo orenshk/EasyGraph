@@ -150,16 +150,23 @@
 - (void) removeAllAlert {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Remove All!"
                                                     message:@"This will remove all graphs.\n Are you sure you wish to proceed?" delegate:self cancelButtonTitle:@"Clear List" otherButtonTitles:@"Cancel",nil];
+    [alert setTag:0];
     [alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
-        int count = [self.fileList count];
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-        while (count > 0) {
-            [self tableView:self.tableView deleteGraphAtIndexPath:indexPath];
-            --count;
+    if ([alertView tag] == 0) {
+        if (buttonIndex == 0) {
+            int count = [self.fileList count];
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+            while (count > 0) {
+                [self tableView:self.tableView deleteGraphAtIndexPath:indexPath];
+                --count;
+            }
+        }
+    } else if (alertView.tag == 1) {
+        if (buttonIndex == 1) {
+            [self updateFileName:[alertView textFieldAtIndex:0].text];
         }
     }
 }
@@ -187,14 +194,6 @@
     [self.renameDialouge setTag:1];
     [[self.renameDialouge textFieldAtIndex:0] setDelegate:self];
     [self.renameDialouge show];
-}
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 1) {
-        if (buttonIndex == 1) {
-            [self updateFileName:[alertView textFieldAtIndex:0].text];
-        }
-    }
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {

@@ -8,6 +8,11 @@
 
 #import "EasyGraphDetailViewController.h"
 
+@implementation UIBarButtonItemWithObject
+@synthesize intendedObject;
+
+@end
+
 @interface EasyGraphDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 //- (void)configureView;
@@ -57,9 +62,12 @@
     self.edgeColour = [UIColor blackColor];
     self.changingVertexColor = NO;
     prevNumberOfTouches = 1;
+    [self.renameView setDelegate:self];
     
     [self configureGraphCanvasView];
 
+    [[UIBarButtonItem appearance] setTintColor:[UIColor grayColor]];
+    
     [self.modesButton setPossibleTitles:[NSSet setWithObjects:@"Mode: None",
                                                               @"Mode: Remove",
                                                               @"Mode: Subdivide",
@@ -153,8 +161,6 @@
 }
 
 - (void) configureGraphCanvasView {
-    self.xOffset = 200.0;
-    self.yOffset = 200.0;
     int mult = 1;
     int width = mult *768;
     int height = mult * 916;
@@ -163,7 +169,6 @@
     [self.easyGraphCanvas setMultipleTouchEnabled:YES];
     [self.view addSubview:self.easyGraphCanvas];
 
-    
     UIPanGestureRecognizer *panDetector =
     [[UIPanGestureRecognizer alloc]
      initWithTarget:self action:@selector(handlePanGesture:)];
@@ -177,31 +182,37 @@
     [self.easyGraphCanvas addGestureRecognizer:singleTap];
     [singleTap setDelegate:self];
 
-//    [self.scrollView.panGestureRecognizer setMinimumNumberOfTouches:3];
-//    [self.scrollView.panGestureRecognizer setMaximumNumberOfTouches:3];
-//    [self.scrollView setContentSize:CGSizeMake(width, height)];
-//    [self.scrollView addSubview:self.easyGraphCanvas];
-//    [self.scrollView setDelegate:self];
-    
-//    UILongPressGestureRecognizer *longPressOneTap = [[UILongPressGestureRecognizer alloc]    initWithTarget:self action:@selector(handleLongPress:)];
-//    [longPressOneTap setMinimumPressDuration:0.0];
-//    [longPressOneTap setNumberOfTapsRequired:1];
-//    [self.easyGraphCanvas addGestureRecognizer:longPressOneTap];
-//    
-//    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]    initWithTarget:self action:@selector(handleLongPress:)];
-//    [longPress setMinimumPressDuration:0.0];
-//    [longPress setNumberOfTapsRequired:0];
-//    [longPress setNumberOfTouchesRequired:1];
-//    [longPress setDelegate:self];
-//    [self.easyGraphCanvas addGestureRecognizer:longPress];
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    [longPress setMinimumPressDuration:0.5];
+    [self.easyGraphCanvas addGestureRecognizer:longPress];
 
     
-//    [singleTap requireGestureRecognizerToFail:[self.scrollView panGestureRecognizer]];
-//    [longPressOneTap requireGestureRecognizerToFail:[self.scrollView panGestureRecognizer]];
+    UIRotationGestureRecognizer *rotate = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotate:)];
+    [self.easyGraphCanvas addGestureRecognizer:rotate];
+
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;
+}
+
+- (IBAction)handleRotate:(UIRotationGestureRecognizer *)sender {
+    if (self.movingVertexView == nil && self.edgeStartPoint == nil) {
+        float rotation = self.angle + sender.rotation;
+        self.easyGraphCanvas.transform = CGAffineTransformMakeRotation(rotation);
+        
+        
+        if (sender.state == UIGestureRecognizerStateEnded) {
+            if (-0.2 <= rotation && rotation <= 0.2) {
+                self.easyGraphCanvas.transform = CGAffineTransformMakeRotation(0);
+                rotation = 0;
+            }
+            self.angle = rotation;
+        }
+        
+        //snaps
+        // redraw grid?
+    }
 }
 
 - (void)viewDidUnload
@@ -213,6 +224,7 @@
     [self setEditButton:nil];
     [self setModesButton:nil];
     [self setScrollView:nil];
+    [self setRenameView:nil];
     [super viewDidUnload];
     [self setRemoveElementsButton:nil];
     [self setUndoButton:nil];
@@ -327,14 +339,58 @@
             self.easyGraphCanvas.fingerStartPoint = CGPointZero;
             self.easyGraphCanvas.fingerCurrPos = CGPointZero;
             self.easyGraphCanvas.drawingEdge = NO;
+            
+            [self highlightVertex:self.movingVertexView];
+            
             [[self.undoManager prepareWithInvocationTarget:self]
              undoVertexMove:self.movingVertexView atOriginalPoint:movingVertexView.center];
         }
     } else {
+        if (self.movingVertexView != nil) {
+            [self unhighlightVertex:self.movingVertexView];
+        }
         self.edgeStartPoint = [touched isKindOfClass:[EasyGraphVertexView class]] ? (EasyGraphVertexView *)touched : nil;
         self.movingVertexView = nil;
         self.easyGraphCanvas.fingerStartPoint = locationPoint;
         self.easyGraphCanvas.drawingEdge = self.edgeStartPoint != nil;
+    }
+}
+
+- (IBAction)handleLongPress:(UIGestureRecognizer *)sender {
+    if ([sender state] == UIGestureRecognizerStateBegan) {
+        CGPoint location = [sender locationInView:self.easyGraphCanvas];
+        UIView *view = [self.easyGraphCanvas hitTest:location withEvent:nil];
+        if ([view isKindOfClass:[EasyGraphVertexView class]] ||
+            [view isKindOfClass:[EasyGraphEdgeView class]]) {
+
+            int tag;
+            if ([view isKindOfClass:[EasyGraphVertexView class]]) {
+                self.chosenVertex = (EasyGraphVertexView *)view;
+                [self highlightVertex:self.chosenVertex];
+                tag = 0;
+                if (view.frame.origin.y <= 835) {
+                    location.y = view.frame.origin.y + 75;
+                } else {
+                    location.y = view.frame.origin.y - 25;
+                }
+                
+            } else {
+                self.chosenEdge = (EasyGraphEdgeView *)view;
+                [self highlightEdge:self.chosenEdge];
+                tag = 1;
+            }
+            
+            CGRect anchor = CGRectMake(location.x, location.y, 191, 30);
+            
+            self.floatingMenuPopoverController = [[UIPopoverController alloc] initWithContentViewController:[self makeFloatingMenuWithTag:tag]];
+            [self.floatingMenuPopoverController setDelegate:self];
+            [self.floatingMenuPopoverController setPopoverContentSize:CGSizeMake(195, 30)];
+            [self.floatingMenuPopoverController setPopoverBackgroundViewClass:[EasyGraphPopoverBackgroundView class]];
+            
+            
+            [self.floatingMenuPopoverController
+             presentPopoverFromRect:anchor inView:self.easyGraphCanvas permittedArrowDirections:0 animated:YES];
+        }
     }
 }
 
@@ -349,7 +405,6 @@
                 ((EasyGraphEdgeView *)touched).startVertex.center
                               toVertexAt:((EasyGraphEdgeView *)touched).endVertex.center];
         }
-        
     } else if (self.inSubdivideMode) {
         if ([touched isKindOfClass:[EasyGraphEdgeView class]]) 
             [self subdivide:(EasyGraphEdgeView *)touched atPoint:locationPoint];
@@ -358,7 +413,9 @@
         if ([touched isKindOfClass:[EasyGraphEdgeView class]])
             [self contract:(EasyGraphEdgeView *)touched];
         
-    } else if (![touched isKindOfClass:[EasyGraphVertexView class]] && self.edgeStartPoint == nil) {
+    } else if (![touched isKindOfClass:[EasyGraphVertexView class]] &&
+            ![touched isKindOfClass:[EasyGraphEdgeView class]] &&
+                                                self.edgeStartPoint == nil) {
             [self makeNewVertex:locationPoint];
     }
 }
@@ -372,14 +429,8 @@
             CGPoint endPt = [self getClosestGridPointToPoint:self.movingVertexView.center];
             
             self.movingVertexView.frame = CGRectMake(endPt.x - self.vertexFrameSize/2.0, endPt.y - self.vertexFrameSize/2.0, self.vertexFrameSize, self.vertexFrameSize);
-            vert.layer.opaque = YES;
-            vert.layer.masksToBounds = NO;
-            vert.layer.shadowOffset = CGSizeMake(-4, 0);
-            vert.layer.shadowRadius = 2.5;
-            vert.layer.shadowOpacity = 0.3;
-            vert.layer.shadowColor = [UIColor blackColor].CGColor;
-            
-            vert.layer.shadowPath = [UIBezierPath bezierPathWithArcCenter:[vert convertPoint:vert.center fromView:vert.superview] radius:vert.vertexSize/2.0 + 3 startAngle:0 endAngle:M_PI*2 clockwise:YES].CGPath;
+
+            [self unhighlightVertex:vert];
             [self updateEdgesFor:self.movingVertexView];
 
             self.movingVertexView = nil;
@@ -389,14 +440,7 @@
             vertexViewPosition.x += translation.x;
             vertexViewPosition.y += translation.y;
             self.movingVertexView.center = vertexViewPosition;
-            vert.layer.opaque = YES;
-            vert.layer.masksToBounds = NO;
-            vert.layer.shadowOffset = CGSizeMake(0, 0);
-            vert.layer.shadowRadius = 2.5;
-            vert.layer.shadowOpacity = 0.5;
-            vert.layer.shadowColor = [UIColor blueColor].CGColor;
-            
-            vert.layer.shadowPath = [UIBezierPath bezierPathWithArcCenter:[vert convertPoint:vert.center fromView:vert.superview] radius:vert.vertexSize/2.0 + 10 startAngle:0 endAngle:M_PI*2 clockwise:YES].CGPath;
+            [self highlightVertex:vert];
             [self updateEdgesFor:self.movingVertexView];
         }        
         [sender setTranslation:CGPointZero inView:self.easyGraphCanvas];
@@ -463,7 +507,7 @@
     [self.vertexSet addObject:vert];
     [vert setVertexNum:[self.vertexSet count]];
     
-    [vert setupVertexLabelAndColour:self.vertexColour];
+    [vert setColour:self.vertexColour];
     [[self.undoManager prepareWithInvocationTarget:self] removeVertex:vert];
     [self.undoButton setEnabled:YES];
     
@@ -507,6 +551,7 @@
     CGRect newRect;
     CGPoint start, end;
     for (EasyGraphEdgeView *edge in [neighbs allObjects]) {
+        [edge setOpaque:NO];
         start = edge.startVertex.center;
         end = edge.endVertex.center;
         [self.easyGraphCanvas setCurvePoints:[NSMutableArray arrayWithArray:[edge curvePoints]]];
@@ -585,6 +630,7 @@
     
     [self.vertexSet addObject:vert];
     [self.easyGraphCanvas addSubview:vert];
+    [self unhighlightVertex:vert];
     
     [vert.inNeighbs removeAllObjects];
     [vert.outNeighbs removeAllObjects];
@@ -626,7 +672,181 @@
     [self saveData];
 }
 
-#pragma mark - Bottom toolbar buttons
+/*******************************************************************************
+                                Buttons and other UI
+ *******************************************************************************/
+
+#pragma mark - Buttons and other UI
+
+- (UINavigationController *) makeFloatingMenuWithTag:(int) tag {
+    UIViewController *viewController = [[UIViewController alloc] init];
+    
+    UIBarButtonItem *delete = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStyleBordered target:self action:@selector(processDelete:)];
+    
+    UIBarButtonItem *rename = [[UIBarButtonItem alloc] initWithTitle:@"Rename" style:UIBarButtonItemStyleBordered target:self action:@selector(showRenamePopover:)];
+    
+    UIBarButtonItem *color = [[UIBarButtonItem alloc] initWithTitle:@"Color" style:UIBarButtonItemStyleBordered target:self action:@selector(openColourPicker:)];
+    
+    [color setTag:tag];
+    
+    NSArray *buttons = [NSArray arrayWithObjects:delete, rename, color, nil];
+    [viewController.navigationItem setRightBarButtonItems:buttons];
+    
+    return [[UINavigationController alloc] initWithRootViewController:viewController];
+}
+
+-(BOOL) textFieldShouldBeginEditing:(UITextField *)textField {
+    return YES;
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+    if ([[textField placeholder] isEqualToString:@"Enter new label letter"]) {
+        [self renameElement:textField];
+    }
+
+    [textField resignFirstResponder];
+    return YES;
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+//    NSDictionary* keyboardInfo = [notification userInfo];
+//    NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
+//    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
+//    [self setViewMoveUp:NO withRect:keyboardFrameBeginRect];
+}
+
+
+- (void)keyboardWillShow:(NSNotification *)notification {
+//    NSDictionary* keyboardInfo = [notification userInfo];
+//    NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
+//    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
+//    [self setViewMoveUp:YES withRect:keyboardFrameBeginRect];
+}
+
+//method to move the view up/down whenever the keyboard is shown/dismissed
+-(void)setViewMoveUp:(BOOL)moveUp withRect:(CGRect)keyRect {
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.3]; // if you want to slide up the view
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    
+    CGRect rect = self.view.frame;
+    if (moveUp)
+    {
+        // 1. move the view's origin up so that the text field that will be hidden come above the keyboard
+        // 2. increase the size of the view so that the area behind the keyboard is covered up.
+        
+        if (rect.origin.y == 0 ) {
+            rect.origin.y -= keyRect.size.height;
+            //rect.size.height += kOFFSET_FOR_KEYBOARD;
+        }
+    }
+    else
+    {
+        rect.origin.y += keyRect.size.height;
+        //rect.size.height -= kOFFSET_FOR_KEYBOARD;
+    }
+    self.view.frame = rect;
+    [UIView commitAnimations];
+}
+
+- (void) showRenamePopover:(UIBarButtonItem *)sender {
+    if (self.renamePopoverController == nil) {
+        UIViewController *viewController = [[UIViewController alloc] init];
+        [viewController.view addSubview:self.renameView];
+        self.renamePopoverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
+        [self.renamePopoverController setPopoverContentSize:self.renameView.frame.size];
+        [self.renamePopoverController setPopoverBackgroundViewClass:[EasyGraphPopoverBackgroundView class]];
+    }
+    if ([self.renamePopoverController isPopoverVisible]) {
+        [self.renamePopoverController dismissPopoverAnimated:YES];
+    } else {
+        [self.renamePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
+}
+
+- (IBAction)renameElement:(UITextField *)sender {
+    if ([sender tag] == 0) { //vertex
+        [[self.undoManager prepareWithInvocationTarget:self] undoVertex:self.chosenVertex rename:[self.chosenVertex letter]];
+        [self.chosenVertex setLetter:[sender text]];
+        [self unhighlightVertex:self.chosenVertex];
+        [self.chosenVertex setOpaque:NO];
+        [self.chosenVertex setNeedsDisplay];
+        self.chosenVertex = nil;
+
+    } else {
+        [self unhighlightEdge:self.chosenEdge];
+        self.chosenEdge = nil;
+    }
+    [sender setText:@""];
+    [sender setPlaceholder:@"Enter new label letter"];
+    [self.renamePopoverController dismissPopoverAnimated:YES];
+    [self.floatingMenuPopoverController dismissPopoverAnimated:YES];
+    [self saveData];
+}
+
+- (void) undoVertex:(EasyGraphVertexView *)vert rename:(NSString *)letter {
+    UITextField *sender = [[UITextField alloc] init];
+    [sender setText:letter];
+    [sender setTag:0];
+    [self renameElement:sender];
+}
+
+- (void) processDelete:(UIBarButtonItemWithObject *)sender {
+    if (self.chosenVertex != nil) {
+        [self removeVertex:self.chosenVertex];
+        self.chosenVertex = nil;
+    } else if (self.chosenEdge != nil) {
+        EasyGraphEdgeView *edge = self.chosenEdge;
+        [self removeEdgeFromVertexAt:edge.startVertex.center toVertexAt:edge.endVertex.center];
+        self.chosenEdge = nil;
+    }
+    [self.floatingMenuPopoverController dismissPopoverAnimated:NO];
+}
+
+- (void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+    if (self.chosenVertex != nil) {
+        [self unhighlightVertex:self.chosenVertex];
+        self.chosenVertex = nil;
+    }
+    
+    if (self.chosenEdge != nil) {
+        [self unhighlightEdge:self.chosenEdge];
+        self.chosenEdge = nil;
+    }
+}
+
+- (void) highlightEdge:(EasyGraphEdgeView *)edge {
+    [edge setOpaque:NO];
+    edge.layer.shadowColor = [UIColor blueColor].CGColor;
+}
+
+- (void) unhighlightEdge:(EasyGraphEdgeView *)edge {
+    [edge setOpaque:NO];
+    edge.layer.shadowColor = [UIColor clearColor].CGColor;
+}
+
+- (void) highlightVertex:(EasyGraphVertexView *)vert {
+    vert.layer.opaque = YES;
+    vert.layer.masksToBounds = NO;
+    vert.layer.shadowOffset = CGSizeMake(0, 0);
+    vert.layer.shadowRadius = 2.5;
+    vert.layer.shadowOpacity = 0.5;
+    vert.layer.shadowColor = [UIColor blueColor].CGColor;
+    
+    vert.layer.shadowPath = [UIBezierPath bezierPathWithArcCenter:[vert convertPoint:vert.center fromView:vert.superview] radius:vert.vertexSize/2.0 + 10 startAngle:0 endAngle:M_PI*2 clockwise:YES].CGPath;
+}
+
+- (void) unhighlightVertex:(EasyGraphVertexView *)vert {
+    vert.layer.opaque = YES;
+    vert.layer.masksToBounds = NO;
+    vert.layer.shadowOffset = CGSizeMake(-4, 0);
+    vert.layer.shadowRadius = 2.5;
+    vert.layer.shadowOpacity = 0.3;
+    vert.layer.shadowColor = [UIColor blackColor].CGColor;
+    
+    vert.layer.shadowPath = [UIBezierPath bezierPathWithArcCenter:[vert convertPoint:vert.center fromView:vert.superview] radius:vert.vertexSize/2.0 + 3 startAngle:0 endAngle:M_PI*2 clockwise:YES].CGPath;
+}
+
 
 - (IBAction)showMenuPopover:(UIBarButtonItem *)sender {
     if (self.menuPopoverController == nil) {
@@ -653,6 +873,7 @@
         [self.menuPopoverController setDelegate:self];
         [self.menuPopoverController setPassthroughViews:[NSArray arrayWithObject:self.view]];
         [self.menuPopoverController setPopoverContentSize:CGSizeMake(toolbarWidth, toolbarHeight)];
+        [self.menuPopoverController setPopoverBackgroundViewClass:[EasyGraphPopoverBackgroundView class]];
     }
     
     if ([self.menuPopoverController isPopoverVisible]) {
@@ -828,6 +1049,9 @@
 }
 
 - (BOOL) popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController {
+    if (popoverController == self.floatingMenuPopoverController) {
+        return YES;
+    }
     return NO;
 }
 
@@ -859,6 +1083,7 @@
         }
         [nv.view setTag:tag];
     }
+    [self.colourPickerPopoverController setPopoverBackgroundViewClass:[EasyGraphPopoverBackgroundView class]];
     [self dismissColourPickerWithTag:tag fromSender:sender];
 }
 
@@ -876,24 +1101,45 @@
         [self.colourPickerPopoverController presentPopoverFromBarButtonItem:sender
                                                    permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
-
 }
 
-- (void) setSelectedColor:(id)sender {
+- (void) setSelectedColor:(UIBarButtonItemWithObject *)sender {
     UIColor *color = [sender tintColor];
-    if (self.changingVertexColor) {
-        [self setVertexColour:color];
-        [self setChangingVertexColor:NO];
-        [self.vertexColourButton setTintColor:color];
+    
+    if (self.chosenVertex == nil && self.chosenEdge == nil) {
+        if (self.changingVertexColor) {
+            [self setVertexColour:color];
+            [self.vertexColourButton setTintColor:color];
+        } else {
+            [self setEdgeColour:color];
+            [self.easyGraphCanvas setEdgeColour:color];
+            [self.edgeColourButton setTintColor:color];
+        }
     } else {
-        [self setEdgeColour:color];
-        [self.easyGraphCanvas setEdgeColour:color];
-        [self.edgeColourButton setTintColor:color];
+        id item = self.chosenVertex == nil ? self.chosenEdge : self.chosenVertex;
+        
+        //item is either a vertexView or an edgeView and has colour property.
+        [[self.undoManager prepareWithInvocationTarget:self] undoItem:item colourChangeForColour:[item colour]];
+
+        [item setColour:[sender tintColor]];
+        [item setOpaque:NO];
+        [item setNeedsDisplay];
+        
+        // floating menu was visible
+        [self.floatingMenuPopoverController dismissPopoverAnimated:NO];
     }
+    
+    [self setChangingVertexColor:NO];
     [self dismissColourPickerWithTag:[self.colourPickerPopoverController.contentViewController.view tag] fromSender:sender];
 }
 
- - (NSMutableArray *) makeColourButtonsWithWhite:(BOOL)withWhite {
+- (void) undoItem:(id)item colourChangeForColour:(UIColor *)col {
+    [item setColour:col];
+    [item setOpaque:NO];
+    [item setNeedsDisplay];
+}
+
+- (NSMutableArray *) makeColourButtonsWithWhite:(BOOL)withWhite {
     
      NSArray *colours;
      if (withWhite) {
@@ -1036,58 +1282,6 @@
                             [NSNumber numberWithFloat:1.0f],
                             nil];
     [layer addSublayer:shineLayer];
-}
-
-
--(BOOL) textFieldShouldBeginEditing:(UITextField *)textField {
-    return YES;
-}
-
-- (BOOL) textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    return YES;
-}
-
-- (void)keyboardWillHide:(NSNotification *)notification {
-    NSDictionary* keyboardInfo = [notification userInfo];
-    NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
-    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
-    [self setViewMoveUp:NO withRect:keyboardFrameBeginRect];
-}
-
-
-- (void)keyboardWillShow:(NSNotification *)notification {
-    NSDictionary* keyboardInfo = [notification userInfo];
-    NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
-    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
-    [self setViewMoveUp:YES withRect:keyboardFrameBeginRect];
-}
-
-
-//method to move the view up/down whenever the keyboard is shown/dismissed
--(void)setViewMoveUp:(BOOL)moveUp withRect:(CGRect)keyRect {
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.3]; // if you want to slide up the view
-    [UIView setAnimationBeginsFromCurrentState:YES];
-    
-    CGRect rect = self.view.frame;
-    if (moveUp)
-    {
-        // 1. move the view's origin up so that the text field that will be hidden come above the keyboard
-        // 2. increase the size of the view so that the area behind the keyboard is covered up.
-        
-        if (rect.origin.y == 0 ) {
-            rect.origin.y -= keyRect.size.height;
-            //rect.size.height += kOFFSET_FOR_KEYBOARD;
-        }
-    }
-    else
-    {
-        rect.origin.y += keyRect.size.height;
-        //rect.size.height -= kOFFSET_FOR_KEYBOARD;
-    }
-    self.view.frame = rect;
-    [UIView commitAnimations];
 }
 
 @end

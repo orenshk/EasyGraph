@@ -22,7 +22,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         //[self setAlpha:0.0];
-        self.backgroundColor = [UIColor clearColor];
+        [self setBackgroundColor:[UIColor clearColor]];
+        [self setOpaque:NO];
         self.inNeighbs = [[NSMutableSet alloc] init];
         self.outNeighbs = [[NSMutableSet alloc] init];
         self.vertexSize = 34;
@@ -32,8 +33,8 @@
         [self.label setUserInteractionEnabled:NO];
         [self.label.scrollView setScrollEnabled:NO];
         [self addSubview:self.label];
+        self.letter = @"";
 
-        [label setBackgroundColor:[UIColor clearColor]];
         [self setClipsToBounds:YES];
     }
     return self;
@@ -48,6 +49,7 @@
         self.vertexNum = [aDecoder decodeInt32ForKey:@"vertexNum"];
         self.colour = [aDecoder decodeObjectForKey:@"vertexColour"];
         self.label = [aDecoder decodeObjectForKey:@"label"];
+        self.letter = [aDecoder decodeObjectForKey:@"letter"];
     }
     return self;
 }
@@ -60,47 +62,33 @@
     [aCoder encodeInt32:self.vertexNum forKey:@"vertexNum"];
     [aCoder encodeObject:self.colour forKey:@"vertexColour"];
     [aCoder encodeObject:self.label forKey:@"label"];
-}
-
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self.nextResponder touchesBegan:touches withEvent:event];
-}
-
-- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self.nextResponder touchesMoved:touches withEvent:event];
-}
-
-- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self.nextResponder touchesEnded:touches withEvent:event];
-}
-
-- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self.nextResponder touchesCancelled:touches withEvent:event];
+    [aCoder encodeObject:self.letter forKey:@"letter"];
 }
 
 - (void) setupVertexLabelAndColour:(UIColor *)col {
-    [self setColour:col];
     CGFloat red, green, blue, alpha;
     NSString *body, *color, *html;
     red = green = blue = alpha = 0;
-    NSString *letter;
     if ([col isEqual:[UIColor blackColor]]) {
         color = @"(255,255,255)";
-        letter = @"b";
+        self.letter = [self.letter isEqualToString:@""] ? @"b" : self.letter;
     } else if ([col isEqual:[UIColor whiteColor]]) {
         color = @"(0,0,0)";
-        letter = @"w";
+        self.letter = [self.letter isEqualToString:@""] ? @"w" : self.letter;
     } else if ([col isEqual:[UIColor blueColor]]) {
         color = @"(255,255,255)";
-        letter = @"x";
+        self.letter = [self.letter isEqualToString:@""] ? @"x" : self.letter;
     } else if ([col isEqual:[UIColor greenColor]]) {
         color = @"(0,0,0)";
-        letter = @"y";
+        self.letter = [self.letter isEqualToString:@""] ? @"y" : self.letter;
+    } else if ([col isEqual:[UIColor redColor]]) {
+        color = @"(0,0,0)";
+        self.letter = [self.letter isEqualToString:@""] ? @"z" : self.letter;
     } else {
         color = @"(0,0,0)";
-        letter = @"z";
+        self.letter = [self.letter isEqualToString:@""] ? @"u" : self.letter;
     }
-    body = [NSString stringWithFormat:@"<i>%@</i><sub>%d</sub></body></html>", letter, self.vertexNum];
+    body = [NSString stringWithFormat:@"<i>%@</i><sub>%d</sub></body></html>", self.letter, self.vertexNum];
     html = [NSString stringWithFormat:@"<html> \n"
                                    "<head> \n"
                                    "<style type=\"text/css\"> \n"
@@ -121,6 +109,8 @@
         CGContextSetStrokeColorWithColor(context, self.colour.CGColor);
         CGContextSetLineWidth(context, 1.0);
     }
+    
+    [self setupVertexLabelAndColour:self.colour];
     CGContextSetFillColorWithColor(context, self.colour.CGColor);
     CGRect rectangle = CGRectMake((self.frame.size.width - self.vertexSize) / 2.0,
                                   (self.frame.size.height - self.vertexSize)/2.0, self.vertexSize, self.vertexSize);

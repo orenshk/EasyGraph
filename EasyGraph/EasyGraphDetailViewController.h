@@ -13,7 +13,13 @@
 #import "EasyGraphMasterViewController.h"
 #import "GMPdfViewController.h"
 #import "EasyGraphExporterViewController.h"
-#import "MenuTableViewController.h"
+#import "EasyGraphPopoverBackgroundView.h"
+
+@interface UIBarButtonItemWithObject : UIBarButtonItem
+
+@property id intendedObject;
+
+@end
 
 @interface EasyGraphDetailViewController : UIViewController
                                                 <UISplitViewControllerDelegate,
@@ -24,9 +30,15 @@
 {
     int prevNumberOfTouches;
 }
+
+@property float angle;
+
+@property (strong, nonatomic) IBOutlet UITextField *renameView;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 
+@property (nonatomic, strong) UIPopoverController *renamePopoverController;
 @property (nonatomic) IBOutlet UIPopoverController *menuPopoverController;
+@property (nonatomic, strong) UIPopoverController *floatingMenuPopoverController;
 @property (nonatomic, strong) UIAlertView *relabelDialouge;
 
 /** Toolbar buttons */
@@ -52,8 +64,9 @@
 
 @property (strong, nonatomic) UIPopoverController *colourPickerPopoverController;
 
-@property double xOffset;
-@property double yOffset;
+@property (strong, nonatomic) EasyGraphEdgeView *chosenEdge;
+
+@property (strong, nonatomic) EasyGraphVertexView *chosenVertex;
 
 /** The size of a VertexView frame */
 @property int vertexFrameSize;
@@ -274,5 +287,6 @@
 
 - (IBAction)exportDialoug:(id)sender;
 - (IBAction)showMenuPopover:(UIBarButtonItem *)sender;
+- (IBAction)renameElement:(UITextField *)sender;
 
 @end

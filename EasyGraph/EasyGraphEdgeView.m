@@ -135,6 +135,33 @@
     CGContextFillPath(context);
 }
 
+- (void)setupShadow {
+    self.layer.opaque = YES;
+    self.layer.masksToBounds = NO;
+    self.layer.shadowOffset = CGSizeMake(0, 0);
+    self.layer.shadowRadius = 2.5;
+    self.layer.shadowOpacity = 0.5;
+    
+    CGMutablePathRef path = CGPathCreateMutable();
+    
+    NSValue *pointVal = [self.splinePoints objectAtIndex:0];
+    CGPoint point = [pointVal CGPointValue];
+    CGPathMoveToPoint(path, NULL, point.x, point.y);
+    for (int i = 1; i < [self.splinePoints count]; i++) {
+        pointVal = [self.splinePoints objectAtIndex:i];
+        point = [pointVal CGPointValue];
+        CGPathAddLineToPoint(path, NULL, point.x, point.y);
+    }
+
+    CGPathRef strokePath = CGPathCreateCopyByStrokingPath(path, NULL, 12.0, kCGLineCapButt, kCGLineJoinMiter, 0);
+    
+    self.layer.shadowPath = strokePath;
+    self.layer.shadowColor = [UIColor clearColor].CGColor;
+    
+    CGPathRelease(path);
+    CGPathRelease(strokePath);
+}
+
 - (void)drawRect:(CGRect)rect
 {
     [super drawRect:rect];
@@ -160,6 +187,8 @@
     CGContextStrokePath(context);
     
     if (isDirected) [self drawArrowForSplinePoints:self.splinePoints ofLength:self.arrowLength andWidth:self.arrowWidth];
+    
+    [self setupShadow];
 
 }
 @end
