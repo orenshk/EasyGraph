@@ -17,6 +17,7 @@
 		A1B60BDE163F48A5007D943E /* EasyGraphPopoverBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B60BDD163F48A5007D943E /* EasyGraphPopoverBackgroundView.m */; };
 		A1B60BE4163F51CC007D943E /* bg-popover-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = A1B60BE3163F51CC007D943E /* bg-popover-grey.png */; };
 		A1B60BEC163F7163007D943E /* bg-popover-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = A1B60BEB163F7163007D943E /* bg-popover-arrow.png */; };
+		A1EE420F1641C55400323664 /* EasyGraphElement.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EE420E1641C55400323664 /* EasyGraphElement.m */; };
 		A1F99B2915B8D32600A3AF94 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F99B2815B8D32600A3AF94 /* UIKit.framework */; };
 		A1F99B2B15B8D32600A3AF94 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F99B2A15B8D32600A3AF94 /* Foundation.framework */; };
 		A1F99B2D15B8D32600A3AF94 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F99B2C15B8D32600A3AF94 /* CoreGraphics.framework */; };
@@ -53,6 +54,8 @@
 		A1B60BDD163F48A5007D943E /* EasyGraphPopoverBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphPopoverBackgroundView.m; sourceTree = "<group>"; };
 		A1B60BE3163F51CC007D943E /* bg-popover-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bg-popover-grey.png"; path = "../../../../../Downloads/bg-popover-grey.png"; sourceTree = "<group>"; };
 		A1B60BEB163F7163007D943E /* bg-popover-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bg-popover-arrow.png"; path = "../../../../../Downloads/bg-popover-arrow.png"; sourceTree = "<group>"; };
+		A1EE420D1641C55400323664 /* EasyGraphElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphElement.h; sourceTree = "<group>"; };
+		A1EE420E1641C55400323664 /* EasyGraphElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphElement.m; sourceTree = "<group>"; };
 		A1F99B2415B8D32600A3AF94 /* EasyGraph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyGraph.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1F99B2815B8D32600A3AF94 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A1F99B2A15B8D32600A3AF94 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -164,6 +167,8 @@
 				A11E60141631E53B00F0877C /* EasyGraphExporter */,
 				A11E60151631E55C00F0877C /* GMPdfViewController */,
 				A1F99B7B15B8E94600A3AF94 /* EasyGraphCanvas.h */,
+				A1EE420D1641C55400323664 /* EasyGraphElement.h */,
+				A1EE420E1641C55400323664 /* EasyGraphElement.m */,
 				A1F99B7C15B8E94600A3AF94 /* EasyGraphCanvas.m */,
 				A1B5A64115B9EBE000EEC312 /* EasyGraphVertexView.h */,
 				A1B5A64215B9EBE000EEC312 /* EasyGraphVertexView.m */,
@@ -294,6 +299,7 @@
 				A1196681162E550A00462E83 /* GMPdfViewController.m in Sources */,
 				A11E60111631E52300F0877C /* EasyGraphExporterViewController.m in Sources */,
 				A1B60BDE163F48A5007D943E /* EasyGraphPopoverBackgroundView.m in Sources */,
+				A1EE420F1641C55400323664 /* EasyGraphElement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

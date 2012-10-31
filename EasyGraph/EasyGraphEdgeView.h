@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "EasyGraphVertexView.h"
 #import "EasyGraphCanvas.h"
+#import "EasyGraphElement.h"
 
 @class EasyGraphEdgeView;
-@interface EasyGraphEdgeView : UIView
+@interface EasyGraphEdgeView : EasyGraphElement
 
 /** The tail of this EdgeView */
 @property (nonatomic, strong) EasyGraphVertexView *startVertex;
@@ -27,9 +28,6 @@
 @property BOOL isNonEdge;
 
 @property BOOL isDirected;
-
-/** Colour of this EdgeView */
-@property UIColor *colour;
 
 @property double arrowLength;
 @property double arrowWidth;

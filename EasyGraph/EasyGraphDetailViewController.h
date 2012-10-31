@@ -55,7 +55,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *editButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *modesButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *toggleLabelsButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *relabelVertexButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *selectButton;
 
 @property (strong, nonatomic) IBOutlet UIButton *pdfButton;
 @property (strong, nonatomic) IBOutlet UIButton *latexPSTButton;
@@ -64,9 +64,7 @@
 
 @property (strong, nonatomic) UIPopoverController *colourPickerPopoverController;
 
-@property (strong, nonatomic) EasyGraphEdgeView *chosenEdge;
-
-@property (strong, nonatomic) EasyGraphVertexView *chosenVertex;
+@property (strong, nonatomic) NSMutableSet *selectedElements;
 
 /** The size of a VertexView frame */
 @property int vertexFrameSize;
@@ -99,7 +97,8 @@
 @property BOOL inSubdivideMode;
 @property BOOL inContractMode;
 @property BOOL isDirected;
-
+@property BOOL inSelectMode;
+@property BOOL hidingLabels;
 
 /** Location of archive file holding VertexView information */
 @property NSString *saveDataPath;

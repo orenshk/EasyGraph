@@ -65,7 +65,7 @@
 							</object>
 							<object class="IBUIBarButtonItem" id="358875470">
 								<int key="IBUITag">1</int>
-								<string key="IBUITitle">Labels</string>
+								<string key="IBUITitle">Tools</string>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="112441633"/>
@@ -106,7 +106,7 @@
 				</object>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
-			<object class="IBUITextField" id="750148224">
+			<object class="IBUITextField" id="995849569">
 				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<string key="NSFrameSize">{178, 30}</string>
@@ -193,7 +193,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">renameView</string>
 						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="750148224"/>
+						<reference key="destination" ref="995849569"/>
 					</object>
 					<int key="connectionID">221</int>
 				</object>
@@ -240,7 +240,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">renameElement:</string>
-						<reference key="source" ref="750148224"/>
+						<reference key="source" ref="995849569"/>
 						<reference key="destination" ref="841351856"/>
 						<int key="IBEventType">19</int>
 					</object>
@@ -319,7 +319,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">220</int>
-						<reference key="object" ref="750148224"/>
+						<reference key="object" ref="995849569"/>
 						<reference key="parent" ref="0"/>
 					</object>
 				</array>
@@ -353,7 +353,7 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="clearAll:">id</string>
 						<string key="exportDialoug:">id</string>
-						<string key="handleLongPress:">UILongPressGestureRecognizer</string>
+						<string key="handleLongPress:">UIGestureRecognizer</string>
 						<string key="handlePanGesture:">UIPanGestureRecognizer</string>
 						<string key="handleRotate:">UIRotationGestureRecognizer</string>
 						<string key="handleSingleTap:">UITapGestureRecognizer</string>
@@ -378,7 +378,7 @@
 						</object>
 						<object class="IBActionInfo" key="handleLongPress:">
 							<string key="name">handleLongPress:</string>
-							<string key="candidateClassName">UILongPressGestureRecognizer</string>
+							<string key="candidateClassName">UIGestureRecognizer</string>
 						</object>
 						<object class="IBActionInfo" key="handlePanGesture:">
 							<string key="name">handlePanGesture:</string>
@@ -445,6 +445,7 @@
 						<string key="removeElementsButton">UIBarButtonItem</string>
 						<string key="renameView">UITextField</string>
 						<string key="scrollView">UIScrollView</string>
+						<string key="selectButton">UIBarButtonItem</string>
 						<string key="subdivideButton">UIBarButtonItem</string>
 						<string key="toggleLabelsButton">UIBarButtonItem</string>
 						<string key="undoButton">UIBarButtonItem</string>
@@ -510,6 +511,10 @@
 						<object class="IBToOneOutletInfo" key="scrollView">
 							<string key="name">scrollView</string>
 							<string key="candidateClassName">UIScrollView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="selectButton">
+							<string key="name">selectButton</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="subdivideButton">
 							<string key="name">subdivideButton</string>

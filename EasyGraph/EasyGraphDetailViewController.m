@@ -56,19 +56,21 @@
     self.vertexSet = [[NSMutableSet alloc] init];
     self.movingVertexView = nil;
     self.gridSize = 30;
+    self.hidingLabels = NO;
     self.inRemoveMode = NO;
     self.inSubdivideMode = NO;
+    self.changingVertexColor = NO;
+    self.inSelectMode = NO;
     self.vertexColour = [UIColor blackColor];
     self.edgeColour = [UIColor blackColor];
-    self.changingVertexColor = NO;
     prevNumberOfTouches = 1;
     [self.renameView setDelegate:self];
+    self.selectedElements = [[NSMutableSet alloc] init];
     
     [self configureGraphCanvasView];
-
-    [[UIBarButtonItem appearance] setTintColor:[UIColor grayColor]];
     
     [self.modesButton setPossibleTitles:[NSSet setWithObjects:@"Mode: None",
+                                                              @"Mode: Select",
                                                               @"Mode: Remove",
                                                               @"Mode: Subdivide",
                                                               @"Mode: Contract",
@@ -359,38 +361,7 @@
 - (IBAction)handleLongPress:(UIGestureRecognizer *)sender {
     if ([sender state] == UIGestureRecognizerStateBegan) {
         CGPoint location = [sender locationInView:self.easyGraphCanvas];
-        UIView *view = [self.easyGraphCanvas hitTest:location withEvent:nil];
-        if ([view isKindOfClass:[EasyGraphVertexView class]] ||
-            [view isKindOfClass:[EasyGraphEdgeView class]]) {
-
-            int tag;
-            if ([view isKindOfClass:[EasyGraphVertexView class]]) {
-                self.chosenVertex = (EasyGraphVertexView *)view;
-                [self highlightVertex:self.chosenVertex];
-                tag = 0;
-                if (view.frame.origin.y <= 835) {
-                    location.y = view.frame.origin.y + 75;
-                } else {
-                    location.y = view.frame.origin.y - 25;
-                }
-                
-            } else {
-                self.chosenEdge = (EasyGraphEdgeView *)view;
-                [self highlightEdge:self.chosenEdge];
-                tag = 1;
-            }
-            
-            CGRect anchor = CGRectMake(location.x, location.y, 191, 30);
-            
-            self.floatingMenuPopoverController = [[UIPopoverController alloc] initWithContentViewController:[self makeFloatingMenuWithTag:tag]];
-            [self.floatingMenuPopoverController setDelegate:self];
-            [self.floatingMenuPopoverController setPopoverContentSize:CGSizeMake(195, 30)];
-            [self.floatingMenuPopoverController setPopoverBackgroundViewClass:[EasyGraphPopoverBackgroundView class]];
-            
-            
-            [self.floatingMenuPopoverController
-             presentPopoverFromRect:anchor inView:self.easyGraphCanvas permittedArrowDirections:0 animated:YES];
-        }
+        [self showFloatingMenuAtLocation:location];
     }
 }
 
@@ -413,10 +384,26 @@
         if ([touched isKindOfClass:[EasyGraphEdgeView class]])
             [self contract:(EasyGraphEdgeView *)touched];
         
+    } else if (self.inSelectMode) {
+        EasyGraphElement *elt = (EasyGraphElement *)touched;
+        if ([self.selectedElements containsObject:elt]) {
+            [self unhighlightElement:elt];
+            [self.selectedElements removeObject:elt];
+            if ([self.selectedElements count] == 0) {
+                [self.floatingMenuPopoverController dismissPopoverAnimated:YES];
+            }
+        } else {
+            [self highlightElement:elt];
+            [self.selectedElements addObject:elt];
+            if ([self.selectedElements count] == 1) {
+                [self showFloatingMenuAtLocation:locationPoint];
+            }
+        }
     } else if (![touched isKindOfClass:[EasyGraphVertexView class]] &&
             ![touched isKindOfClass:[EasyGraphEdgeView class]] &&
                                                 self.edgeStartPoint == nil) {
             [self makeNewVertex:locationPoint];
+        
     }
 }
 
@@ -508,6 +495,9 @@
     [vert setVertexNum:[self.vertexSet count]];
     
     [vert setColour:self.vertexColour];
+    if (self.hidingLabels) {
+        [[vert label] removeFromSuperview];
+    }
     [[self.undoManager prepareWithInvocationTarget:self] removeVertex:vert];
     [self.undoButton setEnabled:YES];
     
@@ -678,21 +668,74 @@
 
 #pragma mark - Buttons and other UI
 
+- (void) showFloatingMenuAtLocation:(CGPoint) location {
+    UIView *view = [self.easyGraphCanvas hitTest:location withEvent:nil];
+    if ([view isKindOfClass:[EasyGraphVertexView class]] ||
+        [view isKindOfClass:[EasyGraphEdgeView class]]) {
+        
+        int tag;
+        NSMutableArray *passThrough = [[NSMutableArray alloc] init];
+        if ([view isKindOfClass:[EasyGraphVertexView class]]) {
+            [self.selectedElements addObject:(EasyGraphVertexView *)view];
+            [self highlightVertex:(EasyGraphVertexView *)view];
+            tag = 0;
+            if (view.frame.origin.y <= 835) {
+                location.y = view.frame.origin.y + 75;
+            } else {
+                location.y = view.frame.origin.y - 25;
+            }
+        } else {
+            [self.selectedElements addObject:(EasyGraphEdgeView *)view];
+            [self highlightEdge:(EasyGraphEdgeView *)view];
+            tag = 1;
+        }
+        
+        if (self.inSelectMode) {
+            tag = 0;
+            [passThrough addObject:self.easyGraphCanvas];
+        }
+        CGRect anchor = CGRectMake(location.x, location.y, 263, 30);
+        
+        self.floatingMenuPopoverController = [[UIPopoverController alloc] initWithContentViewController:[self makeFloatingMenuWithTag:tag]];
+        [self.floatingMenuPopoverController setDelegate:self];
+        [self.floatingMenuPopoverController setPopoverContentSize:CGSizeMake(263, 30)];
+        [self.floatingMenuPopoverController setPassthroughViews:passThrough];
+        [self.floatingMenuPopoverController setPopoverBackgroundViewClass:[EasyGraphPopoverBackgroundView class]];
+        [self.floatingMenuPopoverController
+         presentPopoverFromRect:anchor inView:self.easyGraphCanvas
+         permittedArrowDirections:0 animated:YES];
+    }
+}
+
 - (UINavigationController *) makeFloatingMenuWithTag:(int) tag {
     UIViewController *viewController = [[UIViewController alloc] init];
     
     UIBarButtonItem *delete = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStyleBordered target:self action:@selector(processDelete:)];
+    [delete setTintColor:[UIColor grayColor]];
     
     UIBarButtonItem *rename = [[UIBarButtonItem alloc] initWithTitle:@"Rename" style:UIBarButtonItemStyleBordered target:self action:@selector(showRenamePopover:)];
+    [rename setTintColor:[UIColor grayColor]];
     
     UIBarButtonItem *color = [[UIBarButtonItem alloc] initWithTitle:@"Color" style:UIBarButtonItemStyleBordered target:self action:@selector(openColourPicker:)];
+    [color setTintColor:[UIColor grayColor]];
     
     [color setTag:tag];
     
-    NSArray *buttons = [NSArray arrayWithObjects:delete, rename, color, nil];
+    UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelSelection:)];
+    
+    NSArray *buttons = [NSArray arrayWithObjects:cancel, delete, rename, color, nil];
     [viewController.navigationItem setRightBarButtonItems:buttons];
     
     return [[UINavigationController alloc] initWithRootViewController:viewController];
+}
+
+- (void) cancelSelection:(UIBarButtonItem *)sender {
+    if (self.inSelectMode) {
+        [self toggleSelectMode];
+    } else {
+        [self.floatingMenuPopoverController dismissPopoverAnimated:YES];
+        [self popoverControllerDidDismissPopover:self.floatingMenuPopoverController];
+    }
 }
 
 -(BOOL) textFieldShouldBeginEditing:(UITextField *)textField {
@@ -765,53 +808,61 @@
 }
 
 - (IBAction)renameElement:(UITextField *)sender {
-    if ([sender tag] == 0) { //vertex
-        [[self.undoManager prepareWithInvocationTarget:self] undoVertex:self.chosenVertex rename:[self.chosenVertex letter]];
-        [self.chosenVertex setLetter:[sender text]];
-        [self unhighlightVertex:self.chosenVertex];
-        [self.chosenVertex setOpaque:NO];
-        [self.chosenVertex setNeedsDisplay];
-        self.chosenVertex = nil;
-
-    } else {
-        [self unhighlightEdge:self.chosenEdge];
-        self.chosenEdge = nil;
+    for (EasyGraphElement *element in self.selectedElements) {
+        [[self.undoManager prepareWithInvocationTarget:self] undoElement:element rename:[element letter]];
+        [element setLetter:[sender text]];
+        [self unhighlightElement:element];
+        [element setOpaque:NO];
+        [element setNeedsDisplay];
     }
+    [self.selectedElements removeAllObjects];
     [sender setText:@""];
     [sender setPlaceholder:@"Enter new label letter"];
     [self.renamePopoverController dismissPopoverAnimated:YES];
-    [self.floatingMenuPopoverController dismissPopoverAnimated:YES];
+    [self toggleSelectMode];
     [self saveData];
 }
 
-- (void) undoVertex:(EasyGraphVertexView *)vert rename:(NSString *)letter {
+- (void) undoElement:(EasyGraphElement *)elt rename:(NSString *)letter {
     UITextField *sender = [[UITextField alloc] init];
     [sender setText:letter];
-    [sender setTag:0];
+    [self.selectedElements addObject:elt];
     [self renameElement:sender];
 }
 
 - (void) processDelete:(UIBarButtonItemWithObject *)sender {
-    if (self.chosenVertex != nil) {
-        [self removeVertex:self.chosenVertex];
-        self.chosenVertex = nil;
-    } else if (self.chosenEdge != nil) {
-        EasyGraphEdgeView *edge = self.chosenEdge;
-        [self removeEdgeFromVertexAt:edge.startVertex.center toVertexAt:edge.endVertex.center];
-        self.chosenEdge = nil;
+    for (UIView *view in self.selectedElements) {
+        if ([view isKindOfClass:[EasyGraphEdgeView class]]) {
+            EasyGraphEdgeView *edge = (EasyGraphEdgeView *)view;
+            [self removeEdgeFromVertexAt:edge.startVertex.center toVertexAt:edge.endVertex.center];
+        } else if ([view isKindOfClass:[EasyGraphVertexView class]]) {
+            [self removeVertex:(EasyGraphVertexView *)view];
+        }
     }
-    [self.floatingMenuPopoverController dismissPopoverAnimated:NO];
+    [self.selectedElements removeAllObjects];
+    [self toggleSelectMode];
 }
 
 - (void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-    if (self.chosenVertex != nil) {
-        [self unhighlightVertex:self.chosenVertex];
-        self.chosenVertex = nil;
+    for (EasyGraphElement *elt in self.selectedElements) {
+        [self unhighlightElement:elt];
     }
-    
-    if (self.chosenEdge != nil) {
-        [self unhighlightEdge:self.chosenEdge];
-        self.chosenEdge = nil;
+    [self.selectedElements removeAllObjects];
+}
+
+- (void) highlightElement:(EasyGraphElement *)elt {
+    if ([elt isKindOfClass:[EasyGraphVertexView class]]) {
+        [self highlightVertex:(EasyGraphVertexView *)elt];
+    } else {
+        [self highlightEdge:(EasyGraphEdgeView *)elt];
+    }
+}
+
+- (void) unhighlightElement:(EasyGraphElement *)elt {
+    if ([elt isKindOfClass:[EasyGraphVertexView class]]) {
+        [self unhighlightVertex:(EasyGraphVertexView *)elt];
+    } else {
+        [self unhighlightEdge:(EasyGraphEdgeView *)elt];
     }
 }
 
@@ -850,16 +901,17 @@
 
 - (IBAction)showMenuPopover:(UIBarButtonItem *)sender {
     if (self.menuPopoverController == nil) {
-        double toolbarWidth, toolbarHeight;
+        double toolbarWidth = 0;
+        double toolbarHeight = 0;
         UIViewController *toolsViewController = [[UIViewController alloc] init];
         switch ([sender tag]) {
             case 0:
-                toolbarWidth = 318;
+                toolbarWidth = 381;
                 toolbarHeight = 30;
                 [toolsViewController.navigationItem setRightBarButtonItems:[self setupModesButtons]];
                 break;
             case 1:
-                toolbarWidth = 500;
+                toolbarWidth = 87;
                 toolbarHeight = 30;
                 [toolsViewController.navigationItem setRightBarButtonItems:[self setupToolsButtons]];
                 break;
@@ -892,50 +944,43 @@
 
 - (NSArray *)setupModesButtons {
     if (self.removeElementsButton == nil) {
+        self.selectButton = [[UIBarButtonItem alloc] initWithTitle:@"Select" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleSelectMode)];
+        
         self.removeElementsButton = [[UIBarButtonItem alloc] initWithTitle:@"Remove" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleRemoveElementsMode:)];
+        
         self.subdivideButton = [[UIBarButtonItem alloc] initWithTitle:@"Subdivide" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleSubdivideMode:)];
+        
         self.contractButton = [[UIBarButtonItem alloc] initWithTitle:@"Contract" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleContractMode:)];
+        
         self.nonEdgeButton = [[UIBarButtonItem alloc] initWithTitle:@"Non-Edge" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleNonEdgeMode:)];
     }
-    return [NSArray arrayWithObjects:self.removeElementsButton, self.subdivideButton, self.contractButton, self.nonEdgeButton, nil];
+    NSArray *result = [NSArray arrayWithObjects:self.selectButton, self.removeElementsButton, self.subdivideButton, self.contractButton, self.nonEdgeButton, nil];
+    return result;
 }
 
 - (NSArray *) setupToolsButtons {
-    if (self.relabelVertexButton == nil) {
+    if (self.toggleLabelsButton == nil) {
         
         self.toggleLabelsButton = [[UIBarButtonItem alloc] initWithTitle:@"Hide Labels" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleLabels:)];
         [self.toggleLabelsButton setPossibleTitles:[NSSet setWithObjects:@"Hide Labels", @"Show Labels", nil]];
         
     }
-    UIButton *sep = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 1, 41)];
-    UIBarButtonItem *sepItem = [[UIBarButtonItem alloc] initWithCustomView:sep];
-    
-    UITextField *relabelField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 150, 30)];
-    relabelField.borderStyle = UITextBorderStyleRoundedRect;
-    relabelField.font = [UIFont systemFontOfSize:15];
-    relabelField.placeholder = @"old_label:new_label";
-    relabelField.autocorrectionType = UITextAutocorrectionTypeNo;
-    relabelField.keyboardType = UIKeyboardTypeDefault;
-    relabelField.returnKeyType = UIReturnKeyDone;
-    relabelField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    relabelField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    relabelField.delegate = self;
-
-    UIBarButtonItem *fieldItem = [[UIBarButtonItem alloc] initWithCustomView:relabelField];
-    
-    return [NSArray arrayWithObjects:self.toggleLabelsButton, self.relabelVertexButton, sepItem,fieldItem, nil];
+    NSArray *result = [NSArray arrayWithObjects:self.toggleLabelsButton, nil];
+    return result;
 }
 
 -(IBAction)toggleLabels:(UIBarButtonItem *)sender {
-    if ([[sender title] isEqualToString:@"Hide Labels"]) {
+    if (!self.hidingLabels) {
         for (EasyGraphVertexView *vert in self.vertexSet) {
             [[vert label] removeFromSuperview];
         }
+        self.hidingLabels = YES;
         [sender setTitle:@"Show Labels"];
     } else {
         for (EasyGraphVertexView *vert in self.vertexSet) {
             [vert addSubview:[vert label]];
         }
+        self.hidingLabels = NO;
         [sender setTitle:@"Hide Labels"];
     }
 }
@@ -944,6 +989,29 @@
     for (EasyGraphVertexView * vert in [NSSet setWithSet:self.vertexSet]) {
         [self removeVertex:vert];
     }
+}
+
+-(IBAction)toggleSelectMode {
+    if (self.inSelectMode) {
+        self.inSelectMode = NO;
+        [self.selectButton setStyle:UIBarButtonItemStyleBordered];
+        for (EasyGraphElement *elt in self.selectedElements) {
+            [self unhighlightElement:elt];
+        }
+        [self.selectedElements removeAllObjects];
+        [self.floatingMenuPopoverController dismissPopoverAnimated:YES];
+    } else {
+        self.inSelectMode = YES;
+        [self.selectButton setStyle:UIBarButtonItemStyleDone];
+        if (self.inRemoveMode) {
+            [self toggleRemoveElementsMode:nil];
+        } else if (self.inSubdivideMode) {
+            [self toggleSubdivideMode:nil];
+        } else if (self.inContractMode) {
+            [self toggleContractMode:nil];
+        }
+    }
+    [self updateModesButton:@"Select" withDoneStyle:self.inSelectMode];
 }
 
 - (IBAction)toggleRemoveElementsMode:(UIBarButtonItem *)sender {
@@ -958,8 +1026,9 @@
             [self toggleSubdivideMode:sender];
         } else if (self.inContractMode) {
             [self toggleContractMode:sender];
-        } else if ([self.easyGraphCanvas inNonEdgeMode]) {
-            [self toggleNonEdgeMode:sender];
+
+        } else if (self.inSelectMode) {
+            [self toggleSelectMode];
         }
     }
     [self updateModesButton:@"Remove" withDoneStyle:self.inRemoveMode];
@@ -979,6 +1048,8 @@
             [self toggleContractMode:sender];
         } else if ([self.easyGraphCanvas inNonEdgeMode]) {
             [self toggleNonEdgeMode:sender];
+        } else if (self.inSelectMode) {
+            [self toggleSelectMode];
         }
     }
     [self updateModesButton:@"Subdivide" withDoneStyle:self.inSubdivideMode];
@@ -998,6 +1069,8 @@
             [self toggleSubdivideMode:sender];
         } else if ([self.easyGraphCanvas inNonEdgeMode]) {
             [self toggleNonEdgeMode:sender];
+        } else if (self.inSelectMode) {
+            [self toggleSelectMode];
         }
     }
     [self updateModesButton:@"Contract" withDoneStyle:self.inContractMode];
@@ -1106,7 +1179,7 @@
 - (void) setSelectedColor:(UIBarButtonItemWithObject *)sender {
     UIColor *color = [sender tintColor];
     
-    if (self.chosenVertex == nil && self.chosenEdge == nil) {
+    if ([self.selectedElements count] == 0) {
         if (self.changingVertexColor) {
             [self setVertexColour:color];
             [self.vertexColourButton setTintColor:color];
@@ -1116,19 +1189,14 @@
             [self.edgeColourButton setTintColor:color];
         }
     } else {
-        id item = self.chosenVertex == nil ? self.chosenEdge : self.chosenVertex;
-        
-        //item is either a vertexView or an edgeView and has colour property.
-        [[self.undoManager prepareWithInvocationTarget:self] undoItem:item colourChangeForColour:[item colour]];
-
-        [item setColour:[sender tintColor]];
-        [item setOpaque:NO];
-        [item setNeedsDisplay];
-        
-        // floating menu was visible
-        [self.floatingMenuPopoverController dismissPopoverAnimated:NO];
+        for (EasyGraphElement *element in self.selectedElements) {
+            [[self.undoManager prepareWithInvocationTarget:self] undoItem:element colourChangeForColour:[element colour]];
+            [element setColour:[sender tintColor]];
+            [element setOpaque:NO];
+            [element setNeedsDisplay];
+        }
+        [self.selectedElements removeAllObjects];
     }
-    
     [self setChangingVertexColor:NO];
     [self dismissColourPickerWithTag:[self.colourPickerPopoverController.contentViewController.view tag] fromSender:sender];
 }
@@ -1152,7 +1220,6 @@
      for (UIColor *col in colours) {
          colButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:@selector(setSelectedColor:)];
          [colButton setTintColor:col];
-         [colButton setWidth:44];
          [colourButtons addObject:colButton];
      }
      return colourButtons;
@@ -1175,6 +1242,15 @@
                             Helper Methods
 *******************************************************************************/
 
+- (double) getToolBarWidthFromButtons:(NSArray *)buttons {
+    UIView *view;
+    double width = 0;
+    for (int i = 0; i < [buttons count]; i++) {
+        view = (UIView *)[buttons objectAtIndex:i];
+        width += view.bounds.size.width + 30;
+    }
+    return width;
+}
 
 - (BOOL) isNeighbour:(EasyGraphVertexView *)start of:(EasyGraphVertexView *)end {
     for (EasyGraphEdgeView *outEdge in start.outNeighbs) {
