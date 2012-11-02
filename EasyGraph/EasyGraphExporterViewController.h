@@ -7,11 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <DropboxSDK/DropboxSDK.h>
 #import "EasyGraphVertexView.h"
 #import "EasyGraphEdgeView.h"
 
+
 @interface EasyGraphExporterViewController : UIViewController
-                                                <UIDocumentInteractionControllerDelegate>
+<UIDocumentInteractionControllerDelegate,
+DBRestClientDelegate> {
+    DBRestClient *restClient;
+    BOOL savingToDropbox;
+}
 
 @property (strong, nonatomic) IBOutlet UITextView *codeField;
 @property (strong, nonatomic) IBOutlet UIView *settingsView;
@@ -23,8 +29,6 @@
 @property (strong, nonatomic) IBOutlet UIToolbar *buttonsToolBar;
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *saveButton;
-
-
 
 @property (strong, nonatomic) IBOutlet UIToolbar *middleBar;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *exportPDFButton;
@@ -82,6 +86,7 @@
 - (IBAction)edgeWidthFieldChanged:(UITextField *)sender;
 - (IBAction)openInDialouge:(id)sender;
 - (IBAction)makePreview:(id)sender;
+- (IBAction)savePressed:(UIBarButtonItem *)sender;
 
 
 @end

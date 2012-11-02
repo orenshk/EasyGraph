@@ -163,9 +163,14 @@
     [latexCode appendString:[strings componentsJoinedByString:@""]];
     
     [latexCode writeToFile:[self getPathForFileOfType:@"tex"] atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
+    if (savingToDropbox) {
+        
+        [[self restClient] loadMetadata:@"/"];
+        savingToDropbox = NO;
+    }
     [self.codeField setText:latexCode];
     [self.colors removeAllObjects];
-    NSLog(@"%@", latexCode);
+//    NSLog(@"%@", latexCode);
 }
 
 - (NSMutableString *) processCurvedEdgeForTiKz:(EasyGraphEdgeView *)edge {
@@ -351,11 +356,7 @@
  *******************************************************************************/
 
 - (IBAction)makePDF {
-    NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *docsDir = [dirPaths objectAtIndex:0];
-    NSString *fileName = [NSString stringWithFormat:@"%@.pdf", self.title];
-    NSString *path = [[NSString alloc] initWithString:[docsDir stringByAppendingPathComponent:fileName]];
-    
+    NSString *path = [self getPathForFileOfType:@"pdf"];
     double width = 612;
     double height = 792;
     UIGraphicsBeginPDFContextToFile(path, CGRectMake(0, 0, width, height), nil);
@@ -373,7 +374,7 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self.pdfView setScalesPageToFit:YES];
     [self.pdfView loadRequest:request];
-    self.documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:path]];
+    self.documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:url];
 }
 
 - (void) drawEdgesToPDFWithOffsets:(CGPoint) offsets {
@@ -446,17 +447,68 @@
  *******************************************************************************/
 
 - (IBAction)openInDialouge:(id)sender {
-    if (self.documentInteractionController == nil) {
-        
-    } else {
+    if (self.documentInteractionController != nil) {
         self.documentInteractionController.delegate = self;
-        [self.documentInteractionController presentOpenInMenuFromBarButtonItem:self.openPDFInButton animated:YES];
+        BOOL res = [self.documentInteractionController presentOpenInMenuFromBarButtonItem:self.openPDFInButton animated:YES];
+        NSLog(@"%d", res);
     }
     
 }
 
 - (IBAction)makePreview:(id)sender {
     [self exportGraph:self.exportLanguageSelector];
+}
+
+- (IBAction)savePressed:(UIBarButtonItem *)sender {
+    if (![[DBSession sharedSession] isLinked]) {
+        [[DBSession sharedSession] linkFromController:self];
+    }
+    
+    savingToDropbox = YES;
+    [self makePreview:nil];
+    
+}
+
+- (DBRestClient *)restClient {
+    if (!restClient) {
+        restClient =
+        [[DBRestClient alloc] initWithSession:[DBSession sharedSession]];
+        restClient.delegate = self;
+    }
+    return restClient;
+}
+
+- (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata {
+    NSString *path = [self getPathForFileOfType:@"tex"];
+    NSString *filename = [path substringFromIndex:([path length] - [self.title length] - 4)];
+    NSString *rev = nil;
+    if (metadata.isDirectory) {
+//        NSLog(@"Folder '%@' contains:", metadata.path);
+        for (DBMetadata *file in metadata.contents) {
+//            NSLog(@"\t%@, rev: %@", file.filename, file.rev);
+            if ([filename isEqualToString:file.filename]) {
+                rev = file.rev;
+            }
+        }
+    }
+
+    [[self restClient] uploadFile:filename toPath:@"/" withParentRev:rev fromPath:path];
+}
+
+- (void)restClient:(DBRestClient *)client
+loadMetadataFailedWithError:(NSError *)error {
+    
+    NSLog(@"Error loading metadata: %@", error);
+}
+
+- (void)restClient:(DBRestClient*)client uploadedFile:(NSString*)destPath
+              from:(NSString*)srcPath metadata:(DBMetadata*)metadata {
+    
+    NSLog(@"File uploaded successfully to path: %@", metadata.path);
+}
+
+- (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error {
+    NSLog(@"File upload failed with error - %@", error);
 }
 
 - (IBAction)scaleSliderMoved:(UISlider *)sender {

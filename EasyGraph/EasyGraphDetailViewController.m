@@ -8,11 +8,6 @@
 
 #import "EasyGraphDetailViewController.h"
 
-@implementation UIBarButtonItemWithObject
-@synthesize intendedObject;
-
-@end
-
 @interface EasyGraphDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 //- (void)configureView;
@@ -23,10 +18,9 @@
 @synthesize undoButton, redoButton, subdivideButton, contractButton, nonEdgeButton;
 @synthesize removeElementsButton, easyGraphCanvas;
 @synthesize gridSize, vertexSet, movingVertexView, edgeStartPoint;
-@synthesize inRemoveMode, undoManager, saveDataPath, inSubdivideMode;
-@synthesize inContractMode, vertexFrameSize, vertexColour, edgeColour;
-@synthesize colourPickerPopoverController, exportButton, pdfButton, latexPSTButton;
-@synthesize isDirected, relabelDialouge;
+@synthesize undoManager, saveDataPath;
+@synthesize vertexFrameSize, vertexColour, edgeColour;
+@synthesize colourPickerPopoverController, exportButton, isDirected;
 
 #pragma mark - Managing the detail item
 
@@ -56,11 +50,11 @@
     self.vertexSet = [[NSMutableSet alloc] init];
     self.movingVertexView = nil;
     self.gridSize = 30;
-    self.hidingLabels = NO;
-    self.inRemoveMode = NO;
-    self.inSubdivideMode = NO;
+    hidingLabels = NO;
+    inRemoveMode = NO;
+    inSubdivideMode = NO;
     self.changingVertexColor = NO;
-    self.inSelectMode = NO;
+    inSelectMode = NO;
     self.vertexColour = [UIColor blackColor];
     self.edgeColour = [UIColor blackColor];
     prevNumberOfTouches = 1;
@@ -104,12 +98,20 @@
     NSArray *rightButtons = [[NSArray alloc] initWithObjects:[self.navigationItem rightBarButtonItem], self.vertexColourButton, self.edgeColourButton, nil];
     [self.navigationItem setRightBarButtonItems:rightButtons animated:NO];
     
-    self.exportButton = [[UIBarButtonItem alloc] initWithTitle:@"Export" style:UIBarButtonItemStyleBordered target:self action:@selector(exportDialoug:)];
+    self.exportButton = [[UIBarButtonItem alloc] initWithTitle:@"Export" style:UIBarButtonItemStyleBordered target:self action:@selector(openExportView:)];
     NSArray *leftButtons = [[NSArray alloc] initWithObjects:[self.navigationItem leftBarButtonItem], self.exportButton, nil];
     [self.navigationItem setLeftBarButtonItems:leftButtons];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    //Add dropbox support
+    DBSession* dbSession =
+    [[DBSession alloc]
+     initWithAppKey:@"gltrsjotofeak0p"
+     appSecret:@"nw8e4urd39rnvxj"
+     root:kDBRootAppFolder];
+    [DBSession setSharedSession:dbSession];
     
     [self saveData];
 }
@@ -198,32 +200,11 @@
     return YES;
 }
 
-- (IBAction)handleRotate:(UIRotationGestureRecognizer *)sender {
-    if (self.movingVertexView == nil && self.edgeStartPoint == nil) {
-        float rotation = self.angle + sender.rotation;
-        self.easyGraphCanvas.transform = CGAffineTransformMakeRotation(rotation);
-        
-        
-        if (sender.state == UIGestureRecognizerStateEnded) {
-            if (-0.2 <= rotation && rotation <= 0.2) {
-                self.easyGraphCanvas.transform = CGAffineTransformMakeRotation(0);
-                rotation = 0;
-            }
-            self.angle = rotation;
-        }
-        
-        //snaps
-        // redraw grid?
-    }
-}
-
 - (void)viewDidUnload
 {
     [self setMenuPopoverController:nil];
-    [self setRelabelDialouge:nil];
     [self setExportButton:nil];
     [self setLabelsMenuButton:nil];
-    [self setEditButton:nil];
     [self setModesButton:nil];
     [self setScrollView:nil];
     [self setRenameView:nil];
@@ -300,7 +281,7 @@
         [vert.inNeighbs removeAllObjects];
         [vert.outNeighbs removeAllObjects];
     }
-    [self setIsDirected:[[dataArray objectAtIndex:1] boolValue]];
+    isDirected = [[dataArray objectAtIndex:1] boolValue];
     for (EasyGraphEdgeView *edge in edgeSet) {
         [self.easyGraphCanvas setCurvePoints:[NSMutableArray arrayWithArray:[edge curvePoints]]];
         [self setEdgeColour:edge.colour];
@@ -308,13 +289,13 @@
     }
     [self.easyGraphCanvas.curvePoints removeAllObjects];
     [self setEdgeColour:[UIColor blackColor]];
-    NSString *subtitle = [self isDirected] ? @"(Directed)" : @"(Undirected)";
+    NSString *subtitle = isDirected ? @"(Directed)" : @"(Undirected)";
     [self setUpTitleViewWithTitle:[self title] andSubtitle:subtitle];
 }
 
 - (void) saveData {
     self.saveDataPath = [self updateFileName];
-    NSArray *toArchive = [NSArray arrayWithObjects:self.vertexSet, [NSNumber numberWithBool:self.isDirected], nil];
+    NSArray *toArchive = [NSArray arrayWithObjects:self.vertexSet, [NSNumber numberWithBool:isDirected], nil];
     [NSKeyedArchiver archiveRootObject:toArchive toFile:self.saveDataPath];
 }
 
@@ -358,6 +339,25 @@
     }
 }
 
+- (IBAction)handleRotate:(UIRotationGestureRecognizer *)sender {
+    if (self.movingVertexView == nil && self.edgeStartPoint == nil) {
+        float rotation = angle + sender.rotation;
+        self.easyGraphCanvas.transform = CGAffineTransformMakeRotation(rotation);
+        
+        
+        if (sender.state == UIGestureRecognizerStateEnded) {
+            if (-0.2 <= rotation && rotation <= 0.2) {
+                self.easyGraphCanvas.transform = CGAffineTransformMakeRotation(0);
+                rotation = 0;
+            }
+            angle = rotation;
+        }
+        
+        //snaps
+        // redraw grid?
+    }
+}
+
 - (IBAction)handleLongPress:(UIGestureRecognizer *)sender {
     if ([sender state] == UIGestureRecognizerStateBegan) {
         CGPoint location = [sender locationInView:self.easyGraphCanvas];
@@ -368,7 +368,7 @@
 - (IBAction)handleSingleTap:(UITapGestureRecognizer *)sender {
     CGPoint locationPoint = [sender locationOfTouch:0 inView:self.easyGraphCanvas];
     UIView *touched = [self.easyGraphCanvas hitTest:locationPoint withEvent:nil];
-    if (self.inRemoveMode) {
+    if (inRemoveMode) {
         if ([touched isKindOfClass:[EasyGraphVertexView class]]) {
             [self removeVertex:(EasyGraphVertexView *)touched];
         } else if ([touched isKindOfClass:[EasyGraphEdgeView class]]) {
@@ -376,15 +376,15 @@
                 ((EasyGraphEdgeView *)touched).startVertex.center
                               toVertexAt:((EasyGraphEdgeView *)touched).endVertex.center];
         }
-    } else if (self.inSubdivideMode) {
+    } else if (inSubdivideMode) {
         if ([touched isKindOfClass:[EasyGraphEdgeView class]]) 
             [self subdivide:(EasyGraphEdgeView *)touched atPoint:locationPoint];
         
-    } else if (self.inContractMode) {
+    } else if (inContractMode) {
         if ([touched isKindOfClass:[EasyGraphEdgeView class]])
             [self contract:(EasyGraphEdgeView *)touched];
         
-    } else if (self.inSelectMode) {
+    } else if (inSelectMode) {
         EasyGraphElement *elt = (EasyGraphElement *)touched;
         if ([self.selectedElements containsObject:elt]) {
             [self unhighlightElement:elt];
@@ -495,7 +495,7 @@
     [vert setVertexNum:[self.vertexSet count]];
     
     [vert setColour:self.vertexColour];
-    if (self.hidingLabels) {
+    if (hidingLabels) {
         [[vert label] removeFromSuperview];
     }
     [[self.undoManager prepareWithInvocationTarget:self] removeVertex:vert];
@@ -516,7 +516,7 @@
         [newEdgeView setCurvePoints:[NSMutableArray arrayWithArray:[self.easyGraphCanvas curvePoints]]];
         [newEdgeView setIsNonEdge:nonEdge];
         [newEdgeView setColour:self.edgeColour];
-        [newEdgeView setIsDirected:self.isDirected];
+        [newEdgeView setIsDirected:isDirected];
         
         [self.easyGraphCanvas addSubview:newEdgeView];
         
@@ -690,7 +690,7 @@
             tag = 1;
         }
         
-        if (self.inSelectMode) {
+        if (inSelectMode) {
             tag = 0;
             [passThrough addObject:self.easyGraphCanvas];
         }
@@ -730,7 +730,7 @@
 }
 
 - (void) cancelSelection:(UIBarButtonItem *)sender {
-    if (self.inSelectMode) {
+    if (inSelectMode) {
         [self toggleSelectMode];
     } else {
         [self.floatingMenuPopoverController dismissPopoverAnimated:YES];
@@ -743,8 +743,9 @@
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
+
     if ([[textField placeholder] isEqualToString:@"Enter new label letter"]) {
-        [self renameElement:textField];
+        [self.renamePopoverController dismissPopoverAnimated:YES];
     }
 
     [textField resignFirstResponder];
@@ -796,7 +797,7 @@
     if (self.renamePopoverController == nil) {
         UIViewController *viewController = [[UIViewController alloc] init];
         [viewController.view addSubview:self.renameView];
-        self.renamePopoverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
+        self.renamePopoverController = [[UIPopoverController alloc]initWithContentViewController:viewController];
         [self.renamePopoverController setPopoverContentSize:self.renameView.frame.size];
         [self.renamePopoverController setPopoverBackgroundViewClass:[EasyGraphPopoverBackgroundView class]];
     }
@@ -804,13 +805,15 @@
         [self.renamePopoverController dismissPopoverAnimated:YES];
     } else {
         [self.renamePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        [self.renameView becomeFirstResponder];
     }
 }
 
 - (IBAction)renameElement:(UITextField *)sender {
+    NSString *newLetter = [sender.text substringToIndex:1];
     for (EasyGraphElement *element in self.selectedElements) {
         [[self.undoManager prepareWithInvocationTarget:self] undoElement:element rename:[element letter]];
-        [element setLetter:[sender text]];
+        [element setLetter:newLetter];
         [self unhighlightElement:element];
         [element setOpaque:NO];
         [element setNeedsDisplay];
@@ -818,8 +821,11 @@
     [self.selectedElements removeAllObjects];
     [sender setText:@""];
     [sender setPlaceholder:@"Enter new label letter"];
-    [self.renamePopoverController dismissPopoverAnimated:YES];
-    [self toggleSelectMode];
+    if (inSelectMode) {
+        [self toggleSelectMode];
+    } else {
+        [self finishSelection];
+    }
     [self saveData];
 }
 
@@ -830,7 +836,7 @@
     [self renameElement:sender];
 }
 
-- (void) processDelete:(UIBarButtonItemWithObject *)sender {
+- (void) processDelete:(UIBarButtonItem *)sender {
     for (UIView *view in self.selectedElements) {
         if ([view isKindOfClass:[EasyGraphEdgeView class]]) {
             EasyGraphEdgeView *edge = (EasyGraphEdgeView *)view;
@@ -840,7 +846,11 @@
         }
     }
     [self.selectedElements removeAllObjects];
-    [self toggleSelectMode];
+    if (inSelectMode) {
+        [self toggleSelectMode];
+    } else {
+        [self finishSelection];
+    }
 }
 
 - (void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
@@ -877,7 +887,6 @@
 }
 
 - (void) highlightVertex:(EasyGraphVertexView *)vert {
-    vert.layer.opaque = YES;
     vert.layer.masksToBounds = NO;
     vert.layer.shadowOffset = CGSizeMake(0, 0);
     vert.layer.shadowRadius = 2.5;
@@ -888,7 +897,6 @@
 }
 
 - (void) unhighlightVertex:(EasyGraphVertexView *)vert {
-    vert.layer.opaque = YES;
     vert.layer.masksToBounds = NO;
     vert.layer.shadowOffset = CGSizeMake(-4, 0);
     vert.layer.shadowRadius = 2.5;
@@ -970,17 +978,17 @@
 }
 
 -(IBAction)toggleLabels:(UIBarButtonItem *)sender {
-    if (!self.hidingLabels) {
+    if (!hidingLabels) {
         for (EasyGraphVertexView *vert in self.vertexSet) {
             [[vert label] removeFromSuperview];
         }
-        self.hidingLabels = YES;
+        hidingLabels = YES;
         [sender setTitle:@"Show Labels"];
     } else {
         for (EasyGraphVertexView *vert in self.vertexSet) {
             [vert addSubview:[vert label]];
         }
-        self.hidingLabels = NO;
+        hidingLabels = NO;
         [sender setTitle:@"Hide Labels"];
     }
 }
@@ -991,89 +999,93 @@
     }
 }
 
+- (void) finishSelection {
+    for (EasyGraphElement *elt in self.selectedElements) {
+        [self unhighlightElement:elt];
+    }
+    [self.selectedElements removeAllObjects];
+    [self.floatingMenuPopoverController dismissPopoverAnimated:YES];
+}
+
 -(IBAction)toggleSelectMode {
-    if (self.inSelectMode) {
-        self.inSelectMode = NO;
+    if (inSelectMode) {
+        inSelectMode = NO;
         [self.selectButton setStyle:UIBarButtonItemStyleBordered];
-        for (EasyGraphElement *elt in self.selectedElements) {
-            [self unhighlightElement:elt];
-        }
-        [self.selectedElements removeAllObjects];
-        [self.floatingMenuPopoverController dismissPopoverAnimated:YES];
+        [self finishSelection];
     } else {
-        self.inSelectMode = YES;
+        inSelectMode = YES;
         [self.selectButton setStyle:UIBarButtonItemStyleDone];
-        if (self.inRemoveMode) {
+        if (inRemoveMode) {
             [self toggleRemoveElementsMode:nil];
-        } else if (self.inSubdivideMode) {
+        } else if (inSubdivideMode) {
             [self toggleSubdivideMode:nil];
-        } else if (self.inContractMode) {
+        } else if (inContractMode) {
             [self toggleContractMode:nil];
         }
     }
-    [self updateModesButton:@"Select" withDoneStyle:self.inSelectMode];
+    [self updateModesButton:@"Select" withDoneStyle:inSelectMode];
 }
 
 - (IBAction)toggleRemoveElementsMode:(UIBarButtonItem *)sender {
-    if (self.inRemoveMode) {
-        [self setInRemoveMode:NO];
+    if (inRemoveMode) {
+        inRemoveMode = NO;
         [self.removeElementsButton setStyle:UIBarButtonItemStyleBordered];
         [self.removeElementsButton setTitle:@"Remove"];
     } else {
-        [self setInRemoveMode:YES];
+        inRemoveMode = YES;
         [self.removeElementsButton setStyle:UIBarButtonItemStyleDone];
-        if (self.inSubdivideMode) {
+        if (inSubdivideMode) {
             [self toggleSubdivideMode:sender];
-        } else if (self.inContractMode) {
+        } else if (inContractMode) {
             [self toggleContractMode:sender];
 
-        } else if (self.inSelectMode) {
+        } else if (inSelectMode) {
             [self toggleSelectMode];
         }
     }
-    [self updateModesButton:@"Remove" withDoneStyle:self.inRemoveMode];
+    [self updateModesButton:@"Remove" withDoneStyle:inRemoveMode];
 }
 
 - (IBAction)toggleSubdivideMode:(UIBarButtonItem *)sender {
-    if (self.inSubdivideMode) {
-        [self setInSubdivideMode:NO];
+    if (inSubdivideMode) {
+        inSubdivideMode = NO;
         [self.subdivideButton setStyle:UIBarButtonItemStyleBordered];
         [self.subdivideButton setTitle:@"Subdivide"];
     } else {
-        [self setInSubdivideMode:YES];
+        inSubdivideMode = YES;
         [self.subdivideButton setStyle:UIBarButtonItemStyleDone];
-        if (self.inRemoveMode) {
+        if (inRemoveMode) {
             [self toggleRemoveElementsMode:sender];
-        } else if (self.inContractMode) {
+        } else if (inContractMode) {
             [self toggleContractMode:sender];
         } else if ([self.easyGraphCanvas inNonEdgeMode]) {
             [self toggleNonEdgeMode:sender];
-        } else if (self.inSelectMode) {
+        } else if (inSelectMode) {
             [self toggleSelectMode];
         }
     }
-    [self updateModesButton:@"Subdivide" withDoneStyle:self.inSubdivideMode];
+    [self updateModesButton:@"Subdivide" withDoneStyle:inSubdivideMode];
 }
 
 - (IBAction)toggleContractMode:(UIBarButtonItem *)sender {
-    if (self.inContractMode) {
-        [self setInContractMode:NO];
+    if (inContractMode) {
+        inContractMode = NO;
         [self.contractButton setStyle:UIBarButtonItemStyleBordered];
         [self.contractButton setTitle:@"Contract"];
     } else {
-        [self setInContractMode:YES];
+        inContractMode = YES;
         [self.contractButton setStyle:UIBarButtonItemStyleDone];
-        if (self.inRemoveMode) {
+        if (inRemoveMode) {
             [self toggleRemoveElementsMode:sender];
-        } else if (self.inSubdivideMode) {
+        } else if (inSubdivideMode) {
             [self toggleSubdivideMode:sender];
         } else if ([self.easyGraphCanvas inNonEdgeMode]) {
             [self toggleNonEdgeMode:sender];
-        } else if (self.inSelectMode) {
+        } else if (inSelectMode) {
             [self toggleSelectMode];
         }
     }
-    [self updateModesButton:@"Contract" withDoneStyle:self.inContractMode];
+    [self updateModesButton:@"Contract" withDoneStyle:inContractMode];
 }
 
 - (IBAction)toggleNonEdgeMode:(UIBarButtonItem *)sender {
@@ -1084,11 +1096,11 @@
     } else {
         [self.easyGraphCanvas setInNonEdgeMode:YES];
         [self.nonEdgeButton setStyle:UIBarButtonItemStyleDone];
-        if (self.inRemoveMode) {
+        if (inRemoveMode) {
             [self toggleRemoveElementsMode:sender];
-        } else if (self.inSubdivideMode) {
+        } else if (inSubdivideMode) {
             [self toggleSubdivideMode:sender];
-        } else if (self.inContractMode) {
+        } else if (inContractMode) {
             [self toggleContractMode:sender];
         }
     }
@@ -1176,7 +1188,7 @@
     }
 }
 
-- (void) setSelectedColor:(UIBarButtonItemWithObject *)sender {
+- (void) setSelectedColor:(UIBarButtonItem *)sender {
     UIColor *color = [sender tintColor];
     
     if ([self.selectedElements count] == 0) {
@@ -1195,7 +1207,12 @@
             [element setOpaque:NO];
             [element setNeedsDisplay];
         }
-        [self.selectedElements removeAllObjects];
+        if (inSelectMode) {
+            [self toggleSelectMode];
+        } else {
+            [self finishSelection];
+        }
+        [self saveData];
     }
     [self setChangingVertexColor:NO];
     [self dismissColourPickerWithTag:[self.colourPickerPopoverController.contentViewController.view tag] fromSender:sender];
@@ -1229,7 +1246,7 @@
                                 Export Functionality
 *******************************************************************************/
 
-- (IBAction)exportDialoug:(id)sender {
+- (IBAction)openExportView:(id)sender {
     EasyGraphExporterViewController *latexController = [[EasyGraphExporterViewController alloc] initWithNibName:@"EasyGraphExporterViewController" bundle:nil];
     [latexController setVertexSet:[NSSet setWithSet:[self vertexSet]]];
     [latexController setScaleFactor:4.0];

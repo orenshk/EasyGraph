@@ -11,15 +11,8 @@
 #import "EasyGraphVertexView.h"
 #import "EasyGraphEdgeView.h"
 #import "EasyGraphMasterViewController.h"
-#import "GMPdfViewController.h"
 #import "EasyGraphExporterViewController.h"
 #import "EasyGraphPopoverBackgroundView.h"
-
-@interface UIBarButtonItemWithObject : UIBarButtonItem
-
-@property id intendedObject;
-
-@end
 
 @interface EasyGraphDetailViewController : UIViewController
                                                 <UISplitViewControllerDelegate,
@@ -29,9 +22,16 @@
                                                  UIScrollViewDelegate>
 {
     int prevNumberOfTouches;
+    BOOL inRemoveMode;
+    BOOL inSubdivideMode;
+    BOOL inContractMode;
+    BOOL inSelectMode;
+    BOOL hidingLabels;
+    float angle;
 }
 
-@property float angle;
+@property BOOL isDirected;
+
 
 @property (strong, nonatomic) IBOutlet UITextField *renameView;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -39,7 +39,6 @@
 @property (nonatomic, strong) UIPopoverController *renamePopoverController;
 @property (nonatomic) IBOutlet UIPopoverController *menuPopoverController;
 @property (nonatomic, strong) UIPopoverController *floatingMenuPopoverController;
-@property (nonatomic, strong) UIAlertView *relabelDialouge;
 
 /** Toolbar buttons */
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *removeElementsButton;
@@ -52,17 +51,12 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *edgeColourButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *exportButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *labelsMenuButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *editButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *modesButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *toggleLabelsButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *selectButton;
-
-@property (strong, nonatomic) IBOutlet UIButton *pdfButton;
-@property (strong, nonatomic) IBOutlet UIButton *latexPSTButton;
-
 @property (strong, nonatomic) UIPopoverController *exportPopOverController;
-
 @property (strong, nonatomic) UIPopoverController *colourPickerPopoverController;
+
 
 @property (strong, nonatomic) NSMutableSet *selectedElements;
 
@@ -92,13 +86,6 @@
 
 /** The colour of new EdgeViews being drawn */
 @property UIColor *edgeColour;
-
-@property BOOL inRemoveMode;
-@property BOOL inSubdivideMode;
-@property BOOL inContractMode;
-@property BOOL isDirected;
-@property BOOL inSelectMode;
-@property BOOL hidingLabels;
 
 /** Location of archive file holding VertexView information */
 @property NSString *saveDataPath;
@@ -284,7 +271,7 @@
 
 - (void) setSelectedColor:(id)sender;
 
-- (IBAction)exportDialoug:(id)sender;
+- (IBAction)openExportView:(id)sender;
 - (IBAction)showMenuPopover:(UIBarButtonItem *)sender;
 - (IBAction)renameElement:(UITextField *)sender;
 

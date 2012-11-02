@@ -21,9 +21,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        //[self setAlpha:0.0];
         [self setBackgroundColor:[UIColor clearColor]];
-        [self setOpaque:NO];
         self.inNeighbs = [[NSMutableSet alloc] init];
         self.outNeighbs = [[NSMutableSet alloc] init];
         self.vertexSize = 34;
@@ -118,7 +116,6 @@
     CGContextStrokePath(context);
     CGContextFillEllipseInRect(context, rectangle);
     
-    self.layer.opaque = YES;
     self.layer.masksToBounds = NO;
     self.layer.shadowOffset = CGSizeMake(-4, 0);
     self.layer.shadowRadius = 2.5;

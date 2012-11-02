@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A1196681162E550A00462E83 /* GMPdfViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1196680162E550A00462E83 /* GMPdfViewController.m */; };
 		A11E60111631E52300F0877C /* EasyGraphExporterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A11E600F1631E52300F0877C /* EasyGraphExporterViewController.m */; };
 		A11E60121631E52300F0877C /* EasyGraphExporterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A11E60101631E52300F0877C /* EasyGraphExporterViewController.xib */; };
 		A12499131638B9FB0021FB3C /* EasyGraphPetersenIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A12499121638B9FB0021FB3C /* EasyGraphPetersenIcon.png */; };
@@ -15,9 +14,11 @@
 		A1B5A64315B9EBE000EEC312 /* EasyGraphVertexView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5A64215B9EBE000EEC312 /* EasyGraphVertexView.m */; };
 		A1B5A64E15BAB5E100EEC312 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1B5A64D15BAB5E100EEC312 /* QuartzCore.framework */; };
 		A1B60BDE163F48A5007D943E /* EasyGraphPopoverBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B60BDD163F48A5007D943E /* EasyGraphPopoverBackgroundView.m */; };
-		A1B60BE4163F51CC007D943E /* bg-popover-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = A1B60BE3163F51CC007D943E /* bg-popover-grey.png */; };
-		A1B60BEC163F7163007D943E /* bg-popover-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = A1B60BEB163F7163007D943E /* bg-popover-arrow.png */; };
 		A1EE420F1641C55400323664 /* EasyGraphElement.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EE420E1641C55400323664 /* EasyGraphElement.m */; };
+		A1EE421316420D1E00323664 /* bg-popover-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = A1EE421116420D1E00323664 /* bg-popover-arrow.png */; };
+		A1EE421416420D1E00323664 /* bg-popover-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = A1EE421216420D1E00323664 /* bg-popover-grey.png */; };
+		A1EE421A1642128900323664 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EE42191642128900323664 /* DropboxSDK.framework */; };
+		A1EE42201642153500323664 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EE421F1642153500323664 /* Security.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		A1F99B2915B8D32600A3AF94 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F99B2815B8D32600A3AF94 /* UIKit.framework */; };
 		A1F99B2B15B8D32600A3AF94 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F99B2A15B8D32600A3AF94 /* Foundation.framework */; };
 		A1F99B2D15B8D32600A3AF94 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F99B2C15B8D32600A3AF94 /* CoreGraphics.framework */; };
@@ -29,17 +30,9 @@
 		A1F99B4215B8D32700A3AF94 /* EasyGraphMasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F99B4015B8D32700A3AF94 /* EasyGraphMasterViewController.xib */; };
 		A1F99B4515B8D32700A3AF94 /* EasyGraphDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F99B4315B8D32700A3AF94 /* EasyGraphDetailViewController.xib */; };
 		A1F99B7D15B8E94600A3AF94 /* EasyGraphCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F99B7C15B8E94600A3AF94 /* EasyGraphCanvas.m */; };
-		A1FED9E6162BFC1A002559BA /* HRBrightnessCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FED9DA162BFC1A002559BA /* HRBrightnessCursor.m */; };
-		A1FED9E7162BFC1A002559BA /* HRCgUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FED9DC162BFC1A002559BA /* HRCgUtil.m */; };
-		A1FED9E8162BFC1A002559BA /* HRColorCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FED9DE162BFC1A002559BA /* HRColorCursor.m */; };
-		A1FED9E9162BFC1A002559BA /* HRColorPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FED9E1162BFC1A002559BA /* HRColorPickerView.m */; };
-		A1FED9EA162BFC1A002559BA /* HRColorPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FED9E3162BFC1A002559BA /* HRColorPickerViewController.m */; };
-		A1FED9EB162BFC1A002559BA /* HRColorUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A1FED9E5162BFC1A002559BA /* HRColorUtil.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A119667F162E550A00462E83 /* GMPdfViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMPdfViewController.h; sourceTree = "<group>"; };
-		A1196680162E550A00462E83 /* GMPdfViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMPdfViewController.m; sourceTree = "<group>"; };
 		A11E600E1631E52200F0877C /* EasyGraphExporterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphExporterViewController.h; sourceTree = "<group>"; };
 		A11E600F1631E52300F0877C /* EasyGraphExporterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphExporterViewController.m; sourceTree = "<group>"; };
 		A11E60101631E52300F0877C /* EasyGraphExporterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EasyGraphExporterViewController.xib; sourceTree = "<group>"; };
@@ -49,13 +42,14 @@
 		A1B5A64115B9EBE000EEC312 /* EasyGraphVertexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphVertexView.h; sourceTree = "<group>"; };
 		A1B5A64215B9EBE000EEC312 /* EasyGraphVertexView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphVertexView.m; sourceTree = "<group>"; };
 		A1B5A64D15BAB5E100EEC312 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		A1B5A65015BAB60000EEC312 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A1B60BDC163F48A5007D943E /* EasyGraphPopoverBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphPopoverBackgroundView.h; sourceTree = "<group>"; };
 		A1B60BDD163F48A5007D943E /* EasyGraphPopoverBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphPopoverBackgroundView.m; sourceTree = "<group>"; };
-		A1B60BE3163F51CC007D943E /* bg-popover-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bg-popover-grey.png"; path = "../../../../../Downloads/bg-popover-grey.png"; sourceTree = "<group>"; };
-		A1B60BEB163F7163007D943E /* bg-popover-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bg-popover-arrow.png"; path = "../../../../../Downloads/bg-popover-arrow.png"; sourceTree = "<group>"; };
 		A1EE420D1641C55400323664 /* EasyGraphElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphElement.h; sourceTree = "<group>"; };
 		A1EE420E1641C55400323664 /* EasyGraphElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphElement.m; sourceTree = "<group>"; };
+		A1EE421116420D1E00323664 /* bg-popover-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-popover-arrow.png"; sourceTree = "<group>"; };
+		A1EE421216420D1E00323664 /* bg-popover-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-popover-grey.png"; sourceTree = "<group>"; };
+		A1EE42191642128900323664 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
+		A1EE421F1642153500323664 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A1F99B2415B8D32600A3AF94 /* EasyGraph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyGraph.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1F99B2815B8D32600A3AF94 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A1F99B2A15B8D32600A3AF94 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -74,19 +68,6 @@
 		A1F99B4415B8D32700A3AF94 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/EasyGraphDetailViewController.xib; sourceTree = "<group>"; };
 		A1F99B7B15B8E94600A3AF94 /* EasyGraphCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphCanvas.h; sourceTree = "<group>"; };
 		A1F99B7C15B8E94600A3AF94 /* EasyGraphCanvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphCanvas.m; sourceTree = "<group>"; };
-		A1FED9D9162BFC1A002559BA /* HRBrightnessCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRBrightnessCursor.h; sourceTree = "<group>"; };
-		A1FED9DA162BFC1A002559BA /* HRBrightnessCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRBrightnessCursor.m; sourceTree = "<group>"; };
-		A1FED9DB162BFC1A002559BA /* HRCgUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRCgUtil.h; sourceTree = "<group>"; };
-		A1FED9DC162BFC1A002559BA /* HRCgUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRCgUtil.m; sourceTree = "<group>"; };
-		A1FED9DD162BFC1A002559BA /* HRColorCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRColorCursor.h; sourceTree = "<group>"; };
-		A1FED9DE162BFC1A002559BA /* HRColorCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRColorCursor.m; sourceTree = "<group>"; };
-		A1FED9DF162BFC1A002559BA /* HRColorPickerMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRColorPickerMacros.h; sourceTree = "<group>"; };
-		A1FED9E0162BFC1A002559BA /* HRColorPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRColorPickerView.h; sourceTree = "<group>"; };
-		A1FED9E1162BFC1A002559BA /* HRColorPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRColorPickerView.m; sourceTree = "<group>"; };
-		A1FED9E2162BFC1A002559BA /* HRColorPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRColorPickerViewController.h; sourceTree = "<group>"; };
-		A1FED9E3162BFC1A002559BA /* HRColorPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRColorPickerViewController.m; sourceTree = "<group>"; };
-		A1FED9E4162BFC1A002559BA /* HRColorUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRColorUtil.h; sourceTree = "<group>"; };
-		A1FED9E5162BFC1A002559BA /* HRColorUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRColorUtil.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,10 +75,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1EE42201642153500323664 /* Security.framework in Frameworks */,
 				A1B5A64E15BAB5E100EEC312 /* QuartzCore.framework in Frameworks */,
 				A1F99B2915B8D32600A3AF94 /* UIKit.framework in Frameworks */,
 				A1F99B2B15B8D32600A3AF94 /* Foundation.framework in Frameworks */,
 				A1F99B2D15B8D32600A3AF94 /* CoreGraphics.framework in Frameworks */,
+				A1EE421A1642128900323664 /* DropboxSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,20 +97,9 @@
 			name = EasyGraphExporter;
 			sourceTree = "<group>";
 		};
-		A11E60151631E55C00F0877C /* GMPdfViewController */ = {
-			isa = PBXGroup;
-			children = (
-				A119667F162E550A00462E83 /* GMPdfViewController.h */,
-				A1196680162E550A00462E83 /* GMPdfViewController.m */,
-			);
-			name = GMPdfViewController;
-			sourceTree = "<group>";
-		};
 		A1F99B1915B8D32600A3AF94 = {
 			isa = PBXGroup;
 			children = (
-				A1FED9D8162BFC1A002559BA /* ColorPicker */,
-				A1B5A64D15BAB5E100EEC312 /* QuartzCore.framework */,
 				A1F99B2E15B8D32600A3AF94 /* EasyGraph */,
 				A1F99B2715B8D32600A3AF94 /* Frameworks */,
 				A1F99B2515B8D32600A3AF94 /* Products */,
@@ -145,7 +117,9 @@
 		A1F99B2715B8D32600A3AF94 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A1B5A65015BAB60000EEC312 /* QuartzCore.framework */,
+				A1EE421F1642153500323664 /* Security.framework */,
+				A1B5A64D15BAB5E100EEC312 /* QuartzCore.framework */,
+				A1EE42191642128900323664 /* DropboxSDK.framework */,
 				A1F99B2815B8D32600A3AF94 /* UIKit.framework */,
 				A1F99B2A15B8D32600A3AF94 /* Foundation.framework */,
 				A1F99B2C15B8D32600A3AF94 /* CoreGraphics.framework */,
@@ -165,7 +139,6 @@
 				A1B60BDC163F48A5007D943E /* EasyGraphPopoverBackgroundView.h */,
 				A1B60BDD163F48A5007D943E /* EasyGraphPopoverBackgroundView.m */,
 				A11E60141631E53B00F0877C /* EasyGraphExporter */,
-				A11E60151631E55C00F0877C /* GMPdfViewController */,
 				A1F99B7B15B8E94600A3AF94 /* EasyGraphCanvas.h */,
 				A1EE420D1641C55400323664 /* EasyGraphElement.h */,
 				A1EE420E1641C55400323664 /* EasyGraphElement.m */,
@@ -184,8 +157,8 @@
 		A1F99B2F15B8D32600A3AF94 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				A1B60BEB163F7163007D943E /* bg-popover-arrow.png */,
-				A1B60BE3163F51CC007D943E /* bg-popover-grey.png */,
+				A1EE421116420D1E00323664 /* bg-popover-arrow.png */,
+				A1EE421216420D1E00323664 /* bg-popover-grey.png */,
 				A1F99B3015B8D32600A3AF94 /* EasyGraph-Info.plist */,
 				A12499121638B9FB0021FB3C /* EasyGraphPetersenIcon.png */,
 				A1F99B3115B8D32600A3AF94 /* InfoPlist.strings */,
@@ -193,26 +166,6 @@
 				A1F99B3615B8D32600A3AF94 /* EasyGraph-Prefix.pch */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		A1FED9D8162BFC1A002559BA /* ColorPicker */ = {
-			isa = PBXGroup;
-			children = (
-				A1FED9D9162BFC1A002559BA /* HRBrightnessCursor.h */,
-				A1FED9DA162BFC1A002559BA /* HRBrightnessCursor.m */,
-				A1FED9DB162BFC1A002559BA /* HRCgUtil.h */,
-				A1FED9DC162BFC1A002559BA /* HRCgUtil.m */,
-				A1FED9DD162BFC1A002559BA /* HRColorCursor.h */,
-				A1FED9DE162BFC1A002559BA /* HRColorCursor.m */,
-				A1FED9DF162BFC1A002559BA /* HRColorPickerMacros.h */,
-				A1FED9E0162BFC1A002559BA /* HRColorPickerView.h */,
-				A1FED9E1162BFC1A002559BA /* HRColorPickerView.m */,
-				A1FED9E2162BFC1A002559BA /* HRColorPickerViewController.h */,
-				A1FED9E3162BFC1A002559BA /* HRColorPickerViewController.m */,
-				A1FED9E4162BFC1A002559BA /* HRColorUtil.h */,
-				A1FED9E5162BFC1A002559BA /* HRColorUtil.m */,
-			);
-			path = ColorPicker;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,8 +224,8 @@
 				A1F99B4515B8D32700A3AF94 /* EasyGraphDetailViewController.xib in Resources */,
 				A11E60121631E52300F0877C /* EasyGraphExporterViewController.xib in Resources */,
 				A12499131638B9FB0021FB3C /* EasyGraphPetersenIcon.png in Resources */,
-				A1B60BE4163F51CC007D943E /* bg-popover-grey.png in Resources */,
-				A1B60BEC163F7163007D943E /* bg-popover-arrow.png in Resources */,
+				A1EE421316420D1E00323664 /* bg-popover-arrow.png in Resources */,
+				A1EE421416420D1E00323664 /* bg-popover-grey.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,13 +243,6 @@
 				A1F99B7D15B8E94600A3AF94 /* EasyGraphCanvas.m in Sources */,
 				A1B5A64315B9EBE000EEC312 /* EasyGraphVertexView.m in Sources */,
 				A1B4A1CE15BCED2C00B80867 /* EasyGraphEdgeView.m in Sources */,
-				A1FED9E6162BFC1A002559BA /* HRBrightnessCursor.m in Sources */,
-				A1FED9E7162BFC1A002559BA /* HRCgUtil.m in Sources */,
-				A1FED9E8162BFC1A002559BA /* HRColorCursor.m in Sources */,
-				A1FED9E9162BFC1A002559BA /* HRColorPickerView.m in Sources */,
-				A1FED9EA162BFC1A002559BA /* HRColorPickerViewController.m in Sources */,
-				A1FED9EB162BFC1A002559BA /* HRColorUtil.m in Sources */,
-				A1196681162E550A00462E83 /* GMPdfViewController.m in Sources */,
 				A11E60111631E52300F0877C /* EasyGraphExporterViewController.m in Sources */,
 				A1B60BDE163F48A5007D943E /* EasyGraphPopoverBackgroundView.m in Sources */,
 				A1EE420F1641C55400323664 /* EasyGraphElement.m in Sources */,
@@ -386,6 +332,10 @@
 				CODE_SIGN_ENTITLEMENTS = EasyGraph/EasyGraph.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EasyGraph/EasyGraph-Prefix.pch";
 				INFOPLIST_FILE = "EasyGraph/EasyGraph-Info.plist";
@@ -404,6 +354,10 @@
 				CODE_SIGN_ENTITLEMENTS = EasyGraph/EasyGraph.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EasyGraph/EasyGraph-Prefix.pch";
 				INFOPLIST_FILE = "EasyGraph/EasyGraph-Info.plist";

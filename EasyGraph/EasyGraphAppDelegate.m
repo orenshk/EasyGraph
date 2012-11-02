@@ -7,10 +7,9 @@
 //
 
 #import "EasyGraphAppDelegate.h"
-
 #import "EasyGraphMasterViewController.h"
-
 #import "EasyGraphDetailViewController.h"
+#import <DropboxSDK/DropboxSDK.h>
 
 @implementation EasyGraphAppDelegate
 
@@ -56,6 +55,7 @@
     
     self.window.rootViewController = self.splitViewController;
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -84,6 +84,18 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    if ([[DBSession sharedSession] handleOpenURL:url]) {
+        if ([[DBSession sharedSession] isLinked]) {
+            NSLog(@"App linked successfully!");
+            // At this point you can start making API calls
+        }
+        return YES;
+    }
+    // Add whatever other url handling code your app requires here
+    return NO;
 }
 
 @end
