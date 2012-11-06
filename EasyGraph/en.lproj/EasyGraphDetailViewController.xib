@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1536</int>
 		<string key="IBDocument.SystemVersion">12C60</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2840</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
 		<string key="IBDocument.AppKitVersion">1187.34</string>
 		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1926</string>
+			<string key="NS.object.0">1930</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -350,6 +350,7 @@
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="clearAll:">id</string>
+						<string key="handleEdgeOrSingleTap:">UILongPressGestureRecognizer</string>
 						<string key="handleLongPress:">UIGestureRecognizer</string>
 						<string key="handlePanGesture:">UIPanGestureRecognizer</string>
 						<string key="handleRotate:">UIRotationGestureRecognizer</string>
@@ -358,7 +359,7 @@
 						<string key="performRedo:">id</string>
 						<string key="performUndo:">id</string>
 						<string key="renameElement:">UITextField</string>
-						<string key="savePressed:">id</string>
+						<string key="setupVertexMove:">UILongPressGestureRecognizer</string>
 						<string key="showMenuPopover:">UIBarButtonItem</string>
 						<string key="toggleContractMode:">UIBarButtonItem</string>
 						<string key="toggleLabels:">UIBarButtonItem</string>
@@ -370,6 +371,10 @@
 						<object class="IBActionInfo" key="clearAll:">
 							<string key="name">clearAll:</string>
 							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="handleEdgeOrSingleTap:">
+							<string key="name">handleEdgeOrSingleTap:</string>
+							<string key="candidateClassName">UILongPressGestureRecognizer</string>
 						</object>
 						<object class="IBActionInfo" key="handleLongPress:">
 							<string key="name">handleLongPress:</string>
@@ -403,9 +408,9 @@
 							<string key="name">renameElement:</string>
 							<string key="candidateClassName">UITextField</string>
 						</object>
-						<object class="IBActionInfo" key="savePressed:">
-							<string key="name">savePressed:</string>
-							<string key="candidateClassName">id</string>
+						<object class="IBActionInfo" key="setupVertexMove:">
+							<string key="name">setupVertexMove:</string>
+							<string key="candidateClassName">UILongPressGestureRecognizer</string>
 						</object>
 						<object class="IBActionInfo" key="showMenuPopover:">
 							<string key="name">showMenuPopover:</string>
@@ -527,6 +532,6 @@
 		<string key="IBDocument.TargetRuntimeIdentifier">IBIPadFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<string key="IBCocoaTouchPluginVersion">1926</string>
+		<string key="IBCocoaTouchPluginVersion">1930</string>
 	</data>
 </archive>

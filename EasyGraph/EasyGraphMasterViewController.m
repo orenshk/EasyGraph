@@ -240,7 +240,7 @@
     int graphCount = [self.fileList count] + 1;
     BOOL isDirected;
     [self.graphChoiceController dismissPopoverAnimated:YES];
-    NSMutableString *newGraph = [NSMutableString stringWithFormat:@"Untitled %d", graphCount];
+    NSMutableString *newGraph = [NSMutableString stringWithFormat:@"Untitled_%d", graphCount];
     [self.fileList addObject:newGraph];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:graphCount - 1 inSection:0];
     [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];

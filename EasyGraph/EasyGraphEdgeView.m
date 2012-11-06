@@ -136,7 +136,6 @@
 }
 
 - (void)setupShadow {
-    self.layer.opaque = YES;
     self.layer.masksToBounds = NO;
     self.layer.shadowOffset = CGSizeMake(0, 0);
     self.layer.shadowRadius = 2.5;

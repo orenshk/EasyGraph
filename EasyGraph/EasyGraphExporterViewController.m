@@ -14,7 +14,7 @@
 
 @implementation EasyGraphExporterViewController
 @synthesize scaleFactor, vertexSize, edgeWidth, colors, vertexSet;
-@synthesize vertexSizeMultiplier, edgeWidthMultiplier, doingPSTricks;
+@synthesize doingPSTricks;
 @synthesize isDirected;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -40,12 +40,19 @@
     [self roundBorderForLayer:self.middleBar.layer];
     
     [self setScaleFactor:5.0];
-    [self setEdgeWidth:7.0 / self.scaleFactor];
-    [self setVertexSizeMultiplier:1.0];
-    [self setEdgeWidthMultiplier:1.0];
+    [self setEdgeWidth:[self.edgeWidthSlider value]];
+    [self setVertexSize:[self.vertexSizeSlider value]];
     
     [self setDoingPSTricks:NO];
     [self exportGraph:self.exportLanguageSelector];
+    
+    //Add dropbox support
+    DBSession* dbSession =
+    [[DBSession alloc]
+     initWithAppKey:@"gltrsjotofeak0p"
+     appSecret:@"nw8e4urd39rnvxj"
+     root:kDBRootAppFolder];
+    [DBSession setSharedSession:dbSession];
 }
 
 - (void) roundBorderForLayer:(CALayer *)imageLayer {
@@ -96,25 +103,31 @@
 - (IBAction)exportGraph:(UISegmentedControl *)sender {
     switch ([sender selectedSegmentIndex]) {
         case 0:
+            extension = @"tikz.tex";
             [self processForTiKzFile];
             [self makePDF];
             break;
         case 1:
+            extension = @"pstricks.tex";
             [self processForPSTricksFile];
             [self setDoingPSTricks:YES];
             [self makePDF];
             [self setDoingPSTricks:NO];
             break;
         case 2:
+            extension = @"py";
             [self processForSageFile];
             break;
         case 3:
+            extension = @"m";
             [self.codeField setText:@"In the works..."];
             break;
         case 4:
+            extension = @"mathematica";
             [self.codeField setText:@"In the works..."];
             break;
         case 5:
+            extension = @"mpl";
             [self.codeField setText:@"In the works..."];
         default:
             break;
@@ -127,7 +140,7 @@
 
 - (void) processForTiKzFile {
     NSMutableString *latexCode = [NSMutableString stringWithString:@"\t\\begin{tikzpicture}\n"\
-                                  "\t\t\\tikzstyle{every node} = [circle, fill=black]\n"];
+                                  "\t\t\\tikzstyle{every node} = [circle, fill=black, inner sep=0pt]\n"];
     NSMutableString *colorString = [NSMutableString stringWithString:@"\n\t\t%COLORS\n"];
     NSMutableString *vertexString = [NSMutableString stringWithString:@"\n\n\t\t%VERTICES\n"];
     NSMutableString *straightEdgeString = [[NSMutableString alloc] init];
@@ -162,15 +175,10 @@
     NSArray *strings = [NSArray arrayWithObjects:colorString, vertexString, straightEdgeString, curvedEdgeString, @"\t\\end{tikzpicture}", nil];
     [latexCode appendString:[strings componentsJoinedByString:@""]];
     
-    [latexCode writeToFile:[self getPathForFileOfType:@"tex"] atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
-    if (savingToDropbox) {
-        
-        [[self restClient] loadMetadata:@"/"];
-        savingToDropbox = NO;
-    }
+    [latexCode writeToFile:[self getPathForFileOfType:extension] atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
+
     [self.codeField setText:latexCode];
     [self.colors removeAllObjects];
-//    NSLog(@"%@", latexCode);
 }
 
 - (NSMutableString *) processCurvedEdgeForTiKz:(EasyGraphEdgeView *)edge {
@@ -212,7 +220,6 @@
 
 - (NSString *) processVertexForTiKz:(EasyGraphVertexView *)vert {
     NSString *colorName, *borderColor, *vertexString;
-    self.vertexSize = vert.vertexSize / self.scaleFactor;
     colorName = [NSString stringWithFormat:@"color_%d",
                  [self.colors indexOfObject:[vert colour]]];
     borderColor = [[vert colour] isEqual:[UIColor whiteColor]] ? @", draw=black" : @"";
@@ -251,15 +258,13 @@
     
     NSArray *strings = [NSArray arrayWithObjects:colorString, edgeString, vertexString, @"\n\t\\end{pspicture}\n", nil];
     [latexCode appendString:[strings componentsJoinedByString:@""]];
-    NSLog(@"%@", latexCode);
-    [latexCode writeToFile:[self getPathForFileOfType:@"tex"] atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
+    [latexCode writeToFile:[self getPathForFileOfType:extension] atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
     
     [self.codeField setText:latexCode];
     [self.colors removeAllObjects];
 }
 
 - (NSString *) makePSTricksVertexCommandStringForVertex:(EasyGraphVertexView *)vert {
-    self.vertexSize = vert.vertexSize / self.scaleFactor;
     NSString *colorName = [NSString stringWithFormat:@"color_%d",
                                                 [self.colors indexOfObject:vert.colour]];
     NSMutableString *commandString = [[NSMutableString alloc] init];
@@ -276,19 +281,25 @@
 - (NSMutableString *) makePSTricksEdgeCommandStringForEdge:(EasyGraphEdgeView *)edge {
     NSString *colorName = [NSString stringWithFormat:@"color_%d", [self.colors indexOfObject:edge.colour]];
     NSMutableString *commandString = [[NSMutableString alloc] init];
-    NSString *directed = self.isDirected ? [NSString stringWithFormat:@"arrows=->, arrowsize=%.3fpt, arrowinset=0.15, ", 1.5*self.vertexSize] : @"";
-    if ([edge.curvePoints count] ==0) {
-        [commandString appendFormat:@"\t\t\\psline[%@linewidth=%.3fpt,linecolor=%@]{->}(%.3fpt, -%.3fpt)(%.3fpt, -%.3fpt)\n",
-         directed,
+    NSString *directedOne = @"";
+    NSString *directedTwo = @"";
+    if (self.isDirected) {
+        directedOne = [NSString stringWithFormat:@"arrows=->, arrowsize=%.3fpt, arrowinset=0.15, ", 1.5*self.vertexSize];
+        directedTwo = @">";
+    }
+    if ([edge.curvePoints count] == 0) {
+        [commandString appendFormat:@"\t\t\\psline[%@linewidth=%.3fpt,linecolor=%@]{-%@}(%.3fpt, -%.3fpt)(%.3fpt, -%.3fpt)\n",
+         directedOne,
          edgeWidth,
          colorName,
+         directedTwo,
          edge.startVertex.center.x/scaleFactor,
          edge.startVertex.center.y/scaleFactor,
          edge.endVertex.center.x/scaleFactor,
          edge.endVertex.center.y/scaleFactor];
     } else {
-        [commandString appendFormat:@"\t\t\\psecurve[%@linewidth=%.3fpt,linecolor=%@]{->}",
-         directed, edgeWidth, colorName];
+        [commandString appendFormat:@"\t\t\\psecurve[%@linewidth=%.3fpt,linecolor=%@]{-%@}",
+         directedOne, edgeWidth, colorName, directedTwo];
         CGPoint point;
         for (NSValue *pointVal in edge.splinePoints) {
             point = [edge convertPoint:[pointVal CGPointValue] toView:edge.superview];
@@ -314,7 +325,6 @@
         } else {
             [colorString appendFormat:@"{0, 0, 0}\n"];
         }
-        
     }
     return colorString;
 }
@@ -344,11 +354,9 @@
         [edges deleteCharactersInRange:NSMakeRange([edges length] - 2, 2)];
         [sageCode appendString:edges];
         [sageCode appendString:@"])"];
-
     }
-    [sageCode writeToFile:[self getPathForFileOfType:@"py"] atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
+    [sageCode writeToFile:[self getPathForFileOfType:extension] atomically:YES encoding:NSStringEncodingConversionAllowLossy error:nil];
     [self.codeField setText:sageCode];
-    NSLog(@"%@", sageCode);
 }
 
 /*******************************************************************************
@@ -385,7 +393,7 @@
     NSArray *splinePoints;
     for (EasyGraphVertexView *vert in self.vertexSet) {
         for (EasyGraphEdgeView *edge in vert.inNeighbs) {
-            CGContextSetLineWidth(context, self.edgeWidth * self.edgeWidthMultiplier);
+            CGContextSetLineWidth(context, self.edgeWidth);
             CGContextSetStrokeColorWithColor(context, edge.colour.CGColor);
             if (edge.isNonEdge) {
                 CGFloat dashArray[] = {6};
@@ -418,7 +426,7 @@
 - (void) drawVerticesToPDFWithOffsets:(CGPoint) offsets {
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGPoint center;
-    double vSize = self.vertexSizeMultiplier * self.vertexSize;
+    double vSize = self.vertexSize;
     if (self.doingPSTricks) {
         vSize *= 4.5;
     } else {
@@ -449,8 +457,7 @@
 - (IBAction)openInDialouge:(id)sender {
     if (self.documentInteractionController != nil) {
         self.documentInteractionController.delegate = self;
-        BOOL res = [self.documentInteractionController presentOpenInMenuFromBarButtonItem:self.openPDFInButton animated:YES];
-        NSLog(@"%d", res);
+        [self.documentInteractionController presentOpenInMenuFromBarButtonItem:self.openPDFInButton animated:YES];
     }
     
 }
@@ -464,9 +471,28 @@
         [[DBSession sharedSession] linkFromController:self];
     }
     
-    savingToDropbox = YES;
-    [self makePreview:nil];
+    [[self restClient] loadMetadata:@"/"];
     
+}
+
+- (IBAction)savePDFpressed:(UIBarButtonItem *)sender {
+    if (![[DBSession sharedSession] isLinked]) {
+        [[DBSession sharedSession] linkFromController:self];
+    }
+    extension = @"pdf";
+    [[self restClient] loadMetadata:@"/"];
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    if ([[DBSession sharedSession] handleOpenURL:url]) {
+        if ([[DBSession sharedSession] isLinked]) {
+            NSLog(@"App linked successfully!");
+            // At this point you can start making API calls
+        }
+        return YES;
+    }
+    // Add whatever other url handling code your app requires here
+    return NO;
 }
 
 - (DBRestClient *)restClient {
@@ -479,13 +505,15 @@
 }
 
 - (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata {
-    NSString *path = [self getPathForFileOfType:@"tex"];
-    NSString *filename = [path substringFromIndex:([path length] - [self.title length] - 4)];
+    NSString *path = [self getPathForFileOfType:extension];
+    int pathLength = [path length];
+    int titleLength = [self.title length];
+    int extLength = [extension length] + 1;
+    int filenameStart = pathLength - titleLength - extLength;
+    NSString *filename = [path substringFromIndex:filenameStart];
     NSString *rev = nil;
     if (metadata.isDirectory) {
-//        NSLog(@"Folder '%@' contains:", metadata.path);
         for (DBMetadata *file in metadata.contents) {
-//            NSLog(@"\t%@, rev: %@", file.filename, file.rev);
             if ([filename isEqualToString:file.filename]) {
                 rev = file.rev;
             }
@@ -527,25 +555,25 @@ loadMetadataFailedWithError:(NSError *)error {
 
 - (IBAction)vertexSizeSliderMoved:(UISlider *)sender {
     double newVal = (int)([sender value] * 10) / 10.0;
-    [self setVertexSizeMultiplier:newVal];
+    [self setVertexSize:newVal];
     [self.vertexSizeTextField setText:[NSString stringWithFormat:@"%.1f", newVal]];
 }
 
 - (IBAction)vertexSizeFieldChanged:(id)sender {
     CGFloat newScale = fmin([[[self vertexSizeTextField] text] floatValue], 10.0);
-    [self setVertexSizeMultiplier:newScale];
+    [self setVertexSize:newScale];
     [self.vertexSizeSlider setValue:newScale];
 }
 
 - (IBAction)edgeWitdhSliderMoved:(UISlider *)sender {
     double newVal = (int)([sender value] * 10) / 10.0;
-    [self setEdgeWidthMultiplier:newVal];
+    [self setEdgeWidth:newVal];
     [self.edgeWidthTextField setText:[NSString stringWithFormat:@"%.1f", newVal]];
 }
 
 - (IBAction)edgeWidthFieldChanged:(UITextField *)sender {
     CGFloat newScale = fmin([[[self edgeWidthTextField] text] floatValue], 10.0);
-    [self setEdgeWidthMultiplier:newScale];
+    [self setEdgeWidth:newScale];
     [self.edgeWidthSlider setValue:newScale];
 }
 

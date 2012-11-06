@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1536</int>
 		<string key="IBDocument.SystemVersion">12C60</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2840</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
 		<string key="IBDocument.AppKitVersion">1187.34</string>
 		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1926</string>
+			<string key="NS.object.0">1930</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
@@ -242,9 +242,9 @@
 												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 												<int key="IBUIContentHorizontalAlignment">0</int>
 												<int key="IBUIContentVerticalAlignment">0</int>
-												<float key="IBUIValue">1</float>
-												<float key="IBUIMinValue">1</float>
-												<float key="IBUIMaxValue">5</float>
+												<float key="IBUIValue">5</float>
+												<float key="IBUIMinValue">3</float>
+												<float key="IBUIMaxValue">15</float>
 											</object>
 											<object class="IBUITextField" id="603128660">
 												<reference key="NSNextResponder" ref="1001911733"/>
@@ -258,7 +258,7 @@
 												<bool key="IBUIClipsSubviews">YES</bool>
 												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 												<int key="IBUIContentVerticalAlignment">0</int>
-												<string key="IBUIText">1.0</string>
+												<string key="IBUIText">5.0</string>
 												<int key="IBUIBorderStyle">3</int>
 												<object class="NSColor" key="IBUITextColor">
 													<int key="NSColorSpace">3</int>
@@ -440,7 +440,7 @@
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 										<array class="NSMutableArray" key="IBUIItems">
 											<object class="IBUIBarButtonItem" id="753872867">
-												<string key="IBUITitle">Export PDF</string>
+												<string key="IBUITitle">Save PDF to Dropbox</string>
 												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 												<int key="IBUIStyle">1</int>
 												<reference key="IBUIToolbar" ref="861010249"/>
@@ -453,7 +453,7 @@
 											</object>
 											<object class="IBUIBarButtonItem" id="784011826">
 												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-												<float key="IBUIWidth">428</float>
+												<float key="IBUIWidth">373</float>
 												<reference key="IBUIToolbar" ref="861010249"/>
 												<int key="IBUISystemItemIdentifier">6</int>
 											</object>
@@ -5218,6 +5218,14 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">savePDFpressed:</string>
+						<reference key="source" ref="753872867"/>
+						<reference key="destination" ref="841351856"/>
+					</object>
+					<int key="connectionID">161</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">openInDialouge:</string>
 						<reference key="source" ref="310424800"/>
 						<reference key="destination" ref="841351856"/>
@@ -5553,7 +5561,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">160</int>
+			<int key="maxID">161</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5566,6 +5574,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<string key="exportGraph:">UISegmentedControl</string>
 						<string key="makePreview:">id</string>
 						<string key="openInDialouge:">id</string>
+						<string key="savePDFpressed:">UIBarButtonItem</string>
 						<string key="savePressed:">UIBarButtonItem</string>
 						<string key="scaleFieldChanged">id</string>
 						<string key="scaleSliderMoved:">UISlider</string>
@@ -5592,6 +5601,10 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<object class="IBActionInfo" key="openInDialouge:">
 							<string key="name">openInDialouge:</string>
 							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="savePDFpressed:">
+							<string key="name">savePDFpressed:</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
 						<object class="IBActionInfo" key="savePressed:">
 							<string key="name">savePressed:</string>
@@ -5719,6 +5732,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBIPadFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<string key="IBCocoaTouchPluginVersion">1926</string>
+		<string key="IBCocoaTouchPluginVersion">1930</string>
 	</data>
 </archive>

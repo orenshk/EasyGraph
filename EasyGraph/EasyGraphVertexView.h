@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
-#import <CoreText/CTStringAttributes.h>
 #import "EasyGraphElement.h"
 
 @interface EasyGraphVertexView : EasyGraphElement

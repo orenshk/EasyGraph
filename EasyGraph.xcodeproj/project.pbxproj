@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A100C14F164669B3004B01D3 /* EasyGraphGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = A100C14E164669B3004B01D3 /* EasyGraphGridView.m */; };
 		A11E60111631E52300F0877C /* EasyGraphExporterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A11E600F1631E52300F0877C /* EasyGraphExporterViewController.m */; };
 		A11E60121631E52300F0877C /* EasyGraphExporterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A11E60101631E52300F0877C /* EasyGraphExporterViewController.xib */; };
 		A12499131638B9FB0021FB3C /* EasyGraphPetersenIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A12499121638B9FB0021FB3C /* EasyGraphPetersenIcon.png */; };
@@ -33,6 +34,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A100C14D164669B3004B01D3 /* EasyGraphGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphGridView.h; sourceTree = "<group>"; };
+		A100C14E164669B3004B01D3 /* EasyGraphGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphGridView.m; sourceTree = "<group>"; };
 		A11E600E1631E52200F0877C /* EasyGraphExporterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphExporterViewController.h; sourceTree = "<group>"; };
 		A11E600F1631E52300F0877C /* EasyGraphExporterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphExporterViewController.m; sourceTree = "<group>"; };
 		A11E60101631E52300F0877C /* EasyGraphExporterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EasyGraphExporterViewController.xib; sourceTree = "<group>"; };
@@ -139,10 +142,12 @@
 				A1B60BDC163F48A5007D943E /* EasyGraphPopoverBackgroundView.h */,
 				A1B60BDD163F48A5007D943E /* EasyGraphPopoverBackgroundView.m */,
 				A11E60141631E53B00F0877C /* EasyGraphExporter */,
+				A100C14D164669B3004B01D3 /* EasyGraphGridView.h */,
+				A100C14E164669B3004B01D3 /* EasyGraphGridView.m */,
 				A1F99B7B15B8E94600A3AF94 /* EasyGraphCanvas.h */,
+				A1F99B7C15B8E94600A3AF94 /* EasyGraphCanvas.m */,
 				A1EE420D1641C55400323664 /* EasyGraphElement.h */,
 				A1EE420E1641C55400323664 /* EasyGraphElement.m */,
-				A1F99B7C15B8E94600A3AF94 /* EasyGraphCanvas.m */,
 				A1B5A64115B9EBE000EEC312 /* EasyGraphVertexView.h */,
 				A1B5A64215B9EBE000EEC312 /* EasyGraphVertexView.m */,
 				A1B4A1CC15BCED2C00B80867 /* EasyGraphEdgeView.h */,
@@ -246,6 +251,7 @@
 				A11E60111631E52300F0877C /* EasyGraphExporterViewController.m in Sources */,
 				A1B60BDE163F48A5007D943E /* EasyGraphPopoverBackgroundView.m in Sources */,
 				A1EE420F1641C55400323664 /* EasyGraphElement.m in Sources */,
+				A100C14F164669B3004B01D3 /* EasyGraphGridView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,10 +345,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EasyGraph/EasyGraph-Prefix.pch";
 				INFOPLIST_FILE = "EasyGraph/EasyGraph-Info.plist";
-				OTHER_CODE_SIGN_FLAGS = "-gta";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_NAME = EasyGraph;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
@@ -361,10 +369,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EasyGraph/EasyGraph-Prefix.pch";
 				INFOPLIST_FILE = "EasyGraph/EasyGraph-Info.plist";
-				OTHER_CODE_SIGN_FLAGS = "-gta";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_NAME = EasyGraph;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

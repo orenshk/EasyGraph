@@ -32,11 +32,6 @@
 @property (strong, nonatomic) NSMutableArray *curvePoints;
 
 /**
- Draw a grid of self.gridSize by self.gridSize squares
- */
-- (void) drawGrid;
-
-/**
  Return the x coordinate of the interception point of the line  L1 going through
  y and parallel to the x-axis, and the line L2 going through points (x1,y1)
  (x2,y2)

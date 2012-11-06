@@ -33,7 +33,7 @@
     if ([filemgr fileExistsAtPath:fileListPath]) {
         [masterViewController reloadFileList];
     } else {
-        masterViewController.fileList = [[NSMutableArray alloc] initWithObjects:@"Untitled 1", nil];
+        masterViewController.fileList = [[NSMutableArray alloc] initWithObjects:@"Untitled_1", nil];
     }
     for (NSString *name in masterViewController.fileList) {
         [masterViewController.graphCanvases addObject:
@@ -86,16 +86,16 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    if ([[DBSession sharedSession] handleOpenURL:url]) {
-        if ([[DBSession sharedSession] isLinked]) {
-            NSLog(@"App linked successfully!");
-            // At this point you can start making API calls
-        }
-        return YES;
-    }
-    // Add whatever other url handling code your app requires here
-    return NO;
-}
+//- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+//    if ([[DBSession sharedSession] handleOpenURL:url]) {
+//        if ([[DBSession sharedSession] isLinked]) {
+//            NSLog(@"App linked successfully!");
+//            // At this point you can start making API calls
+//        }
+//        return YES;
+//    }
+//    // Add whatever other url handling code your app requires here
+//    return NO;
+//}
 
 @end

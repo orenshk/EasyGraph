@@ -16,7 +16,7 @@
 <UIDocumentInteractionControllerDelegate,
 DBRestClientDelegate> {
     DBRestClient *restClient;
-    BOOL savingToDropbox;
+    NSString *extension;
 }
 
 @property (strong, nonatomic) IBOutlet UITextView *codeField;
@@ -52,8 +52,6 @@ DBRestClientDelegate> {
 
 @property double scaleFactor;
 @property double vertexSize;
-@property double vertexSizeMultiplier;
-@property double edgeWidthMultiplier;
 @property double edgeWidth;
 @property (strong, nonatomic) NSMutableArray *colors;
 @property (strong, nonatomic) NSSet *vertexSet;
@@ -87,6 +85,7 @@ DBRestClientDelegate> {
 - (IBAction)openInDialouge:(id)sender;
 - (IBAction)makePreview:(id)sender;
 - (IBAction)savePressed:(UIBarButtonItem *)sender;
+- (IBAction)savePDFpressed:(UIBarButtonItem *)sender;
 
 
 @end

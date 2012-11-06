@@ -13,6 +13,7 @@
 #import "EasyGraphMasterViewController.h"
 #import "EasyGraphExporterViewController.h"
 #import "EasyGraphPopoverBackgroundView.h"
+#import "EasyGraphGridView.h"
 
 @interface EasyGraphDetailViewController : UIViewController
                                                 <UISplitViewControllerDelegate,
@@ -27,6 +28,7 @@
     BOOL inContractMode;
     BOOL inSelectMode;
     BOOL hidingLabels;
+    BOOL doingScrollGesture;
     float angle;
 }
 
@@ -66,7 +68,7 @@
 /** The VertexView being moved, if any */
 @property (nonatomic, retain) EasyGraphVertexView *movingVertexView;
 
-/** If drawing an edge, it's start VertexView */
+/** If drawing an edge, the edge's start VertexView */
 @property (nonatomic, retain) EasyGraphVertexView *edgeStartPoint;
 
 /** The currently active canvas */

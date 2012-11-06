@@ -22,7 +22,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
+        self.opaque = NO;
         self.inNonEdgeMode = NO;
         self.edgeColour = [UIColor blackColor];
         self.curvePoints = [[NSMutableArray alloc] init];
@@ -40,26 +41,6 @@
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     [self.nextResponder touchesEnded:touches withEvent:event];
-}
-
-- (void) drawGrid {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGRect r = self.frame;
-    for (int x = 0; x < r.size.width; x = x + self.gridSize) {
-        CGContextSetLineWidth(context, 0.5);
-        CGContextSetStrokeColorWithColor(context, [UIColor blackColor].CGColor);
-        CGContextMoveToPoint(context, x, 0);
-        CGContextAddLineToPoint(context, x, r.size.height);
-        CGContextStrokePath(context);
-    }
-    
-    for (int y = 0; y < r.size.height; y = y + self.gridSize) {
-        CGContextSetLineWidth(context, 0.5);
-        CGContextSetStrokeColorWithColor(context, [UIColor blackColor].CGColor);
-        CGContextMoveToPoint(context, 0, y);
-        CGContextAddLineToPoint(context, r.size.width, y);
-        CGContextStrokePath(context);
-    }
 }
 
 - (double) findXintersectOfLineWith:(double)y andlineWithX1:(double)x1 Y1:(double)y1 X2:(double)x2 Y2:(double)y2 {
@@ -111,7 +92,6 @@
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     CGContextRef context = UIGraphicsGetCurrentContext();
-    [self drawGrid];
     if (self.drawingEdge) {
         CGContextSetLineWidth(context, 3.0);
         CGContextSetStrokeColorWithColor(context, self.edgeColour.CGColor);

@@ -24,7 +24,6 @@
 
 #pragma mark - Managing the detail item
 
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -105,13 +104,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
-    //Add dropbox support
-    DBSession* dbSession =
-    [[DBSession alloc]
-     initWithAppKey:@"gltrsjotofeak0p"
-     appSecret:@"nw8e4urd39rnvxj"
-     root:kDBRootAppFolder];
-    [DBSession setSharedSession:dbSession];
     
     [self saveData];
 }
@@ -127,7 +119,7 @@
     UILabel *titleView = [[UILabel alloc] initWithFrame:titleFrame];
     titleView.backgroundColor = [UIColor clearColor];
     titleView.font = [UIFont boldSystemFontOfSize:20];
-    titleView.textAlignment = UITextAlignmentCenter;
+    titleView.textAlignment = NSTextAlignmentCenter;
     titleView.textColor = [UIColor darkGrayColor];
     titleView.text = title;
     titleView.adjustsFontSizeToFitWidth = YES;
@@ -137,7 +129,7 @@
     UILabel *subtitleView = [[UILabel alloc] initWithFrame:subtitleFrame];
     subtitleView.backgroundColor = [UIColor clearColor];
     subtitleView.font = [UIFont boldSystemFontOfSize:13];
-    subtitleView.textAlignment = UITextAlignmentCenter;
+    subtitleView.textAlignment = NSTextAlignmentCenter;
     subtitleView.textColor = [UIColor darkGrayColor];
     subtitleView.text = subtitle;
     subtitleView.adjustsFontSizeToFitWidth = YES;
@@ -166,38 +158,46 @@
 
 - (void) configureGraphCanvasView {
     int mult = 1;
-    int width = mult *768;
+    int width = mult * 768;
     int height = mult * 916;
+    
+//    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 768, 916)];
+//    [self.scrollView.panGestureRecognizer setMinimumNumberOfTouches:3];
+//    [self.scrollView.panGestureRecognizer setMaximumNumberOfTouches:3];
+//    [self.scrollView setDelegate:self];
+//    [self.scrollView setMinimumZoomScale:1.0];
+//    [self.scrollView setMaximumZoomScale:3.0];
+//    [self.scrollView setContentSize:CGSizeMake(width, height)];
+//    [self.view addSubview:self.scrollView];
+
+    
+    EasyGraphGridView *gridView = [[EasyGraphGridView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+    [self.view addSubview:gridView];
+    
     self.easyGraphCanvas = [[EasyGraphCanvas alloc] initWithFrame:CGRectMake(0, 0, width, height)];
     [self.easyGraphCanvas setGridSize:self.gridSize];
     [self.easyGraphCanvas setMultipleTouchEnabled:YES];
-    [self.view addSubview:self.easyGraphCanvas];
-
+    [gridView addSubview:self.easyGraphCanvas];
+    
     UIPanGestureRecognizer *panDetector =
     [[UIPanGestureRecognizer alloc]
      initWithTarget:self action:@selector(handlePanGesture:)];
     [panDetector setMaximumNumberOfTouches:2];
-    [self.easyGraphCanvas addGestureRecognizer:panDetector];
     [panDetector setDelegate:self];
+    [self.easyGraphCanvas addGestureRecognizer:panDetector];
+
+    UITapGestureRecognizer *tapDetector = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+    [tapDetector setNumberOfTapsRequired:1];
+    [self.easyGraphCanvas addGestureRecognizer:tapDetector];
     
-    UITapGestureRecognizer *singleTap =
-    [[UITapGestureRecognizer alloc]
-     initWithTarget:self action:@selector(handleSingleTap:)];
-    [self.easyGraphCanvas addGestureRecognizer:singleTap];
-    [singleTap setDelegate:self];
-
-    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
-    [longPress setMinimumPressDuration:0.5];
-    [self.easyGraphCanvas addGestureRecognizer:longPress];
+    UILongPressGestureRecognizer *selectElementDetector = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    [selectElementDetector setMinimumPressDuration:0.5];
+    [self.easyGraphCanvas addGestureRecognizer:selectElementDetector];
 
     
-    UIRotationGestureRecognizer *rotate = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotate:)];
-    [self.easyGraphCanvas addGestureRecognizer:rotate];
+    UIRotationGestureRecognizer *rotateDetector = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotate:)];
+    [self.easyGraphCanvas addGestureRecognizer: rotateDetector];
 
-}
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return YES;
 }
 
 - (void)viewDidUnload
@@ -263,6 +263,8 @@
     self.masterPopoverController = nil;
 }
 
+# pragma mark - Archiving
+
 /*******************************************************************************
                                     Archiving
 *******************************************************************************/
@@ -305,7 +307,7 @@
     [fileMgr removeItemAtPath:self.saveDataPath error:nil];
 }
 
-#pragma mark - Graph Drawing
+#pragma mark - Touch Handling
 
 /*******************************************************************************
                                 Touch Handling
@@ -333,10 +335,13 @@
             [self unhighlightVertex:self.movingVertexView];
         }
         self.edgeStartPoint = [touched isKindOfClass:[EasyGraphVertexView class]] ? (EasyGraphVertexView *)touched : nil;
-        self.movingVertexView = nil;
         self.easyGraphCanvas.fingerStartPoint = locationPoint;
         self.easyGraphCanvas.drawingEdge = self.edgeStartPoint != nil;
     }
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
 }
 
 - (IBAction)handleRotate:(UIRotationGestureRecognizer *)sender {
@@ -354,7 +359,6 @@
         }
         
         //snaps
-        // redraw grid?
     }
 }
 
@@ -365,7 +369,7 @@
     }
 }
 
-- (IBAction)handleSingleTap:(UITapGestureRecognizer *)sender {
+- (IBAction)handleSingleTap:(UIGestureRecognizer *)sender {
     CGPoint locationPoint = [sender locationOfTouch:0 inView:self.easyGraphCanvas];
     UIView *touched = [self.easyGraphCanvas hitTest:locationPoint withEvent:nil];
     if (inRemoveMode) {
@@ -389,18 +393,21 @@
         if ([self.selectedElements containsObject:elt]) {
             [self unhighlightElement:elt];
             [self.selectedElements removeObject:elt];
+            if ([elt isKindOfClass:[EasyGraphVertexView class]]) {
+            }
             if ([self.selectedElements count] == 0) {
                 [self.floatingMenuPopoverController dismissPopoverAnimated:YES];
             }
         } else {
             [self highlightElement:elt];
             [self.selectedElements addObject:elt];
+            if ([elt isKindOfClass:[EasyGraphVertexView class]]) {
+            }
             if ([self.selectedElements count] == 1) {
                 [self showFloatingMenuAtLocation:locationPoint];
             }
         }
-    } else if (![touched isKindOfClass:[EasyGraphVertexView class]] &&
-            ![touched isKindOfClass:[EasyGraphEdgeView class]] &&
+    } else if ([touched isKindOfClass:[EasyGraphCanvas class]] &&
                                                 self.edgeStartPoint == nil) {
             [self makeNewVertex:locationPoint];
         
@@ -410,27 +417,26 @@
 - (IBAction)handlePanGesture:(UIPanGestureRecognizer *)sender {
     if (self.movingVertexView != nil) {
         EasyGraphVertexView *vert = self.movingVertexView;
-
-
         if (sender.state == UIGestureRecognizerStateEnded) {
-            CGPoint endPt = [self getClosestGridPointToPoint:self.movingVertexView.center];
+            CGPoint endPt = [self getClosestGridPointToPoint:vert.center];
             
-            self.movingVertexView.frame = CGRectMake(endPt.x - self.vertexFrameSize/2.0, endPt.y - self.vertexFrameSize/2.0, self.vertexFrameSize, self.vertexFrameSize);
+            vert.frame = CGRectMake(endPt.x - self.vertexFrameSize/2.0, endPt.y - self.vertexFrameSize/2.0, self.vertexFrameSize, self.vertexFrameSize);
 
             [self unhighlightVertex:vert];
-            [self updateEdgesFor:self.movingVertexView];
-
+            [self updateEdgesFor:vert];
             self.movingVertexView = nil;
+
         } else {
             CGPoint translation = [sender translationInView:self.easyGraphCanvas];
-            CGPoint vertexViewPosition = self.movingVertexView.center;
+            CGPoint vertexViewPosition = vert.center;
             vertexViewPosition.x += translation.x;
             vertexViewPosition.y += translation.y;
-            self.movingVertexView.center = vertexViewPosition;
+            vert.center = vertexViewPosition;
             [self highlightVertex:vert];
-            [self updateEdgesFor:self.movingVertexView];
-        }        
+            [self updateEdgesFor:vert];
+        }
         [sender setTranslation:CGPointZero inView:self.easyGraphCanvas];
+        
     } else if (self.edgeStartPoint != nil) {
         
         // draw edge
@@ -441,19 +447,18 @@
                 prevNumberOfTouches = 2;
             }
         } else if (prevNumberOfTouches == 2) {
-            [self.easyGraphCanvas.curvePoints addObject:[NSValue valueWithCGPoint:[sender locationOfTouch:0 inView:self.easyGraphCanvas]]];
+            [self.easyGraphCanvas.curvePoints addObject:[NSValue valueWithCGPoint:[sender locationInView:self.easyGraphCanvas]]];
             prevNumberOfTouches = 1;
         } else {
             [self.easyGraphCanvas setNeedsDisplay];
         }
+                
         UIView *touched = [self.easyGraphCanvas hitTest:locationPoint withEvent:nil];
         
-            
         // If passing through another vertex make new edge to that vertex
         // and start over
         if (touched != self.edgeStartPoint && [touched isKindOfClass:[EasyGraphVertexView class]]) {
-            [self makeNewEdgeFromVertex:self.edgeStartPoint toVertex:(EasyGraphVertexView *)touched
-                                isNonEdge:[self.easyGraphCanvas inNonEdgeMode]];
+            [self makeNewEdgeFromVertex:self.edgeStartPoint toVertex:(EasyGraphVertexView *)touched isNonEdge:[self.easyGraphCanvas inNonEdgeMode]];
             self.edgeStartPoint = (EasyGraphVertexView *)touched;
             self.easyGraphCanvas.fingerStartPoint = self.edgeStartPoint.center;
             [self.easyGraphCanvas.curvePoints removeAllObjects];
@@ -464,10 +469,10 @@
             touched = [self.easyGraphCanvas hitTest:[self getClosestGridPointToPoint:locationPoint] withEvent:nil];
             EasyGraphVertexView *edgeEndPoint;
             if (![touched isKindOfClass:[EasyGraphVertexView class]]) { //What about edge class?
-                
                 edgeEndPoint = [self makeNewVertex:locationPoint];
                 [self makeNewEdgeFromVertex:self.edgeStartPoint toVertex:edgeEndPoint
                                 isNonEdge:[self.easyGraphCanvas inNonEdgeMode]];
+
             }
             self.edgeStartPoint = nil;
             [self.easyGraphCanvas setDrawingEdge:NO];
@@ -478,6 +483,8 @@
     }
     [self.view setNeedsDisplay];
 }
+
+#pragma mark - Vertex and Edge Manipulation
 
 /*******************************************************************************
                             Vertex and Edge Manipulation
@@ -694,7 +701,7 @@
             tag = 0;
             [passThrough addObject:self.easyGraphCanvas];
         }
-        CGRect anchor = CGRectMake(location.x, location.y, 263, 30);
+        CGRect anchor = CGRectMake(250, 1200, 263, 30);
         
         self.floatingMenuPopoverController = [[UIPopoverController alloc] initWithContentViewController:[self makeFloatingMenuWithTag:tag]];
         [self.floatingMenuPopoverController setDelegate:self];
@@ -810,23 +817,25 @@
 }
 
 - (IBAction)renameElement:(UITextField *)sender {
-    NSString *newLetter = [sender.text substringToIndex:1];
-    for (EasyGraphElement *element in self.selectedElements) {
-        [[self.undoManager prepareWithInvocationTarget:self] undoElement:element rename:[element letter]];
-        [element setLetter:newLetter];
-        [self unhighlightElement:element];
-        [element setOpaque:NO];
-        [element setNeedsDisplay];
+    if ([sender.text length] > 0) {
+        NSString *newLetter = [sender.text substringToIndex:1];
+        for (EasyGraphElement *element in self.selectedElements) {
+            [[self.undoManager prepareWithInvocationTarget:self] undoElement:element rename:[element letter]];
+            [element setLetter:newLetter];
+            [self unhighlightElement:element];
+            [element setOpaque:NO];
+            [element setNeedsDisplay];
+        }
+        [self.selectedElements removeAllObjects];
+        [sender setText:@""];
+        [sender setPlaceholder:@"Enter new label letter"];
+        if (inSelectMode) {
+            [self toggleSelectMode];
+        } else {
+            [self finishSelection];
+        }
+        [self saveData];
     }
-    [self.selectedElements removeAllObjects];
-    [sender setText:@""];
-    [sender setPlaceholder:@"Enter new label letter"];
-    if (inSelectMode) {
-        [self toggleSelectMode];
-    } else {
-        [self finishSelection];
-    }
-    [self saveData];
 }
 
 - (void) undoElement:(EasyGraphElement *)elt rename:(NSString *)letter {
