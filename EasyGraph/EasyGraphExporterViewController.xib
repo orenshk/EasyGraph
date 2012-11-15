@@ -16,6 +16,7 @@
 			<string>IBUIButton</string>
 			<string>IBUISegmentedControl</string>
 			<string>IBUISlider</string>
+			<string>IBUISwitch</string>
 			<string>IBUITextField</string>
 			<string>IBUITextView</string>
 			<string>IBUIToolbar</string>
@@ -49,10 +50,9 @@
 							<object class="IBUITextView" id="403952560">
 								<reference key="NSNextResponder" ref="388481732"/>
 								<int key="NSvFlags">274</int>
-								<string key="NSFrame">{{16, 545}, {740, 408}}</string>
+								<string key="NSFrame">{{16, 544}, {740, 409}}</string>
 								<reference key="NSSuperview" ref="388481732"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">1</int>
@@ -154,7 +154,11 @@
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<bool key="IBUIOpaque">NO</bool>
 												<bool key="IBUIClipsSubviews">YES</bool>
+												<object class="IBUIAccessibilityConfiguration" key="IBUIAccessibilityConfiguration">
+													<boolean value="NO" key="IBUIIsAccessibilityElement"/>
+												</object>
 												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+												<bool key="IBUIEnabled">NO</bool>
 												<int key="IBUIContentVerticalAlignment">0</int>
 												<string key="IBUIText">5.0</string>
 												<int key="IBUIBorderStyle">3</int>
@@ -256,7 +260,11 @@
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<bool key="IBUIOpaque">NO</bool>
 												<bool key="IBUIClipsSubviews">YES</bool>
+												<object class="IBUIAccessibilityConfiguration" key="IBUIAccessibilityConfiguration">
+													<boolean value="NO" key="IBUIIsAccessibilityElement"/>
+												</object>
 												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+												<bool key="IBUIEnabled">NO</bool>
 												<int key="IBUIContentVerticalAlignment">0</int>
 												<string key="IBUIText">5.0</string>
 												<int key="IBUIBorderStyle">3</int>
@@ -360,7 +368,11 @@
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<bool key="IBUIOpaque">NO</bool>
 												<bool key="IBUIClipsSubviews">YES</bool>
+												<object class="IBUIAccessibilityConfiguration" key="IBUIAccessibilityConfiguration">
+													<boolean value="NO" key="IBUIIsAccessibilityElement"/>
+												</object>
 												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+												<bool key="IBUIEnabled">NO</bool>
 												<int key="IBUIContentVerticalAlignment">0</int>
 												<string key="IBUIText">1.0</string>
 												<int key="IBUIBorderStyle">3</int>
@@ -429,10 +441,48 @@
 									<object class="IBUIToolbar" id="861010249">
 										<reference key="NSNextResponder" ref="655550640"/>
 										<int key="NSvFlags">266</int>
+										<array class="NSMutableArray" key="NSSubviews">
+											<object class="IBUITextField" id="1064636458">
+												<reference key="NSNextResponder" ref="861010249"/>
+												<int key="NSvFlags">292</int>
+												<string key="NSFrame">{{475, 7}, {82, 30}}</string>
+												<reference key="NSSuperview" ref="861010249"/>
+												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView" ref="704588758"/>
+												<string key="NSReuseIdentifierKey">_NS:9</string>
+												<bool key="IBUIOpaque">NO</bool>
+												<bool key="IBUIClipsSubviews">YES</bool>
+												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+												<int key="IBUIContentVerticalAlignment">0</int>
+												<string key="IBUIText">Use Colours</string>
+												<reference key="IBUITextColor" ref="706710388"/>
+												<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
+												<float key="IBUIMinimumFontSize">17</float>
+												<object class="IBUITextInputTraits" key="IBUITextInputTraits">
+													<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+												</object>
+												<reference key="IBUIFontDescription" ref="789420197"/>
+												<reference key="IBUIFont" ref="635365318"/>
+											</object>
+											<object class="IBUISwitch" id="704588758">
+												<reference key="NSNextResponder" ref="861010249"/>
+												<int key="NSvFlags">292</int>
+												<string key="NSFrame">{{552, 9}, {94, 27}}</string>
+												<reference key="NSSuperview" ref="861010249"/>
+												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView" ref="253234009"/>
+												<string key="NSReuseIdentifierKey">_NS:9</string>
+												<bool key="IBUIOpaque">NO</bool>
+												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+												<int key="IBUIContentHorizontalAlignment">0</int>
+												<int key="IBUIContentVerticalAlignment">0</int>
+												<bool key="IBUIOn">YES</bool>
+											</object>
+										</array>
 										<string key="NSFrame">{{0, 88}, {740, 44}}</string>
 										<reference key="NSSuperview" ref="655550640"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="253234009"/>
+										<reference key="NSNextKeyView" ref="1064636458"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -440,7 +490,7 @@
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 										<array class="NSMutableArray" key="IBUIItems">
 											<object class="IBUIBarButtonItem" id="753872867">
-												<string key="IBUITitle">Save PDF to Dropbox</string>
+												<string key="IBUITitle">Save PDF to Google Drive</string>
 												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 												<int key="IBUIStyle">1</int>
 												<reference key="IBUIToolbar" ref="861010249"/>
@@ -451,11 +501,20 @@
 												<int key="IBUIStyle">1</int>
 												<reference key="IBUIToolbar" ref="861010249"/>
 											</object>
-											<object class="IBUIBarButtonItem" id="784011826">
+											<object class="IBUIBarButtonItem" id="627749966">
 												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-												<float key="IBUIWidth">373</float>
 												<reference key="IBUIToolbar" ref="861010249"/>
-												<int key="IBUISystemItemIdentifier">6</int>
+												<int key="IBUISystemItemIdentifier">5</int>
+											</object>
+											<object class="IBUIBarButtonItem" id="702637455">
+												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+												<reference key="IBUICustomView" ref="1064636458"/>
+												<reference key="IBUIToolbar" ref="861010249"/>
+											</object>
+											<object class="IBUIBarButtonItem" id="356654107">
+												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+												<reference key="IBUICustomView" ref="704588758"/>
+												<reference key="IBUIToolbar" ref="861010249"/>
 											</object>
 											<object class="IBUIBarButtonItem" id="679821721">
 												<string key="IBUITitle">Preview</string>
@@ -5003,14 +5062,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">edgeWidthTextField</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="414974226"/>
-					</object>
-					<int key="connectionID">58</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">edgeWidthSlider</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="36666251"/>
@@ -5024,14 +5075,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<reference key="destination" ref="1001911733"/>
 					</object>
 					<int key="connectionID">98</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">vertexSizeTextField</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="603128660"/>
-					</object>
-					<int key="connectionID">55</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -5051,14 +5094,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">scaleFactorTextField</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="1040072156"/>
-					</object>
-					<int key="connectionID">46</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">scaleFactorSlider</string>
 						<reference key="source" ref="841351856"/>
 						<reference key="destination" ref="593011807"/>
@@ -5072,14 +5107,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<reference key="destination" ref="655550640"/>
 					</object>
 					<int key="connectionID">112</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">buttonsToolBar</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="109028704"/>
-					</object>
-					<int key="connectionID">105</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -5138,6 +5165,38 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<int key="connectionID">157</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">colourSwitch</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="704588758"/>
+					</object>
+					<int key="connectionID">185</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">scaleFactorTextField</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="1040072156"/>
+					</object>
+					<int key="connectionID">187</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">vertexSizeTextField</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="603128660"/>
+					</object>
+					<int key="connectionID">188</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">edgeWidthTextField</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="414974226"/>
+					</object>
+					<int key="connectionID">189</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">scaleSliderMoved:</string>
 						<reference key="source" ref="593011807"/>
@@ -5157,24 +5216,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">vertexSizeFieldChanged:</string>
-						<reference key="source" ref="603128660"/>
-						<reference key="destination" ref="841351856"/>
-						<int key="IBEventType">19</int>
-					</object>
-					<int key="connectionID">56</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">scaleFieldChanged</string>
-						<reference key="source" ref="1040072156"/>
-						<reference key="destination" ref="841351856"/>
-						<int key="IBEventType">19</int>
-					</object>
-					<int key="connectionID">44</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">edgeWitdhSliderMoved:</string>
 						<reference key="source" ref="36666251"/>
 						<reference key="destination" ref="841351856"/>
@@ -5184,21 +5225,12 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">edgeWidthFieldChanged:</string>
-						<reference key="source" ref="414974226"/>
-						<reference key="destination" ref="841351856"/>
-						<int key="IBEventType">19</int>
-					</object>
-					<int key="connectionID">60</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">exportGraph:</string>
+						<string key="label">selectedLanguageChanged:</string>
 						<reference key="source" ref="108763526"/>
 						<reference key="destination" ref="841351856"/>
 						<int key="IBEventType">13</int>
 					</object>
-					<int key="connectionID">152</int>
+					<int key="connectionID">175</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -5234,11 +5266,20 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">makePreview:</string>
+						<string key="label">makePreview</string>
 						<reference key="source" ref="679821721"/>
 						<reference key="destination" ref="841351856"/>
 					</object>
-					<int key="connectionID">156</int>
+					<int key="connectionID">190</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">colourSwitchFlipped:</string>
+						<reference key="source" ref="704588758"/>
+						<reference key="destination" ref="841351856"/>
+						<int key="IBEventType">13</int>
+					</object>
+					<int key="connectionID">186</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -5294,8 +5335,8 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<reference key="object" ref="655550640"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="731700230"/>
-							<reference ref="1001911733"/>
 							<reference ref="861010249"/>
+							<reference ref="1001911733"/>
 						</array>
 						<reference key="parent" ref="388481732"/>
 					</object>
@@ -5487,7 +5528,9 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<reference ref="310424800"/>
 							<reference ref="753872867"/>
 							<reference ref="679821721"/>
-							<reference ref="784011826"/>
+							<reference ref="627749966"/>
+							<reference ref="356654107"/>
+							<reference ref="702637455"/>
 						</array>
 						<reference key="parent" ref="655550640"/>
 					</object>
@@ -5507,9 +5550,35 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<reference key="parent" ref="861010249"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">154</int>
-						<reference key="object" ref="784011826"/>
+						<int key="objectID">178</int>
+						<reference key="object" ref="627749966"/>
 						<reference key="parent" ref="861010249"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">181</int>
+						<reference key="object" ref="356654107"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="704588758"/>
+						</array>
+						<reference key="parent" ref="861010249"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">180</int>
+						<reference key="object" ref="704588758"/>
+						<reference key="parent" ref="356654107"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">183</int>
+						<reference key="object" ref="702637455"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="1064636458"/>
+						</array>
+						<reference key="parent" ref="861010249"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">184</int>
+						<reference key="object" ref="1064636458"/>
+						<reference key="parent" ref="702637455"/>
 					</object>
 				</array>
 			</object>
@@ -5529,7 +5598,11 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				<string key="138.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="140.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="153.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="154.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="178.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="180.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="181.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="183.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="184.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="26.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -5561,7 +5634,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">161</int>
+			<int key="maxID">190</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5569,19 +5642,25 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<string key="className">EasyGraphExporterViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="colourSwitchFlipped:">UISwitch</string>
 						<string key="edgeWidthFieldChanged:">UITextField</string>
 						<string key="edgeWitdhSliderMoved:">UISlider</string>
 						<string key="exportGraph:">UISegmentedControl</string>
-						<string key="makePreview:">id</string>
+						<string key="makePreview">id</string>
 						<string key="openInDialouge:">id</string>
 						<string key="savePDFpressed:">UIBarButtonItem</string>
 						<string key="savePressed:">UIBarButtonItem</string>
-						<string key="scaleFieldChanged">id</string>
 						<string key="scaleSliderMoved:">UISlider</string>
+						<string key="selectedLanguageChanged:">UISegmentedControl</string>
+						<string key="signInToService:">UIBarButtonItem</string>
 						<string key="vertexSizeFieldChanged:">id</string>
 						<string key="vertexSizeSliderMoved:">UISlider</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="colourSwitchFlipped:">
+							<string key="name">colourSwitchFlipped:</string>
+							<string key="candidateClassName">UISwitch</string>
+						</object>
 						<object class="IBActionInfo" key="edgeWidthFieldChanged:">
 							<string key="name">edgeWidthFieldChanged:</string>
 							<string key="candidateClassName">UITextField</string>
@@ -5594,8 +5673,8 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<string key="name">exportGraph:</string>
 							<string key="candidateClassName">UISegmentedControl</string>
 						</object>
-						<object class="IBActionInfo" key="makePreview:">
-							<string key="name">makePreview:</string>
+						<object class="IBActionInfo" key="makePreview">
+							<string key="name">makePreview</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="openInDialouge:">
@@ -5610,13 +5689,17 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<string key="name">savePressed:</string>
 							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
-						<object class="IBActionInfo" key="scaleFieldChanged">
-							<string key="name">scaleFieldChanged</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="scaleSliderMoved:">
 							<string key="name">scaleSliderMoved:</string>
 							<string key="candidateClassName">UISlider</string>
+						</object>
+						<object class="IBActionInfo" key="selectedLanguageChanged:">
+							<string key="name">selectedLanguageChanged:</string>
+							<string key="candidateClassName">UISegmentedControl</string>
+						</object>
+						<object class="IBActionInfo" key="signInToService:">
+							<string key="name">signInToService:</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
 						<object class="IBActionInfo" key="vertexSizeFieldChanged:">
 							<string key="name">vertexSizeFieldChanged:</string>
@@ -5628,8 +5711,8 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="buttonsToolBar">UIToolbar</string>
 						<string key="codeField">UITextView</string>
+						<string key="colourSwitch">UISwitch</string>
 						<string key="edgeWidthSlider">UISlider</string>
 						<string key="edgeWidthTextField">UITextField</string>
 						<string key="exportLanguageSelector">UISegmentedControl</string>
@@ -5642,19 +5725,20 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<string key="scaleFactorSlider">UISlider</string>
 						<string key="scaleFactorTextField">UITextField</string>
 						<string key="scaleFactorToolbar">UIToolbar</string>
+						<string key="servicesPopoverController">UIPopoverController</string>
 						<string key="settingsView">UIView</string>
 						<string key="vertexEdgeSizeToolBar">UIToolbar</string>
 						<string key="vertexSizeSlider">UISlider</string>
 						<string key="vertexSizeTextField">UITextField</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="buttonsToolBar">
-							<string key="name">buttonsToolBar</string>
-							<string key="candidateClassName">UIToolbar</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="codeField">
 							<string key="name">codeField</string>
 							<string key="candidateClassName">UITextView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="colourSwitch">
+							<string key="name">colourSwitch</string>
+							<string key="candidateClassName">UISwitch</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="edgeWidthSlider">
 							<string key="name">edgeWidthSlider</string>
@@ -5703,6 +5787,10 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<object class="IBToOneOutletInfo" key="scaleFactorToolbar">
 							<string key="name">scaleFactorToolbar</string>
 							<string key="candidateClassName">UIToolbar</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="servicesPopoverController">
+							<string key="name">servicesPopoverController</string>
+							<string key="candidateClassName">UIPopoverController</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="settingsView">
 							<string key="name">settingsView</string>

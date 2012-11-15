@@ -14,6 +14,7 @@
 #import "EasyGraphExporterViewController.h"
 #import "EasyGraphPopoverBackgroundView.h"
 #import "EasyGraphGridView.h"
+#import "EasyGraphSettings.h"
 
 @interface EasyGraphDetailViewController : UIViewController
                                                 <UISplitViewControllerDelegate,
@@ -27,13 +28,19 @@
     BOOL inSubdivideMode;
     BOOL inContractMode;
     BOOL inSelectMode;
-    BOOL hidingLabels;
-    BOOL doingScrollGesture;
+
     float angle;
 }
 
+@property id myAppDelegate;
+
+@property BOOL hidingLabels;
+
+@property float letterSize;
+
 @property BOOL isDirected;
 
+@property (strong, nonatomic) EasyGraphMasterViewController *masterViewController;
 
 @property (strong, nonatomic) IBOutlet UITextField *renameView;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -56,7 +63,6 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *modesButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *toggleLabelsButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *selectButton;
-@property (strong, nonatomic) UIPopoverController *exportPopOverController;
 @property (strong, nonatomic) UIPopoverController *colourPickerPopoverController;
 
 
@@ -64,6 +70,9 @@
 
 /** The size of a VertexView frame */
 @property int vertexFrameSize;
+
+/** the width of an edge */
+@property CGFloat edgeWidth;
 
 /** The VertexView being moved, if any */
 @property (nonatomic, retain) EasyGraphVertexView *movingVertexView;
@@ -276,5 +285,8 @@
 - (IBAction)openExportView:(id)sender;
 - (IBAction)showMenuPopover:(UIBarButtonItem *)sender;
 - (IBAction)renameElement:(UITextField *)sender;
+- (IBAction)settingsPressed:(id)sender;
+- (IBAction)toggleLabels:(UIBarButtonItem *)sender;
+
 
 @end

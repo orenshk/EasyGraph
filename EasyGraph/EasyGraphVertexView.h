@@ -19,10 +19,16 @@
 @property (nonatomic, retain) NSMutableSet *outNeighbs;
 
 @property int vertexNum;
+@property BOOL hidingLabel;
 
 /** The size of the circle representing the vertex */
 @property int vertexSize;
 
 - (void) setupVertexLabelAndColour:(UIColor *)colour;
 
+- (void) updateVertexSize:(float)newSize;
+
+- (void) updateLabelSize:(float)newSize;
+
+- (void) updateLabelStatus:(BOOL)hidingLabel;
 @end

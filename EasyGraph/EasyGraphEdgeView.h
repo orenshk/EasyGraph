@@ -32,6 +32,8 @@
 @property double arrowLength;
 @property double arrowWidth;
 
+@property CGFloat edgeWidth;
+
 /**
  Initialize and return an EdgeView object betwen |start| and |end|
  @param start the new EdgeView's tail

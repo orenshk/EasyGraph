@@ -30,7 +30,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *addButton;
 
 @property (nonatomic, retain) NSMutableArray *fileList;
-@property (nonatomic, retain) NSMutableArray *graphCanvases;
+@property (nonatomic, retain) NSMutableArray *easyGraphDetailViewControllers;
 
 @property (strong, nonatomic) EasyGraphDetailViewController *detailViewController;
 

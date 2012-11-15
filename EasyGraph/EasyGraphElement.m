@@ -9,7 +9,7 @@
 #import "EasyGraphElement.h"
 
 @implementation EasyGraphElement
-@synthesize colour, label;
+@synthesize colour, label, letterSize;
 
 - (id)initWithFrame:(CGRect)frame
 {

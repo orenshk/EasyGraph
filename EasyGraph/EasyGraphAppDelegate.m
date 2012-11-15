@@ -15,6 +15,7 @@
 
 @synthesize window = _window;
 @synthesize splitViewController = _splitViewController;
+@synthesize delegate = _delegate;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -35,14 +36,18 @@
     } else {
         masterViewController.fileList = [[NSMutableArray alloc] initWithObjects:@"Untitled_1", nil];
     }
+    EasyGraphDetailViewController *newDetailView;
     for (NSString *name in masterViewController.fileList) {
-        [masterViewController.graphCanvases addObject:
-         [[EasyGraphDetailViewController alloc]
-          initWithNibName:@"EasyGraphDetailViewController" title:name]];
+        newDetailView = [[EasyGraphDetailViewController alloc]
+                        initWithNibName:@"EasyGraphDetailViewController" title:name];
+        [newDetailView setMasterViewController:masterViewController];
+        [newDetailView setMyAppDelegate:self];
+        [masterViewController.easyGraphDetailViewControllers addObject:newDetailView];
+
     }
     
     EasyGraphDetailViewController *detailViewController =
-                        [masterViewController.graphCanvases objectAtIndex:0];
+                        [masterViewController.easyGraphDetailViewControllers objectAtIndex:0];
     detailViewController.title = [masterViewController.fileList objectAtIndex:0];
     UINavigationController *detailNavigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
 
@@ -55,6 +60,36 @@
     
     self.window.rootViewController = self.splitViewController;
     [self.window makeKeyAndVisible];
+    
+    //Setup NSUserDefaults
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *defaultValues = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   [NSNumber numberWithFloat:70], @"vertexSize",
+                                   [NSNumber numberWithBool:NO], @"hidingLabels",
+                                   [NSNumber numberWithFloat:18.0], @"vertexLetterSize",
+                                   [NSKeyedArchiver archivedDataWithRootObject:[UIColor blackColor]], @"vertexColour",
+                                   [NSNumber numberWithFloat:3.0], @"edgeWidth",
+                                   [NSKeyedArchiver archivedDataWithRootObject:[UIColor blackColor]], @"edgeColour",
+                                   [NSNumber numberWithInt:0], @"defaultLanguage",
+                                   [NSNumber numberWithBool:YES], @"exportColours",
+                                   [NSNumber numberWithFloat:10.0], @"tikzScale",
+                                   [NSNumber numberWithFloat:5.0], @"tikzVertexSize",
+                                   [NSNumber numberWithFloat:1.0], @"tikzEdgeWidth",
+                                   [NSNumber numberWithFloat:10.0], @"pstricksScale",
+                                   [NSNumber numberWithFloat:3.0], @"pstricksVertexSize",
+                                   [NSNumber numberWithFloat:1.0], @"pstricksEdgeWidth",
+                                   [NSNumber numberWithInt:0], @"storageDefaultService",
+                                   nil];
+    
+    [defaults registerDefaults:defaultValues];
+    
+    //Add dropbox support
+    DBSession* dbSession =
+    [[DBSession alloc]
+     initWithAppKey:@"gltrsjotofeak0p"
+     appSecret:@"nw8e4urd39rnvxj"
+     root:kDBRootAppFolder];
+    [DBSession setSharedSession:dbSession];
     
     return YES;
 }
@@ -86,16 +121,19 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-//- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-//    if ([[DBSession sharedSession] handleOpenURL:url]) {
-//        if ([[DBSession sharedSession] isLinked]) {
-//            NSLog(@"App linked successfully!");
-//            // At this point you can start making API calls
-//        }
-//        return YES;
-//    }
-//    // Add whatever other url handling code your app requires here
-//    return NO;
-//}
+- (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    if ([[DBSession sharedSession] handleOpenURL:url]) {
+        if ([[DBSession sharedSession] isLinked]) {
+            NSLog(@"App linked successfully!");
+            // At this point you can start making API calls
+            if (_delegate) {
+                [[self delegate] dropboxWasLinked];
+            }
+        }
+        return YES;
+    }
+    // Add whatever other url handling code your app requires here
+    return NO;
+}
 
 @end

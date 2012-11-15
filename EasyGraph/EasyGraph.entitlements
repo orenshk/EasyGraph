@@ -4,8 +4,7 @@
 <dict>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)orenshk.GraphMaker</string>
-		<string>$(AppIdentifierPrefix)iPhone Developer</string>
+		<string>$(AppIdentifierPrefix)orenshk.EasyGraph</string>
 	</array>
 </dict>
 </plist>

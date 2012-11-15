@@ -11,6 +11,57 @@
 		A11E60111631E52300F0877C /* EasyGraphExporterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A11E600F1631E52300F0877C /* EasyGraphExporterViewController.m */; };
 		A11E60121631E52300F0877C /* EasyGraphExporterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A11E60101631E52300F0877C /* EasyGraphExporterViewController.xib */; };
 		A12499131638B9FB0021FB3C /* EasyGraphPetersenIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A12499121638B9FB0021FB3C /* EasyGraphPetersenIcon.png */; };
+		A12B860F164F3EBB000A7C19 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A12B860E164F3EBB000A7C19 /* SystemConfiguration.framework */; };
+		A12B8902164F4962000A7C19 /* GTLObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88C6164F4962000A7C19 /* GTLObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8903164F4962000A7C19 /* GTLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88C8164F4962000A7C19 /* GTLQuery.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8904164F4962000A7C19 /* GTLBatchQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88CA164F4962000A7C19 /* GTLBatchQuery.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8905164F4962000A7C19 /* GTLService.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88CC164F4962000A7C19 /* GTLService.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8906164F4962000A7C19 /* GTLBatchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88CE164F4962000A7C19 /* GTLBatchResult.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8907164F4962000A7C19 /* GTLUploadParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88D0164F4962000A7C19 /* GTLUploadParameters.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8908164F4962000A7C19 /* GTLDateTime.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88D2164F4962000A7C19 /* GTLDateTime.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8909164F4962000A7C19 /* GTLErrorObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88D4164F4962000A7C19 /* GTLErrorObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B890A164F4962000A7C19 /* GTLRuntimeCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88D6164F4962000A7C19 /* GTLRuntimeCommon.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B890B164F4962000A7C19 /* GTLFramework.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88D8164F4962000A7C19 /* GTLFramework.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B890C164F4962000A7C19 /* GTLJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88DA164F4962000A7C19 /* GTLJSONParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B890D164F4962000A7C19 /* GTLUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88DD164F4962000A7C19 /* GTLUtilities.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B890E164F4962000A7C19 /* GTLBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88DF164F4962000A7C19 /* GTLBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B890F164F4962000A7C19 /* GTMHTTPFetcherService.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88E1164F4962000A7C19 /* GTMHTTPFetcherService.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8910164F4962000A7C19 /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88E3164F4962000A7C19 /* GTMHTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8911164F4962000A7C19 /* GTMHTTPFetcherLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88E5164F4962000A7C19 /* GTMHTTPFetcherLogging.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8912164F4962000A7C19 /* GTMHTTPFetchHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88E7164F4962000A7C19 /* GTMHTTPFetchHistory.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8913164F4962000A7C19 /* GTMHTTPUploadFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88E9164F4962000A7C19 /* GTMHTTPUploadFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8914164F4962000A7C19 /* GTMGatherInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88EB164F4962000A7C19 /* GTMGatherInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8915164F4962000A7C19 /* GTMMIMEDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88ED164F4962000A7C19 /* GTMMIMEDocument.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8916164F4962000A7C19 /* GTMReadMonitorInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88EF164F4962000A7C19 /* GTMReadMonitorInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8917164F4962000A7C19 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88F3164F4962000A7C19 /* SBJsonBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8918164F4962000A7C19 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88F5164F4962000A7C19 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8919164F4962000A7C19 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88F7164F4962000A7C19 /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B891A164F4962000A7C19 /* GTMOAuth2Authentication.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88F9164F4962000A7C19 /* GTMOAuth2Authentication.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B891B164F4962000A7C19 /* GTMOAuth2SignIn.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88FB164F4962000A7C19 /* GTMOAuth2SignIn.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B891C164F4962000A7C19 /* GTMOAuth2Window.xib in Resources */ = {isa = PBXBuildFile; fileRef = A12B88FC164F4962000A7C19 /* GTMOAuth2Window.xib */; };
+		A12B891D164F4962000A7C19 /* GTMOAuth2WindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B88FE164F4962000A7C19 /* GTMOAuth2WindowController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B891E164F4962000A7C19 /* GTMOAuth2ViewControllerTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B8900164F4962000A7C19 /* GTMOAuth2ViewControllerTouch.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B891F164F4962000A7C19 /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = A12B8901164F4962000A7C19 /* GTMOAuth2ViewTouch.xib */; };
+		A12B8945164F499A000A7C19 /* GTLDriveAbout.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B8922164F4999000A7C19 /* GTLDriveAbout.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8946164F499A000A7C19 /* GTLDriveApp.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B8924164F4999000A7C19 /* GTLDriveApp.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8947164F499A000A7C19 /* GTLDriveAppList.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B8926164F4999000A7C19 /* GTLDriveAppList.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8948164F499A000A7C19 /* GTLDriveChange.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B8928164F4999000A7C19 /* GTLDriveChange.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8949164F499A000A7C19 /* GTLDriveChangeList.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B892A164F4999000A7C19 /* GTLDriveChangeList.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B894A164F499A000A7C19 /* GTLDriveChildList.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B892C164F4999000A7C19 /* GTLDriveChildList.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B894B164F499A000A7C19 /* GTLDriveChildReference.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B892E164F4999000A7C19 /* GTLDriveChildReference.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B894C164F499A000A7C19 /* GTLDriveConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B8930164F4999000A7C19 /* GTLDriveConstants.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B894D164F499A000A7C19 /* GTLDriveFile.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B8932164F4999000A7C19 /* GTLDriveFile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B894E164F499A000A7C19 /* GTLDriveFileList.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B8934164F4999000A7C19 /* GTLDriveFileList.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B894F164F499A000A7C19 /* GTLDriveParentList.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B8936164F4999000A7C19 /* GTLDriveParentList.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8950164F499A000A7C19 /* GTLDriveParentReference.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B8938164F4999000A7C19 /* GTLDriveParentReference.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8951164F499A000A7C19 /* GTLDrivePermission.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B893A164F4999000A7C19 /* GTLDrivePermission.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8952164F499A000A7C19 /* GTLDrivePermissionList.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B893C164F4999000A7C19 /* GTLDrivePermissionList.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8953164F499A000A7C19 /* GTLDriveRevision.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B893E164F4999000A7C19 /* GTLDriveRevision.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8954164F499A000A7C19 /* GTLDriveRevisionList.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B8940164F4999000A7C19 /* GTLDriveRevisionList.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8955164F499A000A7C19 /* GTLQueryDrive.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B8942164F4999000A7C19 /* GTLQueryDrive.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B8956164F499A000A7C19 /* GTLServiceDrive.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B8944164F4999000A7C19 /* GTLServiceDrive.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A12B895D164F4AEE000A7C19 /* EasyGraphSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A12B895B164F4AEE000A7C19 /* EasyGraphSettings.m */; };
+		A12B895E164F4AEE000A7C19 /* EasyGraphSettings.xib in Resources */ = {isa = PBXBuildFile; fileRef = A12B895C164F4AEE000A7C19 /* EasyGraphSettings.xib */; };
 		A1B4A1CE15BCED2C00B80867 /* EasyGraphEdgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B4A1CD15BCED2C00B80867 /* EasyGraphEdgeView.m */; };
 		A1B5A64315B9EBE000EEC312 /* EasyGraphVertexView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5A64215B9EBE000EEC312 /* EasyGraphVertexView.m */; };
 		A1B5A64E15BAB5E100EEC312 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1B5A64D15BAB5E100EEC312 /* QuartzCore.framework */; };
@@ -40,6 +91,110 @@
 		A11E600F1631E52300F0877C /* EasyGraphExporterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphExporterViewController.m; sourceTree = "<group>"; };
 		A11E60101631E52300F0877C /* EasyGraphExporterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EasyGraphExporterViewController.xib; sourceTree = "<group>"; };
 		A12499121638B9FB0021FB3C /* EasyGraphPetersenIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EasyGraphPetersenIcon.png; sourceTree = SOURCE_ROOT; };
+		A12B860E164F3EBB000A7C19 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		A12B8618164F41C5000A7C19 /* EasyGraph.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = EasyGraph.entitlements; sourceTree = "<group>"; };
+		A12B88C4164F4962000A7C19 /* GTLDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDefines.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/GTLDefines.h"; sourceTree = "<group>"; };
+		A12B88C5164F4962000A7C19 /* GTLObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLObject.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLObject.h"; sourceTree = "<group>"; };
+		A12B88C6164F4962000A7C19 /* GTLObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLObject.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLObject.m"; sourceTree = "<group>"; };
+		A12B88C7164F4962000A7C19 /* GTLQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLQuery.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLQuery.h"; sourceTree = "<group>"; };
+		A12B88C8164F4962000A7C19 /* GTLQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLQuery.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLQuery.m"; sourceTree = "<group>"; };
+		A12B88C9164F4962000A7C19 /* GTLBatchQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLBatchQuery.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLBatchQuery.h"; sourceTree = "<group>"; };
+		A12B88CA164F4962000A7C19 /* GTLBatchQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLBatchQuery.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLBatchQuery.m"; sourceTree = "<group>"; };
+		A12B88CB164F4962000A7C19 /* GTLService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLService.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLService.h"; sourceTree = "<group>"; };
+		A12B88CC164F4962000A7C19 /* GTLService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLService.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLService.m"; sourceTree = "<group>"; };
+		A12B88CD164F4962000A7C19 /* GTLBatchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLBatchResult.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLBatchResult.h"; sourceTree = "<group>"; };
+		A12B88CE164F4962000A7C19 /* GTLBatchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLBatchResult.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLBatchResult.m"; sourceTree = "<group>"; };
+		A12B88CF164F4962000A7C19 /* GTLUploadParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLUploadParameters.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLUploadParameters.h"; sourceTree = "<group>"; };
+		A12B88D0164F4962000A7C19 /* GTLUploadParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLUploadParameters.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLUploadParameters.m"; sourceTree = "<group>"; };
+		A12B88D1164F4962000A7C19 /* GTLDateTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDateTime.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLDateTime.h"; sourceTree = "<group>"; };
+		A12B88D2164F4962000A7C19 /* GTLDateTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLDateTime.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLDateTime.m"; sourceTree = "<group>"; };
+		A12B88D3164F4962000A7C19 /* GTLErrorObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLErrorObject.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLErrorObject.h"; sourceTree = "<group>"; };
+		A12B88D4164F4962000A7C19 /* GTLErrorObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLErrorObject.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLErrorObject.m"; sourceTree = "<group>"; };
+		A12B88D5164F4962000A7C19 /* GTLRuntimeCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLRuntimeCommon.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLRuntimeCommon.h"; sourceTree = "<group>"; };
+		A12B88D6164F4962000A7C19 /* GTLRuntimeCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLRuntimeCommon.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Objects/GTLRuntimeCommon.m"; sourceTree = "<group>"; };
+		A12B88D7164F4962000A7C19 /* GTLFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLFramework.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Utilities/GTLFramework.h"; sourceTree = "<group>"; };
+		A12B88D8164F4962000A7C19 /* GTLFramework.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLFramework.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Utilities/GTLFramework.m"; sourceTree = "<group>"; };
+		A12B88D9164F4962000A7C19 /* GTLJSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLJSONParser.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Utilities/GTLJSONParser.h"; sourceTree = "<group>"; };
+		A12B88DA164F4962000A7C19 /* GTLJSONParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLJSONParser.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Utilities/GTLJSONParser.m"; sourceTree = "<group>"; };
+		A12B88DB164F4962000A7C19 /* GTLTargetNamespace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLTargetNamespace.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Utilities/GTLTargetNamespace.h"; sourceTree = "<group>"; };
+		A12B88DC164F4962000A7C19 /* GTLUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLUtilities.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Utilities/GTLUtilities.h"; sourceTree = "<group>"; };
+		A12B88DD164F4962000A7C19 /* GTLUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLUtilities.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Utilities/GTLUtilities.m"; sourceTree = "<group>"; };
+		A12B88DE164F4962000A7C19 /* GTLBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLBase64.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Utilities/GTLBase64.h"; sourceTree = "<group>"; };
+		A12B88DF164F4962000A7C19 /* GTLBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLBase64.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Utilities/GTLBase64.m"; sourceTree = "<group>"; };
+		A12B88E0164F4962000A7C19 /* GTMHTTPFetcherService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMHTTPFetcherService.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/HTTPFetcher/GTMHTTPFetcherService.h"; sourceTree = "<group>"; };
+		A12B88E1164F4962000A7C19 /* GTMHTTPFetcherService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMHTTPFetcherService.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/HTTPFetcher/GTMHTTPFetcherService.m"; sourceTree = "<group>"; };
+		A12B88E2164F4962000A7C19 /* GTMHTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMHTTPFetcher.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/HTTPFetcher/GTMHTTPFetcher.h"; sourceTree = "<group>"; };
+		A12B88E3164F4962000A7C19 /* GTMHTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMHTTPFetcher.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/HTTPFetcher/GTMHTTPFetcher.m"; sourceTree = "<group>"; };
+		A12B88E4164F4962000A7C19 /* GTMHTTPFetcherLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMHTTPFetcherLogging.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/HTTPFetcher/GTMHTTPFetcherLogging.h"; sourceTree = "<group>"; };
+		A12B88E5164F4962000A7C19 /* GTMHTTPFetcherLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMHTTPFetcherLogging.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/HTTPFetcher/GTMHTTPFetcherLogging.m"; sourceTree = "<group>"; };
+		A12B88E6164F4962000A7C19 /* GTMHTTPFetchHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMHTTPFetchHistory.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/HTTPFetcher/GTMHTTPFetchHistory.h"; sourceTree = "<group>"; };
+		A12B88E7164F4962000A7C19 /* GTMHTTPFetchHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMHTTPFetchHistory.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/HTTPFetcher/GTMHTTPFetchHistory.m"; sourceTree = "<group>"; };
+		A12B88E8164F4962000A7C19 /* GTMHTTPUploadFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMHTTPUploadFetcher.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/HTTPFetcher/GTMHTTPUploadFetcher.h"; sourceTree = "<group>"; };
+		A12B88E9164F4962000A7C19 /* GTMHTTPUploadFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMHTTPUploadFetcher.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/HTTPFetcher/GTMHTTPUploadFetcher.m"; sourceTree = "<group>"; };
+		A12B88EA164F4962000A7C19 /* GTMGatherInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMGatherInputStream.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/HTTPFetcher/GTMGatherInputStream.h"; sourceTree = "<group>"; };
+		A12B88EB164F4962000A7C19 /* GTMGatherInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMGatherInputStream.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/HTTPFetcher/GTMGatherInputStream.m"; sourceTree = "<group>"; };
+		A12B88EC164F4962000A7C19 /* GTMMIMEDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMMIMEDocument.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/HTTPFetcher/GTMMIMEDocument.h"; sourceTree = "<group>"; };
+		A12B88ED164F4962000A7C19 /* GTMMIMEDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMMIMEDocument.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/HTTPFetcher/GTMMIMEDocument.m"; sourceTree = "<group>"; };
+		A12B88EE164F4962000A7C19 /* GTMReadMonitorInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMReadMonitorInputStream.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/HTTPFetcher/GTMReadMonitorInputStream.h"; sourceTree = "<group>"; };
+		A12B88EF164F4962000A7C19 /* GTMReadMonitorInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMReadMonitorInputStream.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/HTTPFetcher/GTMReadMonitorInputStream.m"; sourceTree = "<group>"; };
+		A12B88F0164F4962000A7C19 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSON.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/JSON/JSON.h"; sourceTree = "<group>"; };
+		A12B88F1164F4962000A7C19 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSON.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/JSON/JSON.h"; sourceTree = "<group>"; };
+		A12B88F2164F4962000A7C19 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonBase.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/JSON/SBJsonBase.h"; sourceTree = "<group>"; };
+		A12B88F3164F4962000A7C19 /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonBase.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/JSON/SBJsonBase.m"; sourceTree = "<group>"; };
+		A12B88F4164F4962000A7C19 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonParser.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/JSON/SBJsonParser.h"; sourceTree = "<group>"; };
+		A12B88F5164F4962000A7C19 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonParser.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/JSON/SBJsonParser.m"; sourceTree = "<group>"; };
+		A12B88F6164F4962000A7C19 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonWriter.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/JSON/SBJsonWriter.h"; sourceTree = "<group>"; };
+		A12B88F7164F4962000A7C19 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonWriter.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/JSON/SBJsonWriter.m"; sourceTree = "<group>"; };
+		A12B88F8164F4962000A7C19 /* GTMOAuth2Authentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMOAuth2Authentication.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/OAuth2/GTMOAuth2Authentication.h"; sourceTree = "<group>"; };
+		A12B88F9164F4962000A7C19 /* GTMOAuth2Authentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMOAuth2Authentication.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/OAuth2/GTMOAuth2Authentication.m"; sourceTree = "<group>"; };
+		A12B88FA164F4962000A7C19 /* GTMOAuth2SignIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMOAuth2SignIn.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/OAuth2/GTMOAuth2SignIn.h"; sourceTree = "<group>"; };
+		A12B88FB164F4962000A7C19 /* GTMOAuth2SignIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMOAuth2SignIn.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/OAuth2/GTMOAuth2SignIn.m"; sourceTree = "<group>"; };
+		A12B88FC164F4962000A7C19 /* GTMOAuth2Window.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GTMOAuth2Window.xib; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/OAuth2/Mac/GTMOAuth2Window.xib"; sourceTree = "<group>"; };
+		A12B88FD164F4962000A7C19 /* GTMOAuth2WindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMOAuth2WindowController.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/OAuth2/Mac/GTMOAuth2WindowController.h"; sourceTree = "<group>"; };
+		A12B88FE164F4962000A7C19 /* GTMOAuth2WindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMOAuth2WindowController.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/OAuth2/Mac/GTMOAuth2WindowController.m"; sourceTree = "<group>"; };
+		A12B88FF164F4962000A7C19 /* GTMOAuth2ViewControllerTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMOAuth2ViewControllerTouch.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/OAuth2/Touch/GTMOAuth2ViewControllerTouch.h"; sourceTree = "<group>"; };
+		A12B8900164F4962000A7C19 /* GTMOAuth2ViewControllerTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMOAuth2ViewControllerTouch.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/OAuth2/Touch/GTMOAuth2ViewControllerTouch.m"; sourceTree = "<group>"; };
+		A12B8901164F4962000A7C19 /* GTMOAuth2ViewTouch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GTMOAuth2ViewTouch.xib; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/OAuth2/Touch/GTMOAuth2ViewTouch.xib"; sourceTree = "<group>"; };
+		A12B8920164F4999000A7C19 /* GTLDrive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDrive.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDrive.h"; sourceTree = "<group>"; };
+		A12B8921164F4999000A7C19 /* GTLDriveAbout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDriveAbout.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveAbout.h"; sourceTree = "<group>"; };
+		A12B8922164F4999000A7C19 /* GTLDriveAbout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLDriveAbout.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveAbout.m"; sourceTree = "<group>"; };
+		A12B8923164F4999000A7C19 /* GTLDriveApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDriveApp.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveApp.h"; sourceTree = "<group>"; };
+		A12B8924164F4999000A7C19 /* GTLDriveApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLDriveApp.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveApp.m"; sourceTree = "<group>"; };
+		A12B8925164F4999000A7C19 /* GTLDriveAppList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDriveAppList.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveAppList.h"; sourceTree = "<group>"; };
+		A12B8926164F4999000A7C19 /* GTLDriveAppList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLDriveAppList.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveAppList.m"; sourceTree = "<group>"; };
+		A12B8927164F4999000A7C19 /* GTLDriveChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDriveChange.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveChange.h"; sourceTree = "<group>"; };
+		A12B8928164F4999000A7C19 /* GTLDriveChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLDriveChange.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveChange.m"; sourceTree = "<group>"; };
+		A12B8929164F4999000A7C19 /* GTLDriveChangeList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDriveChangeList.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveChangeList.h"; sourceTree = "<group>"; };
+		A12B892A164F4999000A7C19 /* GTLDriveChangeList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLDriveChangeList.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveChangeList.m"; sourceTree = "<group>"; };
+		A12B892B164F4999000A7C19 /* GTLDriveChildList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDriveChildList.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveChildList.h"; sourceTree = "<group>"; };
+		A12B892C164F4999000A7C19 /* GTLDriveChildList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLDriveChildList.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveChildList.m"; sourceTree = "<group>"; };
+		A12B892D164F4999000A7C19 /* GTLDriveChildReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDriveChildReference.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveChildReference.h"; sourceTree = "<group>"; };
+		A12B892E164F4999000A7C19 /* GTLDriveChildReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLDriveChildReference.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveChildReference.m"; sourceTree = "<group>"; };
+		A12B892F164F4999000A7C19 /* GTLDriveConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDriveConstants.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveConstants.h"; sourceTree = "<group>"; };
+		A12B8930164F4999000A7C19 /* GTLDriveConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLDriveConstants.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveConstants.m"; sourceTree = "<group>"; };
+		A12B8931164F4999000A7C19 /* GTLDriveFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDriveFile.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveFile.h"; sourceTree = "<group>"; };
+		A12B8932164F4999000A7C19 /* GTLDriveFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLDriveFile.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveFile.m"; sourceTree = "<group>"; };
+		A12B8933164F4999000A7C19 /* GTLDriveFileList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDriveFileList.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveFileList.h"; sourceTree = "<group>"; };
+		A12B8934164F4999000A7C19 /* GTLDriveFileList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLDriveFileList.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveFileList.m"; sourceTree = "<group>"; };
+		A12B8935164F4999000A7C19 /* GTLDriveParentList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDriveParentList.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveParentList.h"; sourceTree = "<group>"; };
+		A12B8936164F4999000A7C19 /* GTLDriveParentList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLDriveParentList.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveParentList.m"; sourceTree = "<group>"; };
+		A12B8937164F4999000A7C19 /* GTLDriveParentReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDriveParentReference.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveParentReference.h"; sourceTree = "<group>"; };
+		A12B8938164F4999000A7C19 /* GTLDriveParentReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLDriveParentReference.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveParentReference.m"; sourceTree = "<group>"; };
+		A12B8939164F4999000A7C19 /* GTLDrivePermission.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDrivePermission.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDrivePermission.h"; sourceTree = "<group>"; };
+		A12B893A164F4999000A7C19 /* GTLDrivePermission.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLDrivePermission.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDrivePermission.m"; sourceTree = "<group>"; };
+		A12B893B164F4999000A7C19 /* GTLDrivePermissionList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDrivePermissionList.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDrivePermissionList.h"; sourceTree = "<group>"; };
+		A12B893C164F4999000A7C19 /* GTLDrivePermissionList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLDrivePermissionList.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDrivePermissionList.m"; sourceTree = "<group>"; };
+		A12B893D164F4999000A7C19 /* GTLDriveRevision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDriveRevision.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveRevision.h"; sourceTree = "<group>"; };
+		A12B893E164F4999000A7C19 /* GTLDriveRevision.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLDriveRevision.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveRevision.m"; sourceTree = "<group>"; };
+		A12B893F164F4999000A7C19 /* GTLDriveRevisionList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLDriveRevisionList.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveRevisionList.h"; sourceTree = "<group>"; };
+		A12B8940164F4999000A7C19 /* GTLDriveRevisionList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLDriveRevisionList.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLDriveRevisionList.m"; sourceTree = "<group>"; };
+		A12B8941164F4999000A7C19 /* GTLQueryDrive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLQueryDrive.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLQueryDrive.h"; sourceTree = "<group>"; };
+		A12B8942164F4999000A7C19 /* GTLQueryDrive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLQueryDrive.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLQueryDrive.m"; sourceTree = "<group>"; };
+		A12B8943164F4999000A7C19 /* GTLServiceDrive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTLServiceDrive.h; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLServiceDrive.h"; sourceTree = "<group>"; };
+		A12B8944164F4999000A7C19 /* GTLServiceDrive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTLServiceDrive.m; path = "../../orenshk-dreditlearning/objectivec/google-api-objectivec-client/Source/Services/Drive/Generated/GTLServiceDrive.m"; sourceTree = "<group>"; };
+		A12B895A164F4AEE000A7C19 /* EasyGraphSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EasyGraphSettings.h; path = EasyGraph/EasyGraphSettings.h; sourceTree = "<group>"; };
+		A12B895B164F4AEE000A7C19 /* EasyGraphSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EasyGraphSettings.m; path = EasyGraph/EasyGraphSettings.m; sourceTree = "<group>"; };
+		A12B895C164F4AEE000A7C19 /* EasyGraphSettings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EasyGraphSettings.xib; path = EasyGraph/EasyGraphSettings.xib; sourceTree = "<group>"; };
 		A1B4A1CC15BCED2C00B80867 /* EasyGraphEdgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphEdgeView.h; sourceTree = "<group>"; };
 		A1B4A1CD15BCED2C00B80867 /* EasyGraphEdgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyGraphEdgeView.m; sourceTree = "<group>"; };
 		A1B5A64115B9EBE000EEC312 /* EasyGraphVertexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyGraphVertexView.h; sourceTree = "<group>"; };
@@ -78,6 +233,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A12B860F164F3EBB000A7C19 /* SystemConfiguration.framework in Frameworks */,
 				A1EE42201642153500323664 /* Security.framework in Frameworks */,
 				A1B5A64E15BAB5E100EEC312 /* QuartzCore.framework in Frameworks */,
 				A1F99B2915B8D32600A3AF94 /* UIKit.framework in Frameworks */,
@@ -100,6 +256,185 @@
 			name = EasyGraphExporter;
 			sourceTree = "<group>";
 		};
+		A12B8608164F3264000A7C19 /* EasyGraphAppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				A1F99B3715B8D32600A3AF94 /* EasyGraphAppDelegate.h */,
+				A1F99B3815B8D32600A3AF94 /* EasyGraphAppDelegate.m */,
+			);
+			name = EasyGraphAppDelegate;
+			sourceTree = "<group>";
+		};
+		A12B8609164F327E000A7C19 /* EasyGraphPopoverBackgroundView */ = {
+			isa = PBXGroup;
+			children = (
+				A1B60BDC163F48A5007D943E /* EasyGraphPopoverBackgroundView.h */,
+				A1B60BDD163F48A5007D943E /* EasyGraphPopoverBackgroundView.m */,
+			);
+			name = EasyGraphPopoverBackgroundView;
+			sourceTree = "<group>";
+		};
+		A12B87FB164F47B1000A7C19 /* Drive API */ = {
+			isa = PBXGroup;
+			children = (
+				A12B8920164F4999000A7C19 /* GTLDrive.h */,
+				A12B8921164F4999000A7C19 /* GTLDriveAbout.h */,
+				A12B8922164F4999000A7C19 /* GTLDriveAbout.m */,
+				A12B8923164F4999000A7C19 /* GTLDriveApp.h */,
+				A12B8924164F4999000A7C19 /* GTLDriveApp.m */,
+				A12B8925164F4999000A7C19 /* GTLDriveAppList.h */,
+				A12B8926164F4999000A7C19 /* GTLDriveAppList.m */,
+				A12B8927164F4999000A7C19 /* GTLDriveChange.h */,
+				A12B8928164F4999000A7C19 /* GTLDriveChange.m */,
+				A12B8929164F4999000A7C19 /* GTLDriveChangeList.h */,
+				A12B892A164F4999000A7C19 /* GTLDriveChangeList.m */,
+				A12B892B164F4999000A7C19 /* GTLDriveChildList.h */,
+				A12B892C164F4999000A7C19 /* GTLDriveChildList.m */,
+				A12B892D164F4999000A7C19 /* GTLDriveChildReference.h */,
+				A12B892E164F4999000A7C19 /* GTLDriveChildReference.m */,
+				A12B892F164F4999000A7C19 /* GTLDriveConstants.h */,
+				A12B8930164F4999000A7C19 /* GTLDriveConstants.m */,
+				A12B8931164F4999000A7C19 /* GTLDriveFile.h */,
+				A12B8932164F4999000A7C19 /* GTLDriveFile.m */,
+				A12B8933164F4999000A7C19 /* GTLDriveFileList.h */,
+				A12B8934164F4999000A7C19 /* GTLDriveFileList.m */,
+				A12B8935164F4999000A7C19 /* GTLDriveParentList.h */,
+				A12B8936164F4999000A7C19 /* GTLDriveParentList.m */,
+				A12B8937164F4999000A7C19 /* GTLDriveParentReference.h */,
+				A12B8938164F4999000A7C19 /* GTLDriveParentReference.m */,
+				A12B8939164F4999000A7C19 /* GTLDrivePermission.h */,
+				A12B893A164F4999000A7C19 /* GTLDrivePermission.m */,
+				A12B893B164F4999000A7C19 /* GTLDrivePermissionList.h */,
+				A12B893C164F4999000A7C19 /* GTLDrivePermissionList.m */,
+				A12B893D164F4999000A7C19 /* GTLDriveRevision.h */,
+				A12B893E164F4999000A7C19 /* GTLDriveRevision.m */,
+				A12B893F164F4999000A7C19 /* GTLDriveRevisionList.h */,
+				A12B8940164F4999000A7C19 /* GTLDriveRevisionList.m */,
+				A12B8941164F4999000A7C19 /* GTLQueryDrive.h */,
+				A12B8942164F4999000A7C19 /* GTLQueryDrive.m */,
+				A12B8943164F4999000A7C19 /* GTLServiceDrive.h */,
+				A12B8944164F4999000A7C19 /* GTLServiceDrive.m */,
+			);
+			name = "Drive API";
+			sourceTree = "<group>";
+		};
+		A12B8822164F47E5000A7C19 /* Google Client Library */ = {
+			isa = PBXGroup;
+			children = (
+				A12B88C4164F4962000A7C19 /* GTLDefines.h */,
+				A12B88C5164F4962000A7C19 /* GTLObject.h */,
+				A12B88C6164F4962000A7C19 /* GTLObject.m */,
+				A12B88C7164F4962000A7C19 /* GTLQuery.h */,
+				A12B88C8164F4962000A7C19 /* GTLQuery.m */,
+				A12B88C9164F4962000A7C19 /* GTLBatchQuery.h */,
+				A12B88CA164F4962000A7C19 /* GTLBatchQuery.m */,
+				A12B88CB164F4962000A7C19 /* GTLService.h */,
+				A12B88CC164F4962000A7C19 /* GTLService.m */,
+				A12B88CD164F4962000A7C19 /* GTLBatchResult.h */,
+				A12B88CE164F4962000A7C19 /* GTLBatchResult.m */,
+				A12B88CF164F4962000A7C19 /* GTLUploadParameters.h */,
+				A12B88D0164F4962000A7C19 /* GTLUploadParameters.m */,
+				A12B88D1164F4962000A7C19 /* GTLDateTime.h */,
+				A12B88D2164F4962000A7C19 /* GTLDateTime.m */,
+				A12B88D3164F4962000A7C19 /* GTLErrorObject.h */,
+				A12B88D4164F4962000A7C19 /* GTLErrorObject.m */,
+				A12B88D5164F4962000A7C19 /* GTLRuntimeCommon.h */,
+				A12B88D6164F4962000A7C19 /* GTLRuntimeCommon.m */,
+				A12B88D7164F4962000A7C19 /* GTLFramework.h */,
+				A12B88D8164F4962000A7C19 /* GTLFramework.m */,
+				A12B88D9164F4962000A7C19 /* GTLJSONParser.h */,
+				A12B88DA164F4962000A7C19 /* GTLJSONParser.m */,
+				A12B88DB164F4962000A7C19 /* GTLTargetNamespace.h */,
+				A12B88DC164F4962000A7C19 /* GTLUtilities.h */,
+				A12B88DD164F4962000A7C19 /* GTLUtilities.m */,
+				A12B88DE164F4962000A7C19 /* GTLBase64.h */,
+				A12B88DF164F4962000A7C19 /* GTLBase64.m */,
+				A12B88E0164F4962000A7C19 /* GTMHTTPFetcherService.h */,
+				A12B88E1164F4962000A7C19 /* GTMHTTPFetcherService.m */,
+				A12B88E2164F4962000A7C19 /* GTMHTTPFetcher.h */,
+				A12B88E3164F4962000A7C19 /* GTMHTTPFetcher.m */,
+				A12B88E4164F4962000A7C19 /* GTMHTTPFetcherLogging.h */,
+				A12B88E5164F4962000A7C19 /* GTMHTTPFetcherLogging.m */,
+				A12B88E6164F4962000A7C19 /* GTMHTTPFetchHistory.h */,
+				A12B88E7164F4962000A7C19 /* GTMHTTPFetchHistory.m */,
+				A12B88E8164F4962000A7C19 /* GTMHTTPUploadFetcher.h */,
+				A12B88E9164F4962000A7C19 /* GTMHTTPUploadFetcher.m */,
+				A12B88EA164F4962000A7C19 /* GTMGatherInputStream.h */,
+				A12B88EB164F4962000A7C19 /* GTMGatherInputStream.m */,
+				A12B88EC164F4962000A7C19 /* GTMMIMEDocument.h */,
+				A12B88ED164F4962000A7C19 /* GTMMIMEDocument.m */,
+				A12B88EE164F4962000A7C19 /* GTMReadMonitorInputStream.h */,
+				A12B88EF164F4962000A7C19 /* GTMReadMonitorInputStream.m */,
+				A12B88F0164F4962000A7C19 /* JSON.h */,
+				A12B88F1164F4962000A7C19 /* JSON.h */,
+				A12B88F2164F4962000A7C19 /* SBJsonBase.h */,
+				A12B88F3164F4962000A7C19 /* SBJsonBase.m */,
+				A12B88F4164F4962000A7C19 /* SBJsonParser.h */,
+				A12B88F5164F4962000A7C19 /* SBJsonParser.m */,
+				A12B88F6164F4962000A7C19 /* SBJsonWriter.h */,
+				A12B88F7164F4962000A7C19 /* SBJsonWriter.m */,
+				A12B88F8164F4962000A7C19 /* GTMOAuth2Authentication.h */,
+				A12B88F9164F4962000A7C19 /* GTMOAuth2Authentication.m */,
+				A12B88FA164F4962000A7C19 /* GTMOAuth2SignIn.h */,
+				A12B88FB164F4962000A7C19 /* GTMOAuth2SignIn.m */,
+				A12B88FC164F4962000A7C19 /* GTMOAuth2Window.xib */,
+				A12B88FD164F4962000A7C19 /* GTMOAuth2WindowController.h */,
+				A12B88FE164F4962000A7C19 /* GTMOAuth2WindowController.m */,
+				A12B88FF164F4962000A7C19 /* GTMOAuth2ViewControllerTouch.h */,
+				A12B8900164F4962000A7C19 /* GTMOAuth2ViewControllerTouch.m */,
+				A12B8901164F4962000A7C19 /* GTMOAuth2ViewTouch.xib */,
+			);
+			name = "Google Client Library";
+			sourceTree = "<group>";
+		};
+		A12CCFF9164A286900EECF19 /* EasyGraphMasterView */ = {
+			isa = PBXGroup;
+			children = (
+				A1F99B3A15B8D32600A3AF94 /* EasyGraphMasterViewController.h */,
+				A1F99B3B15B8D32600A3AF94 /* EasyGraphMasterViewController.m */,
+				A1F99B4015B8D32700A3AF94 /* EasyGraphMasterViewController.xib */,
+			);
+			name = EasyGraphMasterView;
+			sourceTree = "<group>";
+		};
+		A12CCFFB164A288100EECF19 /* EasyGraphDrawingElements */ = {
+			isa = PBXGroup;
+			children = (
+				A100C14D164669B3004B01D3 /* EasyGraphGridView.h */,
+				A100C14E164669B3004B01D3 /* EasyGraphGridView.m */,
+				A1F99B7B15B8E94600A3AF94 /* EasyGraphCanvas.h */,
+				A1F99B7C15B8E94600A3AF94 /* EasyGraphCanvas.m */,
+				A1EE420D1641C55400323664 /* EasyGraphElement.h */,
+				A1EE420E1641C55400323664 /* EasyGraphElement.m */,
+				A1B5A64115B9EBE000EEC312 /* EasyGraphVertexView.h */,
+				A1B5A64215B9EBE000EEC312 /* EasyGraphVertexView.m */,
+				A1B4A1CC15BCED2C00B80867 /* EasyGraphEdgeView.h */,
+				A1B4A1CD15BCED2C00B80867 /* EasyGraphEdgeView.m */,
+			);
+			name = EasyGraphDrawingElements;
+			sourceTree = "<group>";
+		};
+		A15126DB164C90B300F6EDCD /* EasyGraphSettings */ = {
+			isa = PBXGroup;
+			children = (
+				A12B895A164F4AEE000A7C19 /* EasyGraphSettings.h */,
+				A12B895B164F4AEE000A7C19 /* EasyGraphSettings.m */,
+				A12B895C164F4AEE000A7C19 /* EasyGraphSettings.xib */,
+			);
+			name = EasyGraphSettings;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		A1BF9F681649D6A30024A564 /* EasyGraphDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				A1F99B3D15B8D32600A3AF94 /* EasyGraphDetailViewController.h */,
+				A1F99B3E15B8D32600A3AF94 /* EasyGraphDetailViewController.m */,
+				A1F99B4315B8D32700A3AF94 /* EasyGraphDetailViewController.xib */,
+			);
+			name = EasyGraphDetailView;
+			sourceTree = "<group>";
+		};
 		A1F99B1915B8D32600A3AF94 = {
 			isa = PBXGroup;
 			children = (
@@ -120,6 +455,7 @@
 		A1F99B2715B8D32600A3AF94 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A12B860E164F3EBB000A7C19 /* SystemConfiguration.framework */,
 				A1EE421F1642153500323664 /* Security.framework */,
 				A1B5A64D15BAB5E100EEC312 /* QuartzCore.framework */,
 				A1EE42191642128900323664 /* DropboxSDK.framework */,
@@ -133,27 +469,16 @@
 		A1F99B2E15B8D32600A3AF94 /* EasyGraph */ = {
 			isa = PBXGroup;
 			children = (
-				A1F99B3715B8D32600A3AF94 /* EasyGraphAppDelegate.h */,
-				A1F99B3815B8D32600A3AF94 /* EasyGraphAppDelegate.m */,
-				A1F99B3A15B8D32600A3AF94 /* EasyGraphMasterViewController.h */,
-				A1F99B3B15B8D32600A3AF94 /* EasyGraphMasterViewController.m */,
-				A1F99B3D15B8D32600A3AF94 /* EasyGraphDetailViewController.h */,
-				A1F99B3E15B8D32600A3AF94 /* EasyGraphDetailViewController.m */,
-				A1B60BDC163F48A5007D943E /* EasyGraphPopoverBackgroundView.h */,
-				A1B60BDD163F48A5007D943E /* EasyGraphPopoverBackgroundView.m */,
+				A12B8618164F41C5000A7C19 /* EasyGraph.entitlements */,
+				A12B87FB164F47B1000A7C19 /* Drive API */,
+				A12B8822164F47E5000A7C19 /* Google Client Library */,
+				A12B8608164F3264000A7C19 /* EasyGraphAppDelegate */,
+				A15126DB164C90B300F6EDCD /* EasyGraphSettings */,
+				A12CCFF9164A286900EECF19 /* EasyGraphMasterView */,
+				A1BF9F681649D6A30024A564 /* EasyGraphDetailView */,
+				A12B8609164F327E000A7C19 /* EasyGraphPopoverBackgroundView */,
 				A11E60141631E53B00F0877C /* EasyGraphExporter */,
-				A100C14D164669B3004B01D3 /* EasyGraphGridView.h */,
-				A100C14E164669B3004B01D3 /* EasyGraphGridView.m */,
-				A1F99B7B15B8E94600A3AF94 /* EasyGraphCanvas.h */,
-				A1F99B7C15B8E94600A3AF94 /* EasyGraphCanvas.m */,
-				A1EE420D1641C55400323664 /* EasyGraphElement.h */,
-				A1EE420E1641C55400323664 /* EasyGraphElement.m */,
-				A1B5A64115B9EBE000EEC312 /* EasyGraphVertexView.h */,
-				A1B5A64215B9EBE000EEC312 /* EasyGraphVertexView.m */,
-				A1B4A1CC15BCED2C00B80867 /* EasyGraphEdgeView.h */,
-				A1B4A1CD15BCED2C00B80867 /* EasyGraphEdgeView.m */,
-				A1F99B4015B8D32700A3AF94 /* EasyGraphMasterViewController.xib */,
-				A1F99B4315B8D32700A3AF94 /* EasyGraphDetailViewController.xib */,
+				A12CCFFB164A288100EECF19 /* EasyGraphDrawingElements */,
 				A1F99B2F15B8D32600A3AF94 /* Supporting Files */,
 			);
 			path = EasyGraph;
@@ -231,6 +556,9 @@
 				A12499131638B9FB0021FB3C /* EasyGraphPetersenIcon.png in Resources */,
 				A1EE421316420D1E00323664 /* bg-popover-arrow.png in Resources */,
 				A1EE421416420D1E00323664 /* bg-popover-grey.png in Resources */,
+				A12B891C164F4962000A7C19 /* GTMOAuth2Window.xib in Resources */,
+				A12B891F164F4962000A7C19 /* GTMOAuth2ViewTouch.xib in Resources */,
+				A12B895E164F4AEE000A7C19 /* EasyGraphSettings.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +580,53 @@
 				A1B60BDE163F48A5007D943E /* EasyGraphPopoverBackgroundView.m in Sources */,
 				A1EE420F1641C55400323664 /* EasyGraphElement.m in Sources */,
 				A100C14F164669B3004B01D3 /* EasyGraphGridView.m in Sources */,
+				A12B8902164F4962000A7C19 /* GTLObject.m in Sources */,
+				A12B8903164F4962000A7C19 /* GTLQuery.m in Sources */,
+				A12B8904164F4962000A7C19 /* GTLBatchQuery.m in Sources */,
+				A12B8905164F4962000A7C19 /* GTLService.m in Sources */,
+				A12B8906164F4962000A7C19 /* GTLBatchResult.m in Sources */,
+				A12B8907164F4962000A7C19 /* GTLUploadParameters.m in Sources */,
+				A12B8908164F4962000A7C19 /* GTLDateTime.m in Sources */,
+				A12B8909164F4962000A7C19 /* GTLErrorObject.m in Sources */,
+				A12B890A164F4962000A7C19 /* GTLRuntimeCommon.m in Sources */,
+				A12B890B164F4962000A7C19 /* GTLFramework.m in Sources */,
+				A12B890C164F4962000A7C19 /* GTLJSONParser.m in Sources */,
+				A12B890D164F4962000A7C19 /* GTLUtilities.m in Sources */,
+				A12B890E164F4962000A7C19 /* GTLBase64.m in Sources */,
+				A12B890F164F4962000A7C19 /* GTMHTTPFetcherService.m in Sources */,
+				A12B8910164F4962000A7C19 /* GTMHTTPFetcher.m in Sources */,
+				A12B8911164F4962000A7C19 /* GTMHTTPFetcherLogging.m in Sources */,
+				A12B8912164F4962000A7C19 /* GTMHTTPFetchHistory.m in Sources */,
+				A12B8913164F4962000A7C19 /* GTMHTTPUploadFetcher.m in Sources */,
+				A12B8914164F4962000A7C19 /* GTMGatherInputStream.m in Sources */,
+				A12B8915164F4962000A7C19 /* GTMMIMEDocument.m in Sources */,
+				A12B8916164F4962000A7C19 /* GTMReadMonitorInputStream.m in Sources */,
+				A12B8917164F4962000A7C19 /* SBJsonBase.m in Sources */,
+				A12B8918164F4962000A7C19 /* SBJsonParser.m in Sources */,
+				A12B8919164F4962000A7C19 /* SBJsonWriter.m in Sources */,
+				A12B891A164F4962000A7C19 /* GTMOAuth2Authentication.m in Sources */,
+				A12B891B164F4962000A7C19 /* GTMOAuth2SignIn.m in Sources */,
+				A12B891D164F4962000A7C19 /* GTMOAuth2WindowController.m in Sources */,
+				A12B891E164F4962000A7C19 /* GTMOAuth2ViewControllerTouch.m in Sources */,
+				A12B8945164F499A000A7C19 /* GTLDriveAbout.m in Sources */,
+				A12B8946164F499A000A7C19 /* GTLDriveApp.m in Sources */,
+				A12B8947164F499A000A7C19 /* GTLDriveAppList.m in Sources */,
+				A12B8948164F499A000A7C19 /* GTLDriveChange.m in Sources */,
+				A12B8949164F499A000A7C19 /* GTLDriveChangeList.m in Sources */,
+				A12B894A164F499A000A7C19 /* GTLDriveChildList.m in Sources */,
+				A12B894B164F499A000A7C19 /* GTLDriveChildReference.m in Sources */,
+				A12B894C164F499A000A7C19 /* GTLDriveConstants.m in Sources */,
+				A12B894D164F499A000A7C19 /* GTLDriveFile.m in Sources */,
+				A12B894E164F499A000A7C19 /* GTLDriveFileList.m in Sources */,
+				A12B894F164F499A000A7C19 /* GTLDriveParentList.m in Sources */,
+				A12B8950164F499A000A7C19 /* GTLDriveParentReference.m in Sources */,
+				A12B8951164F499A000A7C19 /* GTLDrivePermission.m in Sources */,
+				A12B8952164F499A000A7C19 /* GTLDrivePermissionList.m in Sources */,
+				A12B8953164F499A000A7C19 /* GTLDriveRevision.m in Sources */,
+				A12B8954164F499A000A7C19 /* GTLDriveRevisionList.m in Sources */,
+				A12B8955164F499A000A7C19 /* GTLQueryDrive.m in Sources */,
+				A12B8956164F499A000A7C19 /* GTLServiceDrive.m in Sources */,
+				A12B895D164F4AEE000A7C19 /* EasyGraphSettings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +721,11 @@
 				GCC_PREFIX_HEADER = "EasyGraph/EasyGraph-Prefix.pch";
 				INFOPLIST_FILE = "EasyGraph/EasyGraph-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/GTL-dllvwqekpvfcwjepwwyyqxefhore/Build/Products/Debug-iphoneos\"",
+				);
+				OTHER_CFLAGS = "-DDEBUG=1";
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_NAME = EasyGraph;
 				PROVISIONING_PROFILE = "";
@@ -370,6 +750,10 @@
 				GCC_PREFIX_HEADER = "EasyGraph/EasyGraph-Prefix.pch";
 				INFOPLIST_FILE = "EasyGraph/EasyGraph-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/GTL-dllvwqekpvfcwjepwwyyqxefhore/Build/Products/Debug-iphoneos\"",
+				);
 				OTHER_CODE_SIGN_FLAGS = "";
 				PRODUCT_NAME = EasyGraph;
 				PROVISIONING_PROFILE = "";

@@ -10,6 +10,7 @@
 
 @interface EasyGraphDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
+
 //- (void)configureView;
 @end
 
@@ -29,6 +30,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = NSLocalizedString(@"", @"");
+
     }
     return self;
 }
@@ -45,17 +47,27 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    self.vertexFrameSize = 70;
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    self.vertexFrameSize = [defaults floatForKey:@"vertexSize"];
+    self.hidingLabels = [defaults boolForKey:@"hidingLabels"];
+    self.letterSize = [defaults floatForKey:@"vertexLetterSize"];
+    self.vertexColour = [NSKeyedUnarchiver unarchiveObjectWithData:
+                                            [defaults objectForKey:@"vertexColour"]];
+    
+    self.edgeWidth = [defaults floatForKey:@"edgeWidth"];
+    self.edgeColour = [NSKeyedUnarchiver unarchiveObjectWithData:
+                                            [defaults objectForKey:@"edgeColour"]];
+    
     self.vertexSet = [[NSMutableSet alloc] init];
     self.movingVertexView = nil;
     self.gridSize = 30;
-    hidingLabels = NO;
+    
     inRemoveMode = NO;
     inSubdivideMode = NO;
     self.changingVertexColor = NO;
     inSelectMode = NO;
-    self.vertexColour = [UIColor blackColor];
-    self.edgeColour = [UIColor blackColor];
     prevNumberOfTouches = 1;
     [self.renameView setDelegate:self];
     self.selectedElements = [[NSMutableSet alloc] init];
@@ -208,7 +220,6 @@
     [self setModesButton:nil];
     [self setScrollView:nil];
     [self setRenameView:nil];
-    [super viewDidUnload];
     [self setRemoveElementsButton:nil];
     [self setUndoButton:nil];
     [self setRedoButton:nil];
@@ -226,6 +237,7 @@
     }
     [self.easyGraphCanvas removeFromSuperview];
     [self setEasyGraphCanvas:nil];
+    [super viewDidUnload];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -274,23 +286,27 @@
     NSArray *dataArray = [NSKeyedUnarchiver unarchiveObjectWithFile:self.saveDataPath];
     NSMutableSet *vertices = [dataArray objectAtIndex:0];
     NSMutableSet *edgeSet = [[NSMutableSet alloc] init];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     for (EasyGraphVertexView *vert in vertices) {
         [self.vertexSet addObject:vert];
-        [vert setupVertexLabelAndColour:[vert colour]];
+        [vert updateLabelStatus:vert.hidingLabel];
         [self.easyGraphCanvas addSubview:vert];
         [edgeSet addObjectsFromArray:[vert.inNeighbs allObjects]];
         [edgeSet addObjectsFromArray:[vert.outNeighbs allObjects]];
         [vert.inNeighbs removeAllObjects];
         [vert.outNeighbs removeAllObjects];
     }
+    [self setHidingLabels:[[vertices anyObject] hidingLabel]];
     isDirected = [[dataArray objectAtIndex:1] boolValue];
     for (EasyGraphEdgeView *edge in edgeSet) {
         [self.easyGraphCanvas setCurvePoints:[NSMutableArray arrayWithArray:[edge curvePoints]]];
         [self setEdgeColour:edge.colour];
+        [self setEdgeWidth:edge.edgeWidth];
         [self makeNewEdgeFromVertex:edge.startVertex toVertex:edge.endVertex isNonEdge:[edge isNonEdge]];
     }
     [self.easyGraphCanvas.curvePoints removeAllObjects];
-    [self setEdgeColour:[UIColor blackColor]];
+    [self setEdgeColour:[NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"edgeColour"]]];
+    [self setEdgeWidth:[defaults floatForKey:@"edgeWidth"]];
     NSString *subtitle = isDirected ? @"(Directed)" : @"(Undirected)";
     [self setUpTitleViewWithTitle:[self title] andSubtitle:subtitle];
 }
@@ -420,7 +436,8 @@
         if (sender.state == UIGestureRecognizerStateEnded) {
             CGPoint endPt = [self getClosestGridPointToPoint:vert.center];
             
-            vert.frame = CGRectMake(endPt.x - self.vertexFrameSize/2.0, endPt.y - self.vertexFrameSize/2.0, self.vertexFrameSize, self.vertexFrameSize);
+            CGSize size = vert.frame.size;
+            vert.frame = CGRectMake(endPt.x - size.width/2.0, endPt.y - size.height/2.0, size.width, size.height);
 
             [self unhighlightVertex:vert];
             [self updateEdgesFor:vert];
@@ -500,9 +517,9 @@
     
     [self.vertexSet addObject:vert];
     [vert setVertexNum:[self.vertexSet count]];
-    
+    [vert setLetterSize:self.letterSize];
     [vert setColour:self.vertexColour];
-    if (hidingLabels) {
+    if (self.hidingLabels) {
         [[vert label] removeFromSuperview];
     }
     [[self.undoManager prepareWithInvocationTarget:self] removeVertex:vert];
@@ -524,6 +541,7 @@
         [newEdgeView setIsNonEdge:nonEdge];
         [newEdgeView setColour:self.edgeColour];
         [newEdgeView setIsDirected:isDirected];
+        [newEdgeView setEdgeWidth:self.edgeWidth];
         
         [self.easyGraphCanvas addSubview:newEdgeView];
         
@@ -978,8 +996,9 @@
 - (NSArray *) setupToolsButtons {
     if (self.toggleLabelsButton == nil) {
         
-        self.toggleLabelsButton = [[UIBarButtonItem alloc] initWithTitle:@"Hide Labels" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleLabels:)];
+        self.toggleLabelsButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleLabels:)];
         [self.toggleLabelsButton setPossibleTitles:[NSSet setWithObjects:@"Hide Labels", @"Show Labels", nil]];
+        [self.toggleLabelsButton setTitle:self.hidingLabels ? @"Show Labels" : @"Hide Labels"];
         
     }
     NSArray *result = [NSArray arrayWithObjects:self.toggleLabelsButton, nil];
@@ -987,19 +1006,12 @@
 }
 
 -(IBAction)toggleLabels:(UIBarButtonItem *)sender {
-    if (!hidingLabels) {
-        for (EasyGraphVertexView *vert in self.vertexSet) {
-            [[vert label] removeFromSuperview];
-        }
-        hidingLabels = YES;
-        [sender setTitle:@"Show Labels"];
-    } else {
-        for (EasyGraphVertexView *vert in self.vertexSet) {
-            [vert addSubview:[vert label]];
-        }
-        hidingLabels = NO;
-        [sender setTitle:@"Hide Labels"];
+    self.hidingLabels = !self.hidingLabels;
+    for (EasyGraphVertexView *vert in self.vertexSet) {
+        [vert updateLabelStatus:self.hidingLabels];
     }
+    [sender setTitle:self.hidingLabels ? @"Show Labels" : @"Hide Labels"];
+    [self saveData];
 }
 
 - (IBAction)clearAll:(id)sender {
@@ -1251,17 +1263,25 @@
      return colourButtons;
 }
 
+- (IBAction)settingsPressed:(id)sender {
+    EasyGraphSettings *settings = [[EasyGraphSettings alloc] initWithNibName:@"EasyGraphSettings" bundle:nil];
+    [settings setEasyGraphDetailViewControllers:self.masterViewController.easyGraphDetailViewControllers];
+    [settings setMyAppDelegate:self.myAppDelegate];
+    [self.navigationController pushViewController:settings animated:YES];
+}
+
 /*******************************************************************************
                                 Export Functionality
 *******************************************************************************/
 
 - (IBAction)openExportView:(id)sender {
-    EasyGraphExporterViewController *latexController = [[EasyGraphExporterViewController alloc] initWithNibName:@"EasyGraphExporterViewController" bundle:nil];
-    [latexController setVertexSet:[NSSet setWithSet:[self vertexSet]]];
-    [latexController setScaleFactor:4.0];
-    [latexController setIsDirected:isDirected];
-    [latexController setTitle:[self title]];
-    [self.navigationController pushViewController:latexController animated:YES];
+    EasyGraphExporterViewController *exportViewController = [[EasyGraphExporterViewController alloc] initWithNibName:@"EasyGraphExporterViewController" bundle:nil];
+    [exportViewController setVertexSet:[NSSet setWithSet:[self vertexSet]]];
+    [exportViewController setScaleFactor:4.0];
+    [exportViewController setIsDirected:isDirected];
+    [exportViewController setTitle:[self title]];
+    [exportViewController setMyAppDelegate:self.myAppDelegate];
+    [self.navigationController pushViewController:exportViewController animated:YES];
 }
 
 /*******************************************************************************

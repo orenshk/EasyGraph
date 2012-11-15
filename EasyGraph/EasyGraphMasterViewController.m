@@ -80,7 +80,7 @@
 @synthesize detailViewController = _detailViewController;
 @synthesize fetchedResultsController = __fetchedResultsController;
 @synthesize managedObjectContext = __managedObjectContext;
-@synthesize fileList, graphCanvases, fileListPath, renameDialouge;
+@synthesize fileList, easyGraphDetailViewControllers, fileListPath, renameDialouge;
 @synthesize renameButton, currentSelection, saveDataPath;
 @synthesize graphChoiceController, addButton;
 
@@ -92,7 +92,7 @@
         self.clearsSelectionOnViewWillAppear = NO;
         self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
         
-        self.graphCanvases = [[NSMutableArray alloc] initWithObjects:nil];
+        self.easyGraphDetailViewControllers = [[NSMutableArray alloc] initWithObjects:nil];
         
         NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *docsDir = [dirPaths objectAtIndex:0];
@@ -226,7 +226,7 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     self.fileList = nil;
-    self.graphCanvases = nil;
+    self.easyGraphDetailViewControllers = nil;
     self.fileListPath = nil;
 }
 
@@ -257,11 +257,12 @@
     EasyGraphDetailViewController *newDetailViewController =
                 [[EasyGraphDetailViewController alloc] initWithNibName:
                  @"EasyGraphDetailViewController" title:newGraph];
+    [newDetailViewController setMasterViewController:self];
     
     [newDetailViewController.navigationItem setRightBarButtonItem:self.renameButton];
     [newDetailViewController setIsDirected:isDirected];
     [newDetailViewController setUpTitleViewWithTitle:newGraph andSubtitle:subtitle];
-    [self.graphCanvases addObject:newDetailViewController];
+    [self.easyGraphDetailViewControllers addObject:newDetailViewController];
     [self.tableView selectRowAtIndexPath:indexPath animated:YES
                           scrollPosition:UITableViewScrollPositionMiddle];
     [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
@@ -272,8 +273,8 @@
     NSString *fileName = [self.fileList objectAtIndex:indexPath.row];
     NSString *title = [self.detailViewController title];
     [self.fileList removeObjectAtIndex:indexPath.row];
-    [[self.graphCanvases objectAtIndex:indexPath.row] deleteData];
-    [self.graphCanvases removeObjectAtIndex:indexPath.row];
+    [[self.easyGraphDetailViewControllers objectAtIndex:indexPath.row] deleteData];
+    [self.easyGraphDetailViewControllers removeObjectAtIndex:indexPath.row];
     [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     
     // If deleted canvas is being viewed, make a switch
@@ -352,7 +353,7 @@
 */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EasyGraphDetailViewController *newDetailViewController = [self.graphCanvases objectAtIndex:indexPath.row];
+    EasyGraphDetailViewController *newDetailViewController = [self.easyGraphDetailViewControllers objectAtIndex:indexPath.row];
     UIBarButtonItem *leftButton = self.detailViewController.navigationItem.leftBarButtonItem;
     UINavigationController *detailNavigationController = [[UINavigationController alloc] initWithRootViewController:newDetailViewController];
     [newDetailViewController.navigationItem setLeftBarButtonItem:leftButton];

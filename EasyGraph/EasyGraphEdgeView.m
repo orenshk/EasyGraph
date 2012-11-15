@@ -45,6 +45,7 @@
         self.colour = [aDecoder decodeObjectForKey:@"edgeColour"];
         self.curvePoints = [aDecoder decodeObjectForKey:@"curvePoints"];
         self.isDirected = [[aDecoder decodeObjectForKey:@"isDirected"] boolValue];
+        self.edgeWidth = [[aDecoder decodeObjectForKey:@"edgeWidth"] floatValue];
     }
     return self;
 }
@@ -57,6 +58,7 @@
     [aCoder encodeObject:self.colour forKey:@"edgeColour"];
     [aCoder encodeObject:self.curvePoints forKey:@"curvePoints"];
     [aCoder encodeObject:[NSNumber numberWithBool:self.isDirected] forKey:@"isDirected"];
+    [aCoder encodeObject:[NSNumber numberWithFloat:self.edgeWidth] forKey:@"edgeWidth"];
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -75,7 +77,7 @@
 - (BOOL) edgeWithinDistance:(double)c ofPoint:(CGPoint)point {
     double dist;
 
-    CGPoint curvePoint = [[self.splinePoints objectAtIndex:0] CGPointValue];
+    CGPoint curvePoint;
     for (int i = 1; i < [self.splinePoints count]; i++) {
         curvePoint = [[self.splinePoints objectAtIndex:i] CGPointValue];
         dist = sqrt(pow(curvePoint.x - point.x, 2) + pow(curvePoint.y - point.y, 2));
@@ -118,7 +120,8 @@
     double slopy, cosy, siny;
     
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetStrokeColorWithColor(context, self.colour.CGColor);
+//    CGContextSetStrokeColorWithColor(context, self.colour.CGColor);
+    CGContextSetFillColorWithColor(context, self.colour.CGColor);
     CGPoint start = [[points objectAtIndex:[points count] - 4] CGPointValue];
     CGPoint end = [[points objectAtIndex:[points count] - 3] CGPointValue];
     slopy = atan2((start.y - end.y), (start.x - end.x));
@@ -165,7 +168,7 @@
 {
     [super drawRect:rect];
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetLineWidth(context, 3.0);
+    CGContextSetLineWidth(context, self.edgeWidth);
     CGContextSetStrokeColorWithColor(context, self.colour.CGColor);
     if (self.isNonEdge) {
         CGFloat dashArray[] = {6};
@@ -182,7 +185,6 @@
     }
     self.splinePoints = [self getSplinePointsForStartPoint:start endPoint:end controlPoints:localCurvePoints];
     [self drawEdgeThroughPoints:self.splinePoints];
-    end = CGContextGetPathCurrentPoint(context);
     CGContextStrokePath(context);
     
     if (isDirected) [self drawArrowForSplinePoints:self.splinePoints ofLength:self.arrowLength andWidth:self.arrowWidth];

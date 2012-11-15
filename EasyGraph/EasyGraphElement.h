@@ -13,5 +13,6 @@
 @property (strong, nonatomic) UIColor *colour;
 @property (strong, nonatomic) IBOutlet UIWebView *label;
 @property (strong, nonatomic) NSString *letter;
+@property float letterSize;
 
 @end

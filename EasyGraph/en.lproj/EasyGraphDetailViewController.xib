@@ -13,7 +13,7 @@
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
 			<string>IBUIBarButtonItem</string>
-			<string>IBUITextField</string>
+			<string>IBUIButton</string>
 			<string>IBUIToolbar</string>
 			<string>IBUIView</string>
 		</array>
@@ -40,7 +40,43 @@
 					<object class="IBUIToolbar" id="112441633">
 						<reference key="NSNextResponder" ref="647120888"/>
 						<int key="NSvFlags">266</int>
-						<array class="NSMutableArray" key="NSSubviews"/>
+						<array class="NSMutableArray" key="NSSubviews">
+							<object class="IBUIButton" id="588708157">
+								<reference key="NSNextResponder" ref="112441633"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{738, 13}, {18, 19}}</string>
+								<reference key="NSSuperview" ref="112441633"/>
+								<reference key="NSWindow"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIOpaque">NO</bool>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<int key="IBUIContentHorizontalAlignment">0</int>
+								<int key="IBUIContentVerticalAlignment">0</int>
+								<int key="IBUIButtonType">4</int>
+								<bool key="IBUIShowsTouchWhenHighlighted">YES</bool>
+								<object class="NSColor" key="IBUIHighlightedTitleColor" id="448501074">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MQA</bytes>
+								</object>
+								<object class="NSColor" key="IBUINormalTitleColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+								</object>
+								<object class="NSColor" key="IBUINormalTitleShadowColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MC41AA</bytes>
+								</object>
+								<object class="IBUIFontDescription" key="IBUIFontDescription">
+									<int key="type">2</int>
+									<double key="pointSize">15</double>
+								</object>
+								<object class="NSFont" key="IBUIFont">
+									<string key="NSName">Helvetica-Bold</string>
+									<double key="NSSize">15</double>
+									<int key="NSfFlags">16</int>
+								</object>
+							</object>
+						</array>
 						<string key="NSFrame">{{0, 960}, {768, 44}}</string>
 						<reference key="NSSuperview" ref="647120888"/>
 						<reference key="NSWindow"/>
@@ -86,6 +122,16 @@
 								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="112441633"/>
 							</object>
+							<object class="IBUIBarButtonItem" id="1069936398">
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<reference key="IBUIToolbar" ref="112441633"/>
+								<int key="IBUISystemItemIdentifier">5</int>
+							</object>
+							<object class="IBUIBarButtonItem" id="275633619">
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<reference key="IBUICustomView" ref="588708157"/>
+								<reference key="IBUIToolbar" ref="112441633"/>
+							</object>
 						</array>
 					</object>
 				</array>
@@ -93,10 +139,7 @@
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="112441633"/>
-				<object class="NSColor" key="IBUIBackgroundColor">
-					<int key="NSColorSpace">3</int>
-					<bytes key="NSWhite">MQA</bytes>
-				</object>
+				<reference key="IBUIBackgroundColor" ref="448501074"/>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 				<bool key="IBUIMultipleTouchEnabled">YES</bool>
 				<array key="IBUIGestureRecognizers" id="0"/>
@@ -104,45 +147,6 @@
 					<int key="IBUIStatusBarStyle">2</int>
 				</object>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-			</object>
-			<object class="IBUITextField" id="995849569">
-				<reference key="NSNextResponder"/>
-				<int key="NSvFlags">292</int>
-				<string key="NSFrameSize">{178, 30}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
-				<string key="NSReuseIdentifierKey">_NS:9</string>
-				<bool key="IBUIOpaque">NO</bool>
-				<bool key="IBUIClipsSubviews">YES</bool>
-				<string key="IBUIRestorationIdentifier">rename</string>
-				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-				<int key="IBUIContentVerticalAlignment">0</int>
-				<string key="IBUIText"/>
-				<int key="IBUIBorderStyle">3</int>
-				<string key="IBUIPlaceholder">Enter new label letter</string>
-				<object class="NSColor" key="IBUITextColor">
-					<int key="NSColorSpace">3</int>
-					<bytes key="NSWhite">MAA</bytes>
-					<object class="NSColorSpace" key="NSCustomColorSpace">
-						<int key="NSID">2</int>
-					</object>
-				</object>
-				<int key="IBUITextAlignment">1</int>
-				<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
-				<float key="IBUIMinimumFontSize">17</float>
-				<object class="IBUITextInputTraits" key="IBUITextInputTraits">
-					<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-				</object>
-				<int key="IBUIClearButtonMode">3</int>
-				<object class="IBUIFontDescription" key="IBUIFontDescription">
-					<int key="type">1</int>
-					<double key="pointSize">14</double>
-				</object>
-				<object class="NSFont" key="IBUIFont">
-					<string key="NSName">Helvetica</string>
-					<double key="NSSize">14</double>
-					<int key="NSfFlags">16</int>
-				</object>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -188,14 +192,6 @@
 					<int key="connectionID">207</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">renameView</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="995849569"/>
-					</object>
-					<int key="connectionID">221</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">clearAll:</string>
 						<reference key="source" ref="207346070"/>
@@ -237,12 +233,20 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">renameElement:</string>
-						<reference key="source" ref="995849569"/>
+						<string key="label">settingsPressed:</string>
+						<reference key="source" ref="588708157"/>
 						<reference key="destination" ref="841351856"/>
-						<int key="IBEventType">19</int>
+						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">223</int>
+					<int key="connectionID">230</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">settingsPressed:</string>
+						<reference key="source" ref="275633619"/>
+						<reference key="destination" ref="841351856"/>
+					</object>
+					<int key="connectionID">229</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -282,6 +286,8 @@
 							<reference ref="242445467"/>
 							<reference ref="358875470"/>
 							<reference ref="1065520771"/>
+							<reference ref="275633619"/>
+							<reference ref="1069936398"/>
 						</array>
 						<reference key="parent" ref="647120888"/>
 					</object>
@@ -316,9 +322,22 @@
 						<reference key="parent" ref="112441633"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">220</int>
-						<reference key="object" ref="995849569"/>
-						<reference key="parent" ref="0"/>
+						<int key="objectID">228</int>
+						<reference key="object" ref="275633619"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="588708157"/>
+						</array>
+						<reference key="parent" ref="112441633"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">227</int>
+						<reference key="object" ref="588708157"/>
+						<reference key="parent" ref="275633619"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">231</int>
+						<reference key="object" ref="1069936398"/>
+						<reference key="parent" ref="112441633"/>
 					</object>
 				</array>
 			</object>
@@ -334,14 +353,16 @@
 				<string key="140.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="182.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="186.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="220.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="227.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="228.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="231.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">225</int>
+			<int key="maxID">231</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -350,16 +371,11 @@
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="clearAll:">id</string>
-						<string key="handleEdgeOrSingleTap:">UILongPressGestureRecognizer</string>
-						<string key="handleLongPress:">UIGestureRecognizer</string>
-						<string key="handlePanGesture:">UIPanGestureRecognizer</string>
-						<string key="handleRotate:">UIRotationGestureRecognizer</string>
-						<string key="handleSingleTap:">UITapGestureRecognizer</string>
 						<string key="openExportView:">id</string>
 						<string key="performRedo:">id</string>
 						<string key="performUndo:">id</string>
 						<string key="renameElement:">UITextField</string>
-						<string key="setupVertexMove:">UILongPressGestureRecognizer</string>
+						<string key="settingsPressed:">id</string>
 						<string key="showMenuPopover:">UIBarButtonItem</string>
 						<string key="toggleContractMode:">UIBarButtonItem</string>
 						<string key="toggleLabels:">UIBarButtonItem</string>
@@ -371,26 +387,6 @@
 						<object class="IBActionInfo" key="clearAll:">
 							<string key="name">clearAll:</string>
 							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="handleEdgeOrSingleTap:">
-							<string key="name">handleEdgeOrSingleTap:</string>
-							<string key="candidateClassName">UILongPressGestureRecognizer</string>
-						</object>
-						<object class="IBActionInfo" key="handleLongPress:">
-							<string key="name">handleLongPress:</string>
-							<string key="candidateClassName">UIGestureRecognizer</string>
-						</object>
-						<object class="IBActionInfo" key="handlePanGesture:">
-							<string key="name">handlePanGesture:</string>
-							<string key="candidateClassName">UIPanGestureRecognizer</string>
-						</object>
-						<object class="IBActionInfo" key="handleRotate:">
-							<string key="name">handleRotate:</string>
-							<string key="candidateClassName">UIRotationGestureRecognizer</string>
-						</object>
-						<object class="IBActionInfo" key="handleSingleTap:">
-							<string key="name">handleSingleTap:</string>
-							<string key="candidateClassName">UITapGestureRecognizer</string>
 						</object>
 						<object class="IBActionInfo" key="openExportView:">
 							<string key="name">openExportView:</string>
@@ -408,9 +404,9 @@
 							<string key="name">renameElement:</string>
 							<string key="candidateClassName">UITextField</string>
 						</object>
-						<object class="IBActionInfo" key="setupVertexMove:">
-							<string key="name">setupVertexMove:</string>
-							<string key="candidateClassName">UILongPressGestureRecognizer</string>
+						<object class="IBActionInfo" key="settingsPressed:">
+							<string key="name">settingsPressed:</string>
+							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="showMenuPopover:">
 							<string key="name">showMenuPopover:</string>

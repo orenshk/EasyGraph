@@ -10,38 +10,35 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "EasyGraphVertexView.h"
 #import "EasyGraphEdgeView.h"
+#import "EasyGraphAppDelegate.h"
+#import "EasyGraphPopoverBackgroundView.h"
+#import "GTLDrive.h"
+#import "GTMOAuth2ViewControllerTouch.h"
 
+static NSString *UbiquityContainerIdentifier = @"88H38EDZM9.com.orenshk.EasyGraph";
 
 @interface EasyGraphExporterViewController : UIViewController
 <UIDocumentInteractionControllerDelegate,
-DBRestClientDelegate> {
+DBRestClientDelegate,
+EasyGraphDropboxDelegate> {
     DBRestClient *restClient;
     NSString *extension;
+    BOOL googleIsAuthorized;
+    BOOL usingColours;
 }
 
-@property (strong, nonatomic) IBOutlet UITextView *codeField;
+@property (strong, nonatomic) NSMetadataQuery *metadataQuery;
+
+//Settings
 @property (strong, nonatomic) IBOutlet UIView *settingsView;
 
-@property (strong, nonatomic) IBOutlet UISegmentedControl *exportLanguageSelector;
-@property (strong, nonatomic) IBOutlet UIWebView *pdfView;
-@property (strong, nonatomic) IBOutlet UIToolbar *vertexEdgeSizeToolBar;
-@property (strong, nonatomic) IBOutlet UIToolbar *scaleFactorToolbar;
-@property (strong, nonatomic) IBOutlet UIToolbar *buttonsToolBar;
-
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *saveButton;
-
-@property (strong, nonatomic) IBOutlet UIToolbar *middleBar;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *exportPDFButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *openPDFInButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *previewButton;
-
-@property (strong, nonatomic) UIDocumentInteractionController *documentInteractionController;
-
 // scale factor
+@property (strong, nonatomic) IBOutlet UIToolbar *scaleFactorToolbar;
 @property (strong, nonatomic) IBOutlet UISlider *scaleFactorSlider;
 @property (strong, nonatomic) IBOutlet UITextField *scaleFactorTextField;
 
 // Vertex size
+@property (strong, nonatomic) IBOutlet UIToolbar *vertexEdgeSizeToolBar;
 @property (strong, nonatomic) IBOutlet UISlider *vertexSizeSlider;
 @property (strong, nonatomic) IBOutlet UITextField *vertexSizeTextField;
 
@@ -49,6 +46,27 @@ DBRestClientDelegate> {
 @property (strong, nonatomic) IBOutlet UISlider *edgeWidthSlider;
 @property (strong, nonatomic) IBOutlet UITextField *edgeWidthTextField;
 
+// PDF toolbar and view
+@property (strong, nonatomic) UIDocumentInteractionController *documentInteractionController;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *exportPDFButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *openPDFInButton;
+@property (strong, nonatomic) IBOutlet UISwitch *colourSwitch;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *previewButton;
+@property (strong, nonatomic) IBOutlet UIWebView *pdfView;
+
+// Export view
+@property (strong, nonatomic) IBOutlet UIToolbar *middleBar;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *exportLanguageSelector;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *saveButton;
+@property (strong, nonatomic) UIActivityIndicatorView *uploadingView;
+@property (strong, nonatomic) IBOutlet UIPopoverController *servicesPopoverController;
+@property (strong, nonatomic) IBOutlet UITextView *codeField;
+
+
+@property (strong, nonatomic) DBMetadata *dropboxFile;
+@property GTLDriveFile *googleDriveFile;
+
+@property (strong, nonatomic) EasyGraphAppDelegate *myAppDelegate;
 
 @property double scaleFactor;
 @property double vertexSize;
@@ -76,14 +94,13 @@ DBRestClientDelegate> {
 
 - (NSString *) makeColorStringWithColor:(UIColor* )color;
 
+- (IBAction)colourSwitchFlipped:(UISwitch *)sender;
+- (IBAction)selectedLanguageChanged:(UISegmentedControl *)sender;
 - (IBAction)scaleSliderMoved:(UISlider *)sender;
-- (IBAction)scaleFieldChanged;
 - (IBAction)vertexSizeSliderMoved:(UISlider *)sender;
-- (IBAction)vertexSizeFieldChanged:(id)sender;
 - (IBAction)edgeWitdhSliderMoved:(UISlider *)sender;
-- (IBAction)edgeWidthFieldChanged:(UITextField *)sender;
 - (IBAction)openInDialouge:(id)sender;
-- (IBAction)makePreview:(id)sender;
+- (IBAction)makePreview;
 - (IBAction)savePressed:(UIBarButtonItem *)sender;
 - (IBAction)savePDFpressed:(UIBarButtonItem *)sender;
 
