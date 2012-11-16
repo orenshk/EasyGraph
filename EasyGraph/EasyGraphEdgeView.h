@@ -58,6 +58,8 @@
  */
 - (void) drawEdgeThroughPoints:(NSArray *)points;
 
+- (void) setupEdgeLabel;
+
 - (void) drawArrowForSplinePoints:(NSArray *)points ofLength:(double)length andWidth:(double)width;
 
 - (NSArray *) getSplinePointsForStartPoint:(CGPoint) start endPoint:(CGPoint) end controlPoints:(NSArray *)points;

@@ -273,7 +273,7 @@
         colorName = @"";
     }
     edgeType = edge.isNonEdge ? @"dashed" : @"solid";
-    return [NSString stringWithFormat:@"%d/%d/%@%@, ", edge.startVertex.vertexNum, edge.endVertex.vertexNum, colorName, edgeType];
+    return [NSString stringWithFormat:@"%d/%d/%@%@, ", edge.startVertex.number, edge.endVertex.number, colorName, edgeType];
 }
 
 - (NSString *) processVertexForTiKz:(EasyGraphVertexView *)vert {
@@ -290,7 +290,7 @@
                                          colorName,
                                          self.vertexSize,
                                          borderColor,
-                                         [vert vertexNum],
+                                         [vert number],
                                          vert.center.x / self.scaleFactor,
                                          vert.center.y / self.scaleFactor];
     return vertexString;
@@ -422,8 +422,8 @@
         [relabelString appendFormat:@"%d, ", i++];
         for (EasyGraphEdgeView *edge in vert.inNeighbs) {
             if (![edge isNonEdge]) {
-                [edges appendFormat:@"(%d, %d), ", edge.startVertex.vertexNum,
-                                                      edge.endVertex.vertexNum];
+                [edges appendFormat:@"(%d, %d), ", edge.startVertex.number,
+                                                      edge.endVertex.number];
             }
         }
     }

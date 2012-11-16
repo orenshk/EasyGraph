@@ -18,8 +18,7 @@
 /** The out neighbours if this VertexView */
 @property (nonatomic, retain) NSMutableSet *outNeighbs;
 
-@property int vertexNum;
-@property BOOL hidingLabel;
+@property int number;
 
 /** The size of the circle representing the vertex */
 @property int vertexSize;

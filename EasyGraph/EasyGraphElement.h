@@ -14,5 +14,7 @@
 @property (strong, nonatomic) IBOutlet UIWebView *label;
 @property (strong, nonatomic) NSString *letter;
 @property float letterSize;
+@property BOOL hidingLabel;
+@property int number;
 
 @end

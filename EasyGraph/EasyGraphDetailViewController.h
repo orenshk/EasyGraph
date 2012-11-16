@@ -24,7 +24,8 @@
                                                  UIScrollViewDelegate>
 {
     int prevNumberOfTouches;
-    BOOL inRemoveMode;
+    int numEdges;
+    BOOL inDeleteMode;
     BOOL inSubdivideMode;
     BOOL inContractMode;
     BOOL inSelectMode;
@@ -50,7 +51,7 @@
 @property (nonatomic, strong) UIPopoverController *floatingMenuPopoverController;
 
 /** Toolbar buttons */
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *removeElementsButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *deleteElementsButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *undoButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *redoButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *subdivideButton;
@@ -215,7 +216,7 @@
  vertices cannot be moved. This mode is mutually exclusive with all other
  modes.
  */
-- (IBAction)toggleRemoveElementsMode:(UIBarButtonItem *)sender;
+- (IBAction)toggleDeleteElementsMode:(UIBarButtonItem *)sender;
 
 /**
  Toggle subdivide mode. In this mode, a tap on an edge will subdivide it.

@@ -17,7 +17,7 @@
 @implementation EasyGraphDetailViewController
 @synthesize masterPopoverController = _masterPopoverController;
 @synthesize undoButton, redoButton, subdivideButton, contractButton, nonEdgeButton;
-@synthesize removeElementsButton, easyGraphCanvas;
+@synthesize deleteElementsButton, easyGraphCanvas;
 @synthesize gridSize, vertexSet, movingVertexView, edgeStartPoint;
 @synthesize undoManager, saveDataPath;
 @synthesize vertexFrameSize, vertexColour, edgeColour;
@@ -61,10 +61,11 @@
                                             [defaults objectForKey:@"edgeColour"]];
     
     self.vertexSet = [[NSMutableSet alloc] init];
+    numEdges = 1;
     self.movingVertexView = nil;
     self.gridSize = 30;
     
-    inRemoveMode = NO;
+    inDeleteMode = NO;
     inSubdivideMode = NO;
     self.changingVertexColor = NO;
     inSelectMode = NO;
@@ -76,7 +77,7 @@
     
     [self.modesButton setPossibleTitles:[NSSet setWithObjects:@"Mode: None",
                                                               @"Mode: Select",
-                                                              @"Mode: Remove",
+                                                              @"Mode: Delete",
                                                               @"Mode: Subdivide",
                                                               @"Mode: Contract",
                                                               @"Mode: Non-Edge", nil]];
@@ -220,7 +221,7 @@
     [self setModesButton:nil];
     [self setScrollView:nil];
     [self setRenameView:nil];
-    [self setRemoveElementsButton:nil];
+    [self setDeleteElementsButton:nil];
     [self setUndoButton:nil];
     [self setRedoButton:nil];
     [self setSubdivideButton:nil];
@@ -302,8 +303,12 @@
         [self.easyGraphCanvas setCurvePoints:[NSMutableArray arrayWithArray:[edge curvePoints]]];
         [self setEdgeColour:edge.colour];
         [self setEdgeWidth:edge.edgeWidth];
-        [self makeNewEdgeFromVertex:edge.startVertex toVertex:edge.endVertex isNonEdge:[edge isNonEdge]];
+        EasyGraphEdgeView *newEdge = [self makeNewEdgeFromVertex:edge.startVertex toVertex:edge.endVertex isNonEdge:[edge isNonEdge]];
+        [newEdge setNumber:edge.number];
+        [newEdge setupEdgeLabel];
     }
+    [self.undoManager removeAllActions];
+    [self.undoButton setEnabled:NO];
     [self.easyGraphCanvas.curvePoints removeAllObjects];
     [self setEdgeColour:[NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:@"edgeColour"]]];
     [self setEdgeWidth:[defaults floatForKey:@"edgeWidth"]];
@@ -388,7 +393,7 @@
 - (IBAction)handleSingleTap:(UIGestureRecognizer *)sender {
     CGPoint locationPoint = [sender locationOfTouch:0 inView:self.easyGraphCanvas];
     UIView *touched = [self.easyGraphCanvas hitTest:locationPoint withEvent:nil];
-    if (inRemoveMode) {
+    if (inDeleteMode) {
         if ([touched isKindOfClass:[EasyGraphVertexView class]]) {
             [self removeVertex:(EasyGraphVertexView *)touched];
         } else if ([touched isKindOfClass:[EasyGraphEdgeView class]]) {
@@ -516,7 +521,7 @@
     [self.easyGraphCanvas addSubview:vert];
     
     [self.vertexSet addObject:vert];
-    [vert setVertexNum:[self.vertexSet count]];
+    [vert setNumber:[self.vertexSet count]];
     [vert setLetterSize:self.letterSize];
     [vert setColour:self.vertexColour];
     if (self.hidingLabels) {
@@ -542,6 +547,8 @@
         [newEdgeView setColour:self.edgeColour];
         [newEdgeView setIsDirected:isDirected];
         [newEdgeView setEdgeWidth:self.edgeWidth];
+        [newEdgeView setNumber:numEdges++];
+        [newEdgeView setupEdgeLabel];
         
         [self.easyGraphCanvas addSubview:newEdgeView];
         
@@ -574,6 +581,7 @@
                                      toPoint:[NSValue valueWithCGPoint:end]];
         [self.easyGraphCanvas.curvePoints removeAllObjects];
         [edge setFrame:newRect];
+        [edge setupEdgeLabel];
         [edge setNeedsDisplay];
     }
     [self saveData];
@@ -625,9 +633,9 @@
     [edge.startVertex.outNeighbs removeObject:edge];
     [edge.endVertex.inNeighbs removeObject:edge];
     [edge removeFromSuperview];
+    numEdges--;
     
     [[self.undoManager prepareWithInvocationTarget:self] undoEdgeDelete:edge];
-
     [self.undoButton setEnabled:YES];
     [self saveData];
 }
@@ -719,7 +727,7 @@
             tag = 0;
             [passThrough addObject:self.easyGraphCanvas];
         }
-        CGRect anchor = CGRectMake(250, 1200, 263, 30);
+        CGRect anchor = CGRectMake(location.x, location.y, 263, 30);
         
         self.floatingMenuPopoverController = [[UIPopoverController alloc] initWithContentViewController:[self makeFloatingMenuWithTag:tag]];
         [self.floatingMenuPopoverController setDelegate:self];
@@ -847,6 +855,7 @@
         [self.selectedElements removeAllObjects];
         [sender setText:@""];
         [sender setPlaceholder:@"Enter new label letter"];
+        [self.renamePopoverController dismissPopoverAnimated:YES];
         if (inSelectMode) {
             [self toggleSelectMode];
         } else {
@@ -978,10 +987,10 @@
 }
 
 - (NSArray *)setupModesButtons {
-    if (self.removeElementsButton == nil) {
+    if (self.deleteElementsButton == nil) {
         self.selectButton = [[UIBarButtonItem alloc] initWithTitle:@"Select" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleSelectMode)];
         
-        self.removeElementsButton = [[UIBarButtonItem alloc] initWithTitle:@"Remove" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleRemoveElementsMode:)];
+        self.deleteElementsButton = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleDeleteElementsMode:)];
         
         self.subdivideButton = [[UIBarButtonItem alloc] initWithTitle:@"Subdivide" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleSubdivideMode:)];
         
@@ -989,7 +998,7 @@
         
         self.nonEdgeButton = [[UIBarButtonItem alloc] initWithTitle:@"Non-Edge" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleNonEdgeMode:)];
     }
-    NSArray *result = [NSArray arrayWithObjects:self.selectButton, self.removeElementsButton, self.subdivideButton, self.contractButton, self.nonEdgeButton, nil];
+    NSArray *result = [NSArray arrayWithObjects:self.selectButton, self.deleteElementsButton, self.subdivideButton, self.contractButton, self.nonEdgeButton, nil];
     return result;
 }
 
@@ -1036,8 +1045,8 @@
     } else {
         inSelectMode = YES;
         [self.selectButton setStyle:UIBarButtonItemStyleDone];
-        if (inRemoveMode) {
-            [self toggleRemoveElementsMode:nil];
+        if (inDeleteMode) {
+            [self toggleDeleteElementsMode:nil];
         } else if (inSubdivideMode) {
             [self toggleSubdivideMode:nil];
         } else if (inContractMode) {
@@ -1047,14 +1056,14 @@
     [self updateModesButton:@"Select" withDoneStyle:inSelectMode];
 }
 
-- (IBAction)toggleRemoveElementsMode:(UIBarButtonItem *)sender {
-    if (inRemoveMode) {
-        inRemoveMode = NO;
-        [self.removeElementsButton setStyle:UIBarButtonItemStyleBordered];
-        [self.removeElementsButton setTitle:@"Remove"];
+- (IBAction)toggleDeleteElementsMode:(UIBarButtonItem *)sender {
+    if (inDeleteMode) {
+        inDeleteMode = NO;
+        [self.deleteElementsButton setStyle:UIBarButtonItemStyleBordered];
+        [self.deleteElementsButton setTitle:@"Delete"];
     } else {
-        inRemoveMode = YES;
-        [self.removeElementsButton setStyle:UIBarButtonItemStyleDone];
+        inDeleteMode = YES;
+        [self.deleteElementsButton setStyle:UIBarButtonItemStyleDone];
         if (inSubdivideMode) {
             [self toggleSubdivideMode:sender];
         } else if (inContractMode) {
@@ -1064,7 +1073,7 @@
             [self toggleSelectMode];
         }
     }
-    [self updateModesButton:@"Remove" withDoneStyle:inRemoveMode];
+    [self updateModesButton:@"Delete" withDoneStyle:inDeleteMode];
 }
 
 - (IBAction)toggleSubdivideMode:(UIBarButtonItem *)sender {
@@ -1075,8 +1084,8 @@
     } else {
         inSubdivideMode = YES;
         [self.subdivideButton setStyle:UIBarButtonItemStyleDone];
-        if (inRemoveMode) {
-            [self toggleRemoveElementsMode:sender];
+        if (inDeleteMode) {
+            [self toggleDeleteElementsMode:sender];
         } else if (inContractMode) {
             [self toggleContractMode:sender];
         } else if ([self.easyGraphCanvas inNonEdgeMode]) {
@@ -1096,8 +1105,8 @@
     } else {
         inContractMode = YES;
         [self.contractButton setStyle:UIBarButtonItemStyleDone];
-        if (inRemoveMode) {
-            [self toggleRemoveElementsMode:sender];
+        if (inDeleteMode) {
+            [self toggleDeleteElementsMode:sender];
         } else if (inSubdivideMode) {
             [self toggleSubdivideMode:sender];
         } else if ([self.easyGraphCanvas inNonEdgeMode]) {
@@ -1117,8 +1126,8 @@
     } else {
         [self.easyGraphCanvas setInNonEdgeMode:YES];
         [self.nonEdgeButton setStyle:UIBarButtonItemStyleDone];
-        if (inRemoveMode) {
-            [self toggleRemoveElementsMode:sender];
+        if (inDeleteMode) {
+            [self toggleDeleteElementsMode:sender];
         } else if (inSubdivideMode) {
             [self toggleSubdivideMode:sender];
         } else if (inContractMode) {

@@ -33,8 +33,43 @@
         self.curvePoints = [[NSMutableArray alloc] init];
         self.arrowLength = 30.0;
         self.arrowWidth = 15.0;
+        
     }
     return self;
+}
+
+- (void) setupEdgeLabel {
+    self.letter = @"e";
+    self.letterSize = 21.0;
+    NSString *color = @"(0,0,0)";
+    NSString *body = [NSString stringWithFormat:@"<i>%@</i><sub>%d</sub></body></html>", self.letter, self.number];
+    NSString *html = [NSString stringWithFormat:@"<html> \n"
+            "<head> \n"
+            "<style type=\"text/css\"> \n"
+            "body {font-size: %@; color:rgb%@}\n"
+            "</style> \n"
+            "</head> \n"
+            "<body>%@</body> \n"
+            "</html>", [NSNumber numberWithInt:self.letterSize],color,  body];
+    [self.label loadHTMLString:html baseURL:nil];
+    
+    // Calculate label position.
+    float slope = (self.endVertex.center.y - self.startVertex.center.y) / (self.endVertex.center.x - self.startVertex.center.x);
+    float xOffset, yOffset;
+    if (slope == 0.0) {
+        xOffset = 0.0;
+        yOffset = 10.0;
+    } else if (slope < 0) {
+        xOffset = 10.0;
+        yOffset = 10.0;
+    } else if (slope > 0) {
+        xOffset = -10.0;
+        yOffset = 10.0;
+    } else {
+        xOffset = 10.0;
+        yOffset = 0.0;
+    }
+    [self.label setCenter:CGPointMake(self.frame.size.width/2.0 + xOffset, self.frame.size.height/2.0 + yOffset)];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder {
@@ -42,7 +77,6 @@
         self.startVertex = [aDecoder decodeObjectForKey:@"start"];
         self.endVertex = [aDecoder decodeObjectForKey:@"end"];
         self.isNonEdge = [[aDecoder decodeObjectForKey:@"isNonEdge"] boolValue];
-        self.colour = [aDecoder decodeObjectForKey:@"edgeColour"];
         self.curvePoints = [aDecoder decodeObjectForKey:@"curvePoints"];
         self.isDirected = [[aDecoder decodeObjectForKey:@"isDirected"] boolValue];
         self.edgeWidth = [[aDecoder decodeObjectForKey:@"edgeWidth"] floatValue];
@@ -55,7 +89,6 @@
     [aCoder encodeObject:self.startVertex forKey:@"start"];
     [aCoder encodeObject:self.endVertex forKey:@"end"];
     [aCoder encodeObject:[NSNumber numberWithBool:self.isNonEdge] forKey:@"isNonEdge"];
-    [aCoder encodeObject:self.colour forKey:@"edgeColour"];
     [aCoder encodeObject:self.curvePoints forKey:@"curvePoints"];
     [aCoder encodeObject:[NSNumber numberWithBool:self.isDirected] forKey:@"isDirected"];
     [aCoder encodeObject:[NSNumber numberWithFloat:self.edgeWidth] forKey:@"edgeWidth"];
@@ -120,7 +153,6 @@
     double slopy, cosy, siny;
     
     CGContextRef context = UIGraphicsGetCurrentContext();
-//    CGContextSetStrokeColorWithColor(context, self.colour.CGColor);
     CGContextSetFillColorWithColor(context, self.colour.CGColor);
     CGPoint start = [[points objectAtIndex:[points count] - 4] CGPointValue];
     CGPoint end = [[points objectAtIndex:[points count] - 3] CGPointValue];

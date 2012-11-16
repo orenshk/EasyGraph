@@ -15,7 +15,7 @@
 //	return [CATiledLayer class];
 //}
 
-@synthesize inNeighbs, outNeighbs, vertexNum, vertexSize, label;
+@synthesize inNeighbs, outNeighbs, number, vertexSize, label;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -25,16 +25,8 @@
         self.inNeighbs = [[NSMutableSet alloc] init];
         self.outNeighbs = [[NSMutableSet alloc] init];
         self.vertexSize = self.frame.size.width/2.0 - 1;
-        self.label = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-        self.label.center = CGPointMake(frame.size.width/2.0, frame.size.height/2.0);
-        [self.label setBackgroundColor:[UIColor clearColor]];
-        [self.label setOpaque:NO];
-        [self.label setUserInteractionEnabled:NO];
-        [self.label.scrollView setScrollEnabled:NO];
-        [self addSubview:self.label];
-        self.letter = @"";
-        self.letterSize = 18.0;
 
+        [self.label setCenter:CGPointMake(self.frame.size.width/2.0, self.frame.size.height/2.0)];
         [self setClipsToBounds:YES];
     }
     return self;
@@ -46,12 +38,6 @@
         self.inNeighbs = [aDecoder decodeObjectForKey:@"inNeighbs"];
         self.outNeighbs = [aDecoder decodeObjectForKey:@"outNeighbs"];
         self.vertexSize = [aDecoder decodeInt32ForKey:@"vertexSize"];
-        self.vertexNum = [aDecoder decodeInt32ForKey:@"vertexNum"];
-        self.colour = [aDecoder decodeObjectForKey:@"vertexColour"];
-        self.label = [aDecoder decodeObjectForKey:@"label"];
-        self.letter = [aDecoder decodeObjectForKey:@"letter"];
-        self.letterSize = [[aDecoder decodeObjectForKey:@"letterSize"] integerValue];
-        self.hidingLabel = [[aDecoder decodeObjectForKey:@"hidingLabel"] boolValue];
     }
     return self;
 }
@@ -61,12 +47,6 @@
     [aCoder encodeObject:self.inNeighbs forKey:@"inNeighbs"];
     [aCoder encodeObject:self.outNeighbs forKey:@"outNeighbs"];
     [aCoder encodeInt32:self.vertexSize forKey:@"vertexSize"];
-    [aCoder encodeInt32:self.vertexNum forKey:@"vertexNum"];
-    [aCoder encodeObject:self.colour forKey:@"vertexColour"];
-    [aCoder encodeObject:self.label forKey:@"label"];
-    [aCoder encodeObject:self.letter forKey:@"letter"];
-    [aCoder encodeObject:[NSNumber numberWithInt:self.letterSize] forKey:@"letterSize"];
-    [aCoder encodeObject:[NSNumber numberWithBool:self.hidingLabel] forKey:@"hidingLabel"];
 }
 
 - (void) setupVertexLabelAndColour:(UIColor *)col {
@@ -90,7 +70,7 @@
         color = @"(0,0,0)";
         self.letter = [self.letter isEqualToString:@""] ? @"u" : self.letter;
     }
-    body = [NSString stringWithFormat:@"<i>%@</i><sub>%d</sub></body></html>", self.letter, self.vertexNum];
+    body = [NSString stringWithFormat:@"<i>%@</i><sub>%d</sub></body></html>", self.letter, self.number];
     html = [NSString stringWithFormat:@"<html> \n"
                                    "<head> \n"
                                    "<style type=\"text/css\"> \n"
